@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心理学实验平台 | 语音交互研究</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ========== 顶部进度条 ========== -->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-fill" id="progressFill"></div>
+    <span class="progress-text" id="progressText">步骤 0/4</span>
+  </div>
+
+  <main class="container" id="mainContainer">
+
+    <!-- ========== Stage 0: 知情同意书 ========== -->
+    <section class="stage active" id="stage-consent">
+      <div class="card">
+        <h1 class="card-title">🎓 语言交互行为实验</h1>
+        <div class="card-body">
+          <div class="consent-box">
+            <h2>知情同意书</h2>
+            <div class="consent-content">
+              <p><strong>研究课题：</strong>视频游戏情景下的语音交互行为实验</p>
+              <p><strong>研究机构：</strong><!-- 预留：填写您的研究机构 --></p>
+              <hr>
+              <p>尊敬的参与者，您好！</p>
+              <p>本实验旨在探究多模态交互情境下的行为决策与语音反应特征。在参与实验之前，请您仔细阅读以下内容：</p>
+              
+              <h3>一、实验流程</h3>
+              <ol>
+                <li>麦克风功能测试（录制约5秒语音样本）</li>
+                <li>输入被试编号</li>
+                <li>观看全屏互动视频情景</li>
+                <li>在视频界面完成交互选择与语音回答</li>
+              </ol>
+              <p>预计总时长：<strong>5-10分钟</strong></p>
+
+              <h3>二、数据采集说明</h3>
+              <p><strong>⚠️ 本实验将请求麦克风权限录制您的语音。</strong>我们将采集以下数据：</p>
+              <ul>
+                <li>您在实验中的<strong>语音录音</strong>（通过浏览器麦克风录制）</li>
+                <li>您在实验中的<strong>选择题作答</strong></li>
+                <li>被试编号（不包含个人身份信息）</li>
+              </ul>
+
+              <h3>三、数据用途与保护</h3>
+              <ul>
+                <li>所有数据<strong>仅用于学术研究</strong>，不会用于任何商业目的</li>
+                <li>数据将<strong>匿名化处理</strong></li>
+                <li>数据存储于安全的云服务器，仅授权研究人员可访问</li>
+                <li>您有权在实验过程中随时退出，数据将被删除</li>
+              </ul>
+
+              <h3>四、自愿参与声明</h3>
+              <p>参与本实验完全自愿。您可以在任何时刻退出实验。如您对实验有任何疑问，可联系研究人员。</p>
+            </div>
+
+            <div class="consent-agreement">
+              <label class="checkbox-label">
+                <input type="checkbox" id="consentCheckbox">
+                <span class="checkbox-text">
+                  <strong>我已阅读并理解以上内容，同意参与本实验。</strong>
+                  我了解本实验将录制我的语音，数据仅用于学术研究目的。
+                </span>
+              </label>
+            </div>
+
+            <button class="btn btn-primary btn-block" id="btnConsentNext" disabled>
+              同意并继续
+            </button>
+            <p class="hint-text" id="consentHint">请先勾选知情同意书</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Stage 1: 麦克风测试 ========== -->
+    <section class="stage" id="stage-mic-test">
+      <div class="card">
+        <h1 class="card-title">🎤 麦克风测试</h1>
+        <div class="card-body">
+          <p class="instruction">在正式开始实验前，请先测试您的麦克风是否正常工作。</p>
+          
+          <div class="mic-status" id="micStatus">
+            <div class="mic-icon">🎤</div>
+            <p id="micStatusText">等待麦克风授权...</p>
+          </div>
+
+          <div class="audio-visualizer" id="audioVisualizer">
+            <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+            <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+            <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+            <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+            <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+          </div>
+
+          <div class="record-controls">
+            <button class="btn btn-record" id="btnStartRecord" disabled>
+              <span class="record-dot"></span> 开始录音 (5秒)
+            </button>
+            <span class="record-timer" id="recordTimer">00:00</span>
+          </div>
+
+          <div class="playback-section" id="playbackSection" style="display:none;">
+            <p class="playback-label">录音回放：</p>
+            <audio id="audioPlayback" controls></audio>
+            <button class="btn btn-sm btn-outline" id="btnDownloadMicTest" style="display:none;">
+              💾 下载录音文件 (.webm)
+            </button>
+          </div>
+
+          <div class="mic-test-result" id="micTestResult" style="display:none;">
+            <p>请确认：您能听到刚才的录音吗？</p>
+            <button class="btn btn-success" id="btnMicOK">✅ 麦克风正常，继续实验</button>
+            <button class="btn btn-warning" id="btnMicRetry">🔄 重新测试</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Stage 2: 被试编号 ========== -->
+    <section class="stage" id="stage-subject-id">
+      <div class="card">
+        <h1 class="card-title">📋 被试信息</h1>
+        <div class="card-body">
+          <p class="instruction">请输入您的被试编号以开始实验。</p>
+          
+          <div class="form-group">
+            <label for="subjectId">被试编号</label>
+            <input type="text" id="subjectId" class="form-input" 
+                   placeholder="例如：P001" maxlength="20" autocomplete="off">
+            <p class="hint-text">此编号仅用于数据标识，不关联任何个人身份信息。</p>
+          </div>
+
+          <div class="form-group" style="display:none;" id="extraFieldsGroup">
+            <label for="subjectAge">年龄</label>
+            <input type="number" id="subjectAge" class="form-input" placeholder="请输入年龄">
+            <label for="subjectGender">性别</label>
+            <select id="subjectGender" class="form-input">
+              <option value="">请选择</option><option value="male">男</option>
+              <option value="female">女</option><option value="other">其他</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="btnStartExperiment" disabled>
+            开始实验 — 进入全屏互动视频
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Stage 3: 完成页 ========== -->
+    <section class="stage" id="stage-complete">
+      <div class="card">
+        <h1 class="card-title">✅ 实验完成</h1>
+        <div class="card-body">
+          <div class="complete-icon">🎉</div>
+          <p class="complete-message">感谢您的参与！您的实验数据正在上传中...</p>
+          
+          <div class="upload-status" id="uploadStatus">
+            <div class="spinner" id="uploadSpinner"></div>
+            <p id="uploadStatusText">正在上传数据到服务器...</p>
+          </div>
+
+          <div class="upload-result" id="uploadResult" style="display:none;">
+            <p id="uploadResultText"></p>
+          </div>
+
+          <div class="data-download" id="dataDownload" style="display:none;">
+            <button class="btn btn-outline" id="btnDownloadData">
+              📥 下载完整实验数据 (JSON)
+            </button>
+            <button class="btn btn-outline" id="btnDownloadVoiceAudio" style="display:none;">
+              🎵 下载语音回答 (.webm)
+            </button>
+            <button class="btn btn-outline" id="btnDownloadMicAudio" style="display:none;">
+              🎤 下载麦克风测试录音 (.webm)
+            </button>
+          </div>
+
+          <div class="complete-footer">
+            <p>如有任何疑问，请联系研究人员。</p>
+            <p class="small-text">您可以关闭此页面。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================================
+       Galgame 视觉小说模式 - 沉浸式互动体验
+       ================================================================ -->
+  <div class="galgame-overlay" id="cinemaOverlay" style="display:none;">
+    
+    <!-- 全屏视频背景 -->
+    <video id="cinemaVideo" playsinline webkit-playsinline
+           disablePictureInPicture disableRemotePlayback
+           preload="auto"></video>
+
+    <!-- 视频控制栏 -->
+    <div class="galgame-controls" id="cinemaControls">
+      <button class="gctrl-btn" id="btnCinemaBack" title="后退10秒">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="gctrl-btn" id="btnCinemaToggle" title="暂停/播放">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <button class="gctrl-btn" id="btnCinemaFwd" title="快进10秒">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- ========== 底部选项区域 ========== -->
+    <div class="galgame-dialog-area" id="galgameDialogArea" style="display:none;">
+      <div class="galgame-options-panel" id="galgameOptionsPanel" style="display:none;">
+        <div class="galgame-options-list" id="galgameOptionsList"></div>
+      </div>
+    </div>
+
+    <!-- ========== 语音录制 ========== -->
+    <div class="galgame-voice-overlay" id="voiceOverlay" style="display:none;">
+      <div class="voice-panel">
+        <div class="voice-header">
+          <span class="voice-title">请用语音回答</span>
+        </div>
+        <p class="voice-question-text" id="cinemaVoiceQuestion"></p>
+        <div class="audio-visualizer" id="cinemaVisualizer">
+          <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+          <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+          <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+          <div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+        </div>
+        <div class="record-controls">
+          <button class="btn btn-record" id="btnCinemaRecord">
+            <span class="record-dot"></span> 点击开始录音
+          </button>
+          <span class="record-timer" id="cinemaTimer">00:00</span>
+        </div>
+        <div class="playback-section" id="cinemaPlayback" style="display:none;">
+          <p class="playback-label">录音回放：</p>
+          <audio id="cinemaPlaybackAudio" controls></audio>
+        </div>
+        <div class="voice-actions" id="cinemaVoiceActions" style="display:none;">
+          <button class="btn galgame-voice-btn confirm-btn" id="btnCinemaVoiceOK">确认提交</button>
+          <button class="btn galgame-voice-btn retry-btn" id="btnCinemaVoiceRetry">重新录制</button>
+          <button class="btn galgame-voice-btn back-btn" id="btnCinemaBackToChoice">返回修改</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 过渡提示 -->
+    <div class="galgame-complete-toast" id="cinemaCompleteOverlay" style="display:none;">
+      <div class="toast-content">
+        <span class="toast-diamond">✦</span>
+        <span>环节完成，继续下一幕...</span>
+      </div>
+    </div>
+
+    <!-- 跳过 -->
+    <button class="galgame-skip-btn" id="btnCinemaSkip" style="display:none;">跳过 ▸</button>
+
+  </div>
+
+  <!-- ========== 全局弹窗 ========== -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btnModalClose">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== JavaScript ========== -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/recorder.js"></script>
+  <script src="js/data-collector.js"></script>
+  <script src="js/experiment.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
