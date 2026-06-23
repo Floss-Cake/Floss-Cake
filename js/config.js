@@ -104,78 +104,87 @@ const EXPERIMENT_CONFIG = {
       branch_b: 'assets/video/branch_b.mp4',
     },
     
-    // 选择题（在 scenario1 结束后弹出）
+    // 选择题 — 9道共情水平测试，1水平→A，2水平→B，3水平→C
     questions: [
       {
         id: 'q1',
-        stem: '看到小宇一直站在池边不下水，你觉得他心里在想什么？',
+        stem: '看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？',
         options: [
-          { value: 'A', label: '他就是在磨蹭，可能不太想上游泳课。', video: 'assets/video/1_A.mp4' },
+          { value: 'A', label: '他可能就是想再等一等，看看水温再下去。', video: 'assets/video/1_A.mp4' },
           { value: 'B', label: '他可能是怕水，所以一直不敢下水。', video: 'assets/video/1_B.mp4' },
-          { value: 'C', label: '他既怕水又怕被人看出来（他怕被别人看出来自己还没学会换气），所以更不敢下了。', video: 'assets/video/1_c.mp4' },
+          { value: 'C', label: '他既怕水又怕被人看出来，所以更不敢下了。', video: 'assets/video/1_c.mp4' },
         ],
       },
       {
         id: 'q2',
-        stem: '这时你会怎么做？',
+        stem: '小宇说"没有啊"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？',
         options: [
-          { value: 'A', label: '我自己先游自己的，他需要会自己说。', video: 'assets/video/2_A.mp4' },
-          { value: 'B', label: '我会问他是不是怕水，我刚开始也不会换气，多练练就好了。', video: 'assets/video/2_B.mp4' },
-          { value: 'C', label: '我走过去说："我没学会前也不好意思，多练练就好了。"', video: 'assets/video/2_c.mp4' },
+          { value: 'A', label: '可能他真的不怕，只是泳镜不合适，要调一下。', video: 'assets/video/2_A.mp4' },
+          { value: 'B', label: '他单纯不想理小杰。', video: 'assets/video/2_B.mp4' },
+          { value: 'C', label: '他想在大家面前掩饰自己怕水。', video: 'assets/video/2_C.mp4' },
         ],
       },
       {
         id: 'q3',
-        stem: '小宇说："我不太会换气……我怕一抬头就呛到，大家会笑我。"你觉得他最需要什么？',
+        stem: '小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？',
         options: [
-          { value: 'A', label: '我觉得他需要多练换气，练熟了自然就不怕了。', video: 'assets/video/3_A.mp4' },
-          { value: 'B', label: '他需要有人耐心教他换气，也需要鼓励。', video: 'assets/video/3_B.mp4' },
-          { value: 'C', label: '他需要有人教他换气，也需要有人帮他挡住嘲笑，化解尴尬。', video: 'assets/video/3_c.mp4' },
+          { value: 'A', label: '呛水很常见，没什么大不了的。', video: 'assets/video/3_A.mp4' },
+          { value: 'B', label: '他愿意说出来不容易，怕呛水这种感觉我也能理解。', video: 'assets/video/3_B.mp4' },
+          { value: 'C', label: '他说出这句话需要勇气，怕呛水又怕被笑话，很难受。', video: 'assets/video/3_C.mp4' },
         ],
       },
       {
         id: 'q4',
-        stem: '小杰大声说："这有什么好怕的？头埋下去再抬起来不就行了？"小宇假装没听到。你觉得小宇会怎么想？',
+        stem: '听到小杰说"这有什么好怕的"，你心里有什么感觉？',
         options: [
-          { value: 'A', label: '小杰说得也没什么错，换气就是这样的。', video: 'assets/video/4_A.mp4' },
-          { value: 'B', label: '小宇听到这种话肯定更紧张，更不敢下水了。', video: 'assets/video/4_B.mp4' },
-          { value: 'C', label: '小杰的语气让人觉得"这都不会你好差"，其实怕水很正常。', video: 'assets/video/4_c.mp4' },
+          { value: 'A', label: '小杰说得也没错，就是头埋下去再抬起来，试一次就行了。', video: 'assets/video/4_A.mp4' },
+          { value: 'B', label: '小杰这样说小宇肯定不高兴了。', video: 'assets/video/4_B.mp4' },
+          { value: 'C', label: '小宇听到这种话肯定更紧张，更不敢下水了。', video: 'assets/video/4_C.mp4' },
         ],
       },
       {
         id: 'q5',
-        stem: '如果你要回应小宇说的"我怕一抬头就呛到"，你会怎么说？',
+        stem: '你会对小宇说什么？',
         options: [
-          { value: 'A', label: '多呛几次就会了，大家都是这样慢慢学会的。', video: 'assets/video/5_A.mp4' },
-          { value: 'B', label: '一开始呛到很正常，我也是这么练的。', video: 'assets/video/5_B.mp4' },
-          { value: 'C', label: '一开始呛到没关系，你扶池边练换气，我帮你数拍子。', video: 'assets/video/5_c.mp4' },
+          { value: 'A', label: '好了，我们别浪费时间了，赶紧下水吧。', video: 'assets/video/5_A.mp4' },
+          { value: 'B', label: '你别理他，他平常跟别人说话也这样。', video: 'assets/video/5_B.mp4' },
+          { value: 'C', label: '我一开始学也怕呛水，特别能懂你的感受。', video: 'assets/video/5_C.mp4' },
         ],
       },
       {
         id: 'q6',
-        stem: '小杰说："他根本不敢下水，别管他了。"你会怎么做？',
+        stem: '你这时候会怎么做？',
         options: [
-          { value: 'A', label: '算了不管了，他不想下水也不能硬拉。', video: 'assets/video/6_A.mp4' },
-          { value: 'B', label: '我会说："他还没准备好呢，你别催他了。"', video: 'assets/video/6_B.mp4' },
-          { value: 'C', label: '我会说："别这样说，每个人学游泳速度本来不一样。"', video: 'assets/video/6_c.mp4' },
+          { value: 'A', label: '他已经下水练换气了，应该没什么问题了。', video: 'assets/video/6_A.mp4' },
+          { value: 'B', label: '我游过去问他："你是不是也想跟大家一起去？"', video: 'assets/video/6_B.mp4' },
+          { value: 'C', label: '我游过去说："你自己一个人会不会无聊啊，要不要咱俩一起练练换气？"', video: 'assets/video/6_C.mp4' },
         ],
       },
       {
         id: 'q7',
-        stem: '小宇扶着池边练了一会儿换气，但其他人都去比赛了，他一个人不知道做什么。这时你会怎么做？',
+        stem: '你会怎么说？',
         options: [
-          { value: 'A', label: '他已经下水练换气了，应该没什么问题了，那我比赛去了。', video: 'assets/video/7_A.mp4' },
-          { value: 'B', label: '我游过去问他："你要不要跟我一起在浅水区练？"我觉得你换气练得不错了，再练练就可以去比赛了。', video: 'assets/video/7_B.mp4' },
-          { value: 'C', label: '我游过去说："你换气练得不错了，要不要咱俩来比比换气？"', video: 'assets/video/7_c.mp4' },
+          { value: 'A', label: '"没事儿吧，你怎么呛水了？"', video: 'assets/video/7_A.mp4' },
+          { value: 'B', label: '"呛水肯定很难受吧，先缓一缓。"', video: 'assets/video/7_B.mp4' },
+          { value: 'C', label: '"没事的。你今天能下来，已经很勇敢了。"', video: 'assets/video/7_C.mp4' },
         ],
       },
       {
         id: 'q8',
-        stem: '下课换衣服时，小宇说："我好怕，大家都游就我不会，我好丢脸。"你会怎么回应？',
+        stem: '你会怎么回应他？',
         options: [
-          { value: 'A', label: '多上几节课自然就会了，大家刚开始都一样。', video: 'assets/video/8_A.mp4' },
-          { value: 'B', label: '你今天已经敢下水了，多练几次肯定能学会。', video: 'assets/video/8_B.mp4' },
-          { value: 'C', label: '你今天已经从不敢下水到敢练换气了，下节课我们再试试别的动作。', video: 'assets/video/8_c.mp4' },
+          { value: 'A', label: '"那好吧，你自己练吧，我先去那边了。"', video: 'assets/video/8_A.mp4' },
+          { value: 'B', label: '"我在这儿挺好的呀，再试试换气呗。"', video: 'assets/video/8_B.mp4' },
+          { value: 'C', label: '"没事儿你不用不好意思，是我自己想陪你练气。"', video: 'assets/video/8_C.mp4' },
+        ],
+      },
+      {
+        id: 'q9',
+        stem: '小宇说："他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。"',
+        options: [
+          { value: 'A', label: '你别那么敏感吧，别想那么多嘛。', video: 'assets/video/9_A.mp4' },
+          { value: 'B', label: '不用在意别人的看法，他们怎么想是他们的事。', video: 'assets/video/9_B.mp4' },
+          { value: 'C', label: '你已经进步得很快了，我们一起再练练肯定就更好了。', video: 'assets/video/9_C.mp4' },
         ],
       },
     ],
@@ -195,8 +204,9 @@ const EXPERIMENT_CONFIG = {
       'q4_C': 'assets/audio/4_3raw.wav',
       'q6_A': 'assets/audio/6_1.wav',
       'q7_A': 'assets/audio/7_1.wav',
-      // 以下请补充对应音频文件到 assets/audio/ 目录：
-      // 命名规则: {题号}_{选项序号}.wav （A=1, B=2, C=3）
+      'q7_B': 'assets/audio/7_2我游过去问他+非常平静.wav',
+      'q7_C': 'assets/audio/7_3我游过去说.wav',
+      // 以下请按命名规则补充音频文件到 assets/audio/ 目录（A=1, B=2, C=3）
       // 'q2_A': 'assets/audio/2_1.wav',
       // 'q2_B': 'assets/audio/2_2.wav',
       // 'q4_A': 'assets/audio/4_1.wav',
@@ -206,11 +216,12 @@ const EXPERIMENT_CONFIG = {
       // 'q5_C': 'assets/audio/5_3.wav',
       // 'q6_B': 'assets/audio/6_2.wav',
       // 'q6_C': 'assets/audio/6_3.wav',
-      // 'q7_B': 'assets/audio/7_2.wav',
-      // 'q7_C': 'assets/audio/7_3.wav',
       // 'q8_A': 'assets/audio/8_1.wav',
       // 'q8_B': 'assets/audio/8_2.wav',
       // 'q8_C': 'assets/audio/8_3.wav',
+      // 'q9_A': 'assets/audio/9_1.wav',
+      // 'q9_B': 'assets/audio/9_2.wav',
+      // 'q9_C': 'assets/audio/9_3.wav',
     },
 
     // Galgame 角色设定
