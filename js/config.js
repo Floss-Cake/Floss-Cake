@@ -96,8 +96,8 @@ const EXPERIMENT_CONFIG = {
     // 系统会根据题目数量自动生成序列，只需按规则将视频放入 assets/video/ 目录
     videos: {
       // 以下为示例，实际播放时会自动补全未定义的键
-      scenario1: 'assets/video/scenario1.mp4',
-      scenario2: 'assets/video/scenario2.mp4',
+      scenario1: 'assets/video/Scenario1.mp4',
+      scenario2: 'assets/video/Scenario2.mp4',
       
       // ★★★ 预留：分支视频 ★★★
       branch_a: 'assets/video/branch_a.mp4',

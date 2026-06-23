@@ -266,7 +266,8 @@ const Experiment = {
     for (let i = 1; i <= totalVideos; i++) {
       const key = `scenario${i}`;
       if (!cfg.videos[key]) {
-        cfg.videos[key] = `assets/video/scenario${i}.mp4`;
+        // 实际文件名首字母大写 (ScenarioX.mp4)
+        cfg.videos[key] = `assets/video/Scenario${i}.mp4`;
       }
     }
     this._videoSequence = [];
