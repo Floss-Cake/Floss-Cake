@@ -208,6 +208,9 @@ const EXPERIMENT_CONFIG = {
       'q5_A': 'assets/audio/5_1.wav',
       'q5_B': 'assets/audio/5_2.wav',
       'q5_C': 'assets/audio/5_3.wav',
+      'q6_A': 'assets/audio/6_1.wav',
+      'q6_B': 'assets/audio/6_2.wav',
+      'q6_C': 'assets/audio/6_3.wav',
       'q7_A': 'assets/audio/7_1.wav',
       'q7_B': 'assets/audio/7_2.wav',
       'q7_C': 'assets/audio/7_3.wav',
@@ -217,10 +220,6 @@ const EXPERIMENT_CONFIG = {
       'q9_A': 'assets/audio/9_1.wav',
       'q9_B': 'assets/audio/9_2.wav',
       'q9_C': 'assets/audio/9_3.wav',
-      // 缺少的音频文件请按 {题号}_{选项序号}.wav 格式补充到 assets/audio/ 目录（A=1, B=2, C=3）
-      // 'q6_A': 'assets/audio/6_1.wav',
-      // 'q6_B': 'assets/audio/6_2.wav',
-      // 'q6_C': 'assets/audio/6_3.wav',
     },
 
     // Galgame 角色设定

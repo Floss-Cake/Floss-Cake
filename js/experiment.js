@@ -598,13 +598,10 @@ const Experiment = {
       btn.dataset.v = opt.value;
       btn.style.animationDelay = `${index * 0.1}s`;
 
-      const hasAudio = !!this._getOptionAudioPath(question.id, opt.value);
-      const audioLabel = hasAudio ? '' : ' (无音频)';
-
       btn.innerHTML = `
         <span class="option-letter-badge">${opt.value}</span>
         <span class="option-text-content">
-          <span class="option-label-line">${opt.label}${audioLabel}</span>
+          <span class="option-label-line">${opt.label}</span>
         </span>
       `;
 
