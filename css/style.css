@@ -807,6 +807,20 @@ body {
   filter: brightness(1) saturate(1);
   transition: filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* 选择阶段遮罩 — 稍微变暗提示现在是选择时间 */
+.choice-veil {
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 15;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.choice-veil.visible {
+  opacity: 1;
+}
+
 /* ---- 视频控制 ---- */
 .galgame-controls {
   position: absolute; top: 20px; left: 20px; z-index: 30;

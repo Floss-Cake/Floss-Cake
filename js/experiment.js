@@ -1,11 +1,12 @@
 /**
  * ============================================================
- * 实验流程控制器 v5.0 - 简洁选项模式
+ * 实验流程控制器 v5.1 - 简洁选项模式 + 问题语音 + 选择遮罩
  * ============================================================
  * 流程: 知情同意 → 麦克风测试 → 被试编号 → 影院
- * 影院内: scenario1 → Q1 → scenario2 → Q2 → ... → Qn → 语音 → 最终视频 → 完成
- * 每两个问题之间播放衔接剧情视频（视频命名: scenarioX.mp4）
- * 选项模式: 视频结束后直接浮现3个选项按钮
+ * 影院内: scenario1 → 问题语音 + 选项 → scenario2 → ... → 选项 → 语音 → 最终视频 → 完成
+ * 每两个问题之间播放衔接剧情视频（视频命名: ScenarioX.mp4）
+ * 问题语音: 问题1-6播放 assets/audio/qX.wav，问题7-9无语音直接出选项
+ * 选择阶段: 视频上出现轻微变暗遮罩，选择确认后遮罩消失继续播放视频
  * ============================================================
  */
 
@@ -436,11 +437,12 @@ const Experiment = {
   // ==================== Galgame UI 控制 ====================
 
   /**
-   * 隐藏所有选项 UI 元素
+   * 隐藏所有选项 UI 元素和选择遮罩
    */
   _hideGalgameUI() {
     document.getElementById('galgameDialogArea').style.display = 'none';
     document.getElementById('galgameOptionsPanel').style.display = 'none';
+    this._hideChoiceVeil();
     // 清理音频
     this._stopGalgameAudio();
   },
@@ -471,6 +473,28 @@ const Experiment = {
   },
 
   /**
+   * 显示选择阶段遮罩
+   */
+  _showChoiceVeil() {
+    const veil = document.getElementById('choiceVeil');
+    if (!veil) return;
+    veil.style.display = 'block';
+    requestAnimationFrame(() => veil.classList.add('visible'));
+  },
+
+  /**
+   * 隐藏选择阶段遮罩
+   */
+  _hideChoiceVeil() {
+    const veil = document.getElementById('choiceVeil');
+    if (!veil) return;
+    veil.classList.remove('visible');
+    setTimeout(() => {
+      if (!veil.classList.contains('visible')) veil.style.display = 'none';
+    }, 500);
+  },
+
+  /**
    * 显示过渡提示
    */
   _showGalgameCompleteToast() {
@@ -482,7 +506,10 @@ const Experiment = {
   // ==================== Galgame 提问流程 ====================
 
   /**
-   * 渲染当前问题 — 直接显示选项
+   * 渲染当前问题
+   * - 问题 1-6：先播放问题语音，语音结束后平滑浮现选项
+   * - 问题 7-9：直接浮现选项（无问题语音）
+   * - 选择期间显示轻微变暗遮罩
    */
   _renderGalgameQuestion() {
     const questions = EXPERIMENT_CONFIG.scenario.questions;
@@ -505,8 +532,47 @@ const Experiment = {
     document.getElementById('galgameDialogArea').style.display = 'block';
     document.getElementById('galgameOptionsPanel').style.display = 'none';
 
-    // 直接显示选项
-    this._showGalgameOptions(q);
+    // 显示选择遮罩（提示现在是选择时间）
+    this._showChoiceVeil();
+
+    // 问题 1-6 播放问题语音；问题 7-9 直接出选项
+    if (this._currentQuestionIndex <= 5) {
+      const audioPath = `assets/audio/${q.id}.wav`;
+      this._playQuestionAudioAndShowOptions(q, audioPath);
+    } else {
+      this._showGalgameOptions(q);
+    }
+  },
+
+  /**
+   * 播放问题语音，播放结束后平滑浮现选项
+   */
+  _playQuestionAudioAndShowOptions(question, audioPath) {
+    this._galgameAudioPlaying = true;
+
+    const audio = new Audio(audioPath);
+    audio.volume = 1.0;
+    this._galgameCurrentAudio = audio;
+
+    audio.play().catch(e => {
+      console.warn('[Galgame] 问题音频播放失败:', e.message);
+      this._stopGalgameAudio();
+      this._showGalgameOptions(question);
+    });
+
+    audio.onended = () => {
+      this._stopGalgameAudio();
+      this._showGalgameOptions(question);
+    };
+
+    // 兜底：最多等 15 秒
+    this._galgameQuestionAudioTimeout = setTimeout(() => {
+      if (this._galgameCurrentAudio === audio && this._galgameAudioPlaying) {
+        try { audio.pause(); } catch(e) {}
+        this._stopGalgameAudio();
+        this._showGalgameOptions(question);
+      }
+    }, 15000);
   },
 
   /**
@@ -518,6 +584,11 @@ const Experiment = {
 
     list.innerHTML = '';
     panel.style.display = 'block';
+
+    // 强制重启动画，确保每次浮现都平滑
+    panel.style.animation = 'none';
+    void panel.offsetHeight; // 强制回流
+    panel.style.animation = '';
 
     question.options.forEach((opt, index) => {
       const btn = document.createElement('button');
