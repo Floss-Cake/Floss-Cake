@@ -212,12 +212,11 @@ const StorageManager = {
     // 本地备份
     this.save('lastExperiment', dataPackage);
 
-    // 构造飞书后端需要的格式
+    // 构造飞书后端需要的格式（多故事支持）
     const payload = {
       participant_id: dataPackage.subjectId || dataPackage.sessionId,
       experiment_version: dataPackage.experiment ? dataPackage.experiment.version : '',
-      story_id: dataPackage.storyId || '',
-      story_name: dataPackage.storyName || '',
+      story_order: dataPackage.storiesData ? dataPackage.storiesData.map(s => s.storyId).join(',') : '',
       start_time: dataPackage.metadata ? dataPackage.metadata.experimentStartTime : '',
       end_time: dataPackage.metadata ? dataPackage.metadata.experimentEndTime : '',
       duration_seconds: dataPackage.metadata ? dataPackage.metadata.totalDuration : 0,
@@ -225,9 +224,10 @@ const StorageManager = {
       language: navigator.language || '',
       screen_width: window.screen.width,
       screen_height: window.screen.height,
-      questions: dataPackage.stages ? dataPackage.stages.choices : (dataPackage.choices || []),
-      voice_audio_base64: dataPackage.stages && dataPackage.stages.voiceAnswer 
-        ? dataPackage.stages.voiceAnswer.audioBase64 : null,
+      // 多故事数据：每个故事的选择题结果
+      storiesData: dataPackage.storiesData || (
+        dataPackage.stages ? dataPackage.stages.choices : (dataPackage.choices || [])
+      ),
     };
 
     try {

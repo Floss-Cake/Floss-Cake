@@ -86,29 +86,49 @@ function transformToTableRow(body) {
   // 元数据
   row.participant_id = body.participant_id || '';
   row.experiment_version = body.experiment_version || '';
-  row.story_id = body.story_id || '';
-  row.story_name = body.story_name || '';
+  row.story_order = body.story_order || '';
   row.start_time = body.start_time || '';
   row.end_time = body.end_time || '';
   row.duration_seconds = body.duration_seconds || 0;
-  row.browser = (body.browser || '').substring(0, 200);  // 截断过长的 UA
+  row.browser = (body.browser || '').substring(0, 200);
   row.language = body.language || '';
   row.screen_width = body.screen_width || 0;
   row.screen_height = body.screen_height || 0;
 
-  // 逐题数据
-  // questions 格式: [{questionId: 'q1', selectedValue: 'A', selectedLabel: '...'}, ...]
-  const questions = body.questions || [];
-  for (let i = 0; i < 9; i++) {
-    const n = i + 1;
-    const q = questions.find(q => q.questionId === 'q' + n || q.qId === 'q' + n);
-    if (q) {
-      row['q' + n] = q.selectedValue || q.choice || '';
-      row['q' + n + '_text'] = q.selectedLabel || q.label || q.text || '';
-    } else {
-      row['q' + n] = '';
-      row['q' + n + '_text'] = '';
-    }
+  // 多故事数据：storiesData 格式
+  // [{storyId, storyName, choices:[{questionId, selectedValue, selectedLabel}, ...]}, ...]
+  const storiesData = body.storiesData || [];
+  // 兼容旧格式：单故事 questions 数组
+  const legacyQuestions = body.questions || [];
+
+  // 构建 story_order 字符串
+  if (!row.story_order && storiesData.length > 0) {
+    row.story_order = storiesData.map(s => s.storyId).join(',');
+  }
+
+  storiesData.forEach(story => {
+    const prefix = story.storyId; // swim, diningHall, playground, brokeleg
+    const choices = story.choices || [];
+    choices.forEach(c => {
+      const qNum = (c.questionId || '').replace('q', '');
+      if (qNum) {
+        row[prefix + '_q' + qNum] = c.selectedValue || '';
+        row[prefix + '_q' + qNum + '_text'] = c.selectedLabel || '';
+      }
+    });
+  });
+
+  // 兼容：旧格式单故事 questions
+  if (storiesData.length === 0 && legacyQuestions.length > 0) {
+    const storyId = body.story_id || 'unknown';
+    const prefix = storyId;
+    legacyQuestions.forEach(q => {
+      const qNum = (q.questionId || '').replace('q', '');
+      if (qNum) {
+        row[prefix + '_q' + qNum] = q.selectedValue || q.choice || '';
+        row[prefix + '_q' + qNum + '_text'] = q.selectedLabel || q.label || '';
+      }
+    });
   }
 
   return row;
