@@ -122,10 +122,11 @@ const Experiment = {
     this._currentStory = story;
     this._storyDataAccumulator = [];
 
-    // 隐藏故事选择器和过渡面板
+    // 隐藏故事选择器和过渡面板、toast
     document.getElementById('storyPicker').style.display = 'none';
     this._hideGalgameUI();
     this._hideOverlay('voice');
+    this._hideGalgameCompleteToast();
     this._hideOverlay('storyComplete');
 
     document.getElementById('cinemaVideo').style.display = 'block';
@@ -564,7 +565,8 @@ const Experiment = {
     const story = this._currentStory;
     const optNum = optionValue === 'A' ? 1 : optionValue === 'B' ? 2 : 3;
     const qNum = parseInt(questionId.replace('q', ''));
-    return `${story.audioFolder}/${qNum}-${optNum}.${story.audioExt}`;
+    const sep = story.optionAudioSep || '-';
+    return `${story.audioFolder}/${qNum}${sep}${optNum}.${story.audioExt}`;
   },
 
   _showChoiceVeil() {
@@ -587,6 +589,14 @@ const Experiment = {
     const toast = document.getElementById('cinemaCompleteOverlay');
     toast.style.display = 'block';
     requestAnimationFrame(() => toast.classList.add('visible'));
+  },
+
+  _hideGalgameCompleteToast() {
+    const toast = document.getElementById('cinemaCompleteOverlay');
+    toast.classList.remove('visible');
+    setTimeout(() => {
+      if (!toast.classList.contains('visible')) toast.style.display = 'none';
+    }, 600);
   },
 
   // ==================== Galgame 提问流程 ====================

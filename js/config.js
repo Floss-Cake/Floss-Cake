@@ -68,9 +68,12 @@ const EXPERIMENT_CONFIG = {
   // 命名规则：
   //   视频: assets/video/{id}/Scenario1.mp4 ~ Scenario10.mp4
   //   问题语音: assets/audio/{id}/q1.mp3 ~ q6.mp3 (仅前6题)
-  //   选项语音: assets/audio/{id}/{题号}-{选项编号}.mp3
+  //   选项语音: assets/audio/{id}/{题号}-{选项编号}.mp3 (mp3用-分隔)
   //             e.g. 1-1.mp3(第1题A), 3-2.mp3(第3题B), 9-3.mp3(第9题C)
+  //   选项语音(wav): assets/audio/{id}/{题号}_{选项编号}.wav (wav用_分隔)
+  //             e.g. 1_1.wav(第1题A), 1_2.wav(第1题B)
   // audioExt:    音频文件扩展名 ('mp3' 或 'wav')
+  // optionAudioSep: 选项音频文件名分隔符 ('-' 或 '_')
   // questionAudioCount: 前 N 题播放问题语音，之后直接出选项
   // ==========================================
   stories: [
@@ -80,6 +83,7 @@ const EXPERIMENT_CONFIG = {
       name: '游泳课',
       enabled: true,
       audioExt: 'wav',              // 已有文件是 wav 格式
+      optionAudioSep: '_',          // wav 使用下划线分隔
       videoFolder: 'assets/video/swim',
       audioFolder: 'assets/audio/swim',
       questionAudioCount: 6,
