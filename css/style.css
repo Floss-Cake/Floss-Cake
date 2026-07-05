@@ -1070,6 +1070,157 @@ body {
   .galgame-options-list { gap: 8px; }
 }
 
+/* ================================================================
+   故事选择器
+   ================================================================ */
+.story-picker-panel {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 40;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+}
+
+.story-picker-card {
+  background: rgba(255, 252, 245, 0.95);
+  border: 2px solid rgba(255,155,85,0.25);
+  border-radius: 20px; padding: 40px 36px;
+  max-width: 520px; width: 90%;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.story-picker-title {
+  font-size: 28px; font-weight: 700; color: #ff7b54;
+  margin-bottom: 8px; letter-spacing: 0.04em;
+}
+
+.story-picker-subtitle {
+  font-size: 15px; color: #8a7560; margin-bottom: 28px;
+}
+
+.story-picker-list {
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.story-pick-btn {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; padding: 18px 24px;
+  background: rgba(255,248,235,0.5);
+  border: 2px solid rgba(180,160,140,0.2);
+  border-radius: 14px;
+  color: #4a3728; font-size: 18px; font-family: inherit;
+  cursor: pointer; text-align: left;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.story-pick-btn:hover {
+  border-color: #ffb347; background: rgba(255,248,235,0.95);
+  transform: translateX(6px); box-shadow: 0 6px 24px rgba(255,155,85,0.2);
+}
+
+.story-pick-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, #ff7b54, #ffb347);
+  color: #fff; font-size: 15px; font-weight: 800;
+  flex-shrink: 0; box-shadow: 0 2px 8px rgba(255,123,84,0.3);
+}
+
+.story-pick-name { flex: 1; font-weight: 500; }
+
+/* ================================================================
+   故事完成过渡面板
+   ================================================================ */
+.galgame-story-complete-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 35;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+}
+.galgame-story-complete-overlay.visible {
+  opacity: 1; pointer-events: auto;
+}
+
+.story-complete-panel {
+  background: rgba(255, 252, 245, 0.96);
+  border: 2px solid rgba(255,155,85,0.3);
+  border-radius: 24px; padding: 40px 36px 32px;
+  max-width: 500px; width: 90%;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: storyCompletePop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes storyCompletePop {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.story-complete-icon {
+  font-size: 48px; color: #ffb347;
+  margin-bottom: 12px; animation: diamondSpin 2s linear infinite;
+}
+
+.story-complete-title {
+  font-size: 26px; font-weight: 700; color: #ff7b54;
+  margin-bottom: 8px; letter-spacing: 0.04em;
+}
+
+.story-complete-name {
+  font-size: 20px; font-weight: 600; color: #4a3728;
+  margin-bottom: 28px;
+  padding: 8px 20px; background: rgba(255,179,71,0.1);
+  border-radius: 20px; display: inline-block;
+}
+
+.story-complete-actions {
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.story-action-btn {
+  padding: 14px 28px; border-radius: 24px;
+  font-size: 16px; font-weight: 600; cursor: pointer;
+  font-family: inherit; border: 2px solid transparent;
+  transition: all 0.3s ease; width: 100%;
+}
+
+.story-action-btn.next-btn {
+  background: linear-gradient(135deg, #ff7b54, #ffb347);
+  border: none; color: #fff;
+  box-shadow: 0 4px 16px rgba(255,123,84,0.3);
+}
+.story-action-btn.next-btn:hover {
+  box-shadow: 0 6px 22px rgba(255,123,84,0.5); transform: translateY(-1px);
+}
+
+.story-action-btn.replay-btn {
+  background: rgba(91,192,190,0.15); border-color: #5bc0be; color: #3a8a88;
+}
+.story-action-btn.replay-btn:hover {
+  background: rgba(91,192,190,0.3);
+}
+
+.story-action-btn.picker-btn {
+  background: rgba(255,179,71,0.1); border-color: rgba(255,155,85,0.25); color: #8a7560;
+}
+.story-action-btn.picker-btn:hover {
+  background: rgba(255,179,71,0.2);
+}
+
+.story-action-btn.exit-btn {
+  background: transparent; border-color: rgba(74,55,40,0.15); color: #8a7560;
+  font-size: 14px; font-weight: 500; padding: 10px 24px;
+}
+.story-action-btn.exit-btn:hover {
+  background: rgba(74,55,40,0.05); border-color: rgba(74,55,40,0.3);
+}
+
+.story-complete-hint {
+  margin-top: 18px; font-size: 13px; color: #a09080;
+}
+
 /* -------- 打印样式 -------- */
 @media print {
   body { background: white; }

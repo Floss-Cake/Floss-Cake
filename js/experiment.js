@@ -1,12 +1,13 @@
 /**
  * ============================================================
- * 实验流程控制器 v5.1 - 简洁选项模式 + 问题语音 + 选择遮罩
+ * 实验流程控制器 v6.0 — 多故事支持
  * ============================================================
  * 流程: 知情同意 → 麦克风测试 → 被试编号 → 影院
- * 影院内: scenario1 → 问题语音 + 选项 → scenario2 → ... → 选项 → 语音 → 最终视频 → 完成
- * 每两个问题之间播放衔接剧情视频（视频命名: ScenarioX.mp4）
- * 问题语音: 问题1-6播放 assets/audio/qX.wav，问题7-9无语音直接出选项
- * 选择阶段: 视频上出现轻微变暗遮罩，选择确认后遮罩消失继续播放视频
+ * 影院内: Scenario1 → Q1 → Scenario2 → ... → Q9 → 语音 → Scenario10 → 故事完成/下一故事
+ * 命名规则:
+ *   视频: assets/video/{storyId}/Scenario1.mp4 ~ Scenario10.mp4
+ *   问题语音: assets/audio/{storyId}/q1.mp3 ~ qN.mp3 (仅前 N 题)
+ *   选项语音: assets/audio/{storyId}/{qNum}_{optNum}.mp3  (1_1 ~ 9_3)
  * ============================================================
  */
 
@@ -27,11 +28,16 @@ const Experiment = {
   _currentQuestionIndex: 0,
   _choiceAnswers: {},
 
+  // 多故事状态
+  _currentStoryIndex: 0,
+  _currentStory: null,
+  _storyDataAccumulator: [],  // 累积各故事数据
+
   // Galgame 状态
   _galgameQuestionActive: false,
-  _galgameOptionSelected: null,   // { optionValue, optionLabel, optionAudio }
+  _galgameOptionSelected: null,
   _galgameAudioPlaying: false,
-  _galgameCurrentAudio: null,     // 当前播放的 Audio 实例
+  _galgameCurrentAudio: null,
   _galgameQuestionAudioTimeout: null,
   _galgameConfirmVisible: false,
 
@@ -41,16 +47,14 @@ const Experiment = {
     this._checkBrowser();
 
     if (EXPERIMENT_CONFIG.experiment.debugMode) {
-      // 调试模式：跳过伦理、麦克风、被试编号，直接进影院
       DataCollector.setConsent();
       DataCollector.setSubjectId('DEBUG_' + Date.now().toString(36));
-      // 静默获取麦克风权限（影院内语音录制需要）
       this.micTestRecorder = new AudioRecorder({ manualMode: true, maxDuration: 30000 });
       this.micTestRecorder.requestPermission().then(() => {
-        this._showStage(3);
+        this._showStoryPicker();
       });
     } else {
-      this._showStage(0);  // 正常流程：知情同意开始
+      this._showStage(0);
     }
   },
 
@@ -59,6 +63,74 @@ const Experiment = {
     if (!tr.isSupported) {
       this._showModal('您的浏览器不支持录音功能，请使用最新版 Chrome、Edge 或 Firefox。');
     }
+  },
+
+  // ==================== 故事选择器 ====================
+
+  /**
+   * 显示故事选择器（调试/测试用）
+   */
+  _showStoryPicker() {
+    const enabledStories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    if (enabledStories.length === 1) {
+      this._startStory(0);
+      return;
+    }
+
+    // 隐藏主容器，显示影院覆盖层
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'none';
+    const overlay = document.getElementById('cinemaOverlay');
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => overlay.classList.add('active'));
+    document.getElementById('cinemaVideo').style.display = 'none';
+    document.getElementById('cinemaControls').classList.remove('visible');
+
+    const panel = document.getElementById('storyPicker');
+    const list = document.getElementById('storyPickerList');
+    list.innerHTML = '';
+
+    enabledStories.forEach((story, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'story-pick-btn';
+      btn.innerHTML = `
+        <span class="story-pick-num">${idx + 1}</span>
+        <span class="story-pick-name">${story.name}</span>
+      `;
+      btn.addEventListener('click', () => {
+        panel.style.display = 'none';
+        document.getElementById('cinemaVideo').style.display = 'block';
+        this._startStory(idx);
+      });
+      list.appendChild(btn);
+    });
+
+    panel.style.display = 'flex';
+  },
+
+  /**
+   * 从指定索引开始一个故事
+   */
+  _startStory(storyIndex) {
+    const enabledStories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    if (storyIndex >= enabledStories.length) {
+      this._exitCinema(true);
+      return;
+    }
+    const story = enabledStories[storyIndex];
+    this._currentStoryIndex = storyIndex;
+    this._currentStory = story;
+    this._storyDataAccumulator = [];
+
+    // 隐藏故事选择器和过渡面板
+    document.getElementById('storyPicker').style.display = 'none';
+    this._hideGalgameUI();
+    this._hideOverlay('voice');
+    this._hideOverlay('storyComplete');
+
+    document.getElementById('cinemaVideo').style.display = 'block';
+
+    this._enterCinema(story);
   },
 
   // ==================== 事件绑定 ====================
@@ -98,16 +170,13 @@ const Experiment = {
     });
     document.getElementById('btnStartExperiment').addEventListener('click', () => {
       DataCollector.setSubjectId(subj.value.trim());
-      this._showStage(3);
+      this._startStory(0);
     });
 
     // ---- 视频控制 ----
     document.getElementById('btnCinemaToggle').addEventListener('click', () => this._toggleVideoPlay());
     document.getElementById('btnCinemaBack').addEventListener('click', () => this._seekVideo(-10));
     document.getElementById('btnCinemaFwd').addEventListener('click', () => this._seekVideo(10));
-
-    // ---- 影院：选题提交（Galgame 模式下不再使用全局提交按钮） ----
-    // 确认逻辑已移至每个选项的独立确认按钮 (_advanceGalgameQuestion)
 
     // ---- 影院：语音录制 ----
     document.getElementById('btnCinemaRecord').addEventListener('click', () => {
@@ -119,9 +188,7 @@ const Experiment = {
       }
     });
 
-    // 确认语音 → 播放 scenario2
     document.getElementById('btnCinemaVoiceOK').addEventListener('click', () => {
-      // 保存语音数据
       if (this.voiceAudio) {
         const dur = this.voiceAudio.duration || 0;
         DataCollector.setVoiceAnswer({
@@ -133,15 +200,31 @@ const Experiment = {
       this._playNextVideo();
     });
 
-    // 重新录制
     document.getElementById('btnCinemaVoiceRetry').addEventListener('click', () => this._resetCinemaVoice());
 
-    // 退回修改选项
     document.getElementById('btnCinemaBackToChoice').addEventListener('click', () => {
       this._hideOverlay('voice');
       if (this.voiceRecorder) this.voiceRecorder.destroy();
       this.voiceAudio = null;
       this._showOverlay('choice');
+    });
+
+    // ---- 故事过渡按钮 ----
+    document.getElementById('btnNextStory').addEventListener('click', () => {
+      this._hideOverlay('storyComplete');
+      this._startStory(this._currentStoryIndex + 1);
+    });
+    document.getElementById('btnReplayStory').addEventListener('click', () => {
+      this._hideOverlay('storyComplete');
+      this._startStory(this._currentStoryIndex);
+    });
+    document.getElementById('btnExitExperiment').addEventListener('click', () => {
+      this._hideOverlay('storyComplete');
+      this._exitCinema(true);
+    });
+    document.getElementById('btnStoryPicker').addEventListener('click', () => {
+      this._hideOverlay('storyComplete');
+      this._showStoryPicker();
     });
 
     // ---- 完成页 ----
@@ -185,7 +268,7 @@ const Experiment = {
   _onStageEnter(stageId) {
     switch (stageId) {
       case 'mic-test': this._initMicTest(); break;
-      case 'cinema': this._enterCinema(); break;
+      case 'cinema': this._enterCinema(EXPERIMENT_CONFIG.stories[0]); break;
       case 'complete': this._handleComplete(); break;
     }
   },
@@ -256,24 +339,18 @@ const Experiment = {
 
   // ==================== 影院入口 ====================
 
-  _enterCinema() {
+  /**
+   * 根据故事配置进入影院模式
+   */
+  _enterCinema(story) {
     const overlay = document.getElementById('cinemaOverlay');
     const video = document.getElementById('cinemaVideo');
-    const cfg = EXPERIMENT_CONFIG.scenario;
+    const totalVideos = story.questions.length + 1;
 
-    // 初始化视频序列 — 根据题目数量动态生成
-    // 格式：[scenario1(开场), scenario2(Q1→Q2过渡), scenario3(Q2→Q3过渡), ..., scenarioN(最终)]
-    const totalVideos = cfg.questions.length + 1;
-    for (let i = 1; i <= totalVideos; i++) {
-      const key = `scenario${i}`;
-      if (!cfg.videos[key]) {
-        // 实际文件名首字母大写 (ScenarioX.mp4)
-        cfg.videos[key] = `assets/video/Scenario${i}.mp4`;
-      }
-    }
+    // 构建视频序列
     this._videoSequence = [];
     for (let i = 1; i <= totalVideos; i++) {
-      this._videoSequence.push(`scenario${i}`);
+      this._videoSequence.push(`${story.videoFolder}/Scenario${i}.mp4`);
     }
     this._videoIndex = 0;
     this._videoPlaying = true;
@@ -296,12 +373,10 @@ const Experiment = {
     overlay.style.display = 'block';
     requestAnimationFrame(() => overlay.classList.add('active'));
 
-    // 显示视频控制
     document.getElementById('cinemaControls').classList.add('visible');
-
-    // 隐藏所有 UI 元素（初始只显示视频背景）
     this._hideGalgameUI();
 
+    // 加载第一个视频
     this._loadVideoByIndex(0);
     this._bindVideoEnded();
   },
@@ -311,30 +386,31 @@ const Experiment = {
    */
   _loadVideoByIndex(index) {
     const video = document.getElementById('cinemaVideo');
-    const cfg = EXPERIMENT_CONFIG.scenario;
-    const key = this._videoSequence[index];
-    const src = cfg.videos[key];
-    if (!src) {
-      console.warn('[Galgame] 视频未找到:', key);
-      // 视频缺失时触发视频结束逻辑
+    const src = this._videoSequence[index];
+
+    video.style.display = 'block';
+
+    if (!src || index >= this._videoSequence.length) {
+      console.warn('[Galgame] 视频路径为空，尝试回退');
       this._videoPlaying = false;
       if (index < this._videoSequence.length - 1) {
         this._galgameQuestionActive = true;
         this._currentQuestionIndex = index;
         this._renderGalgameQuestion();
       } else {
-        this._showGalgameCompleteToast();
-        setTimeout(() => this._exitCinema(), 1200);
+        this._onStoryVideoComplete();
       }
       return;
     }
+
     this._videoIndex = index;
     this._videoPlaying = true;
 
     video.src = src;
     video.load();
     video.play().catch(e => {
-      console.warn('[Galgame] 自动播放失败:', e);
+      console.warn('[Galgame] 自动播放失败:', e.message, ' 路径:', src);
+      // 视频加载失败不阻塞流程
     });
 
     document.getElementById('btnCinemaSkip').style.display =
@@ -343,14 +419,11 @@ const Experiment = {
 
   /**
    * 绑定视频结束事件
-   * 首个视频(scenario1)结束 → 显示Q1
-   * 过渡视频结束 → 显示对应题目
-   * 最终视频结束 → 退出影院
    */
   _bindVideoEnded() {
     const video = document.getElementById('cinemaVideo');
     video.onended = null;
-    
+
     video.onended = () => {
       this._videoPlaying = false;
       DataCollector.logVideoWatched();
@@ -361,22 +434,20 @@ const Experiment = {
         this._currentQuestionIndex = this._videoIndex;
         this._renderGalgameQuestion();
       } else {
-        // 最终视频 → 完成
-        this._showGalgameCompleteToast();
-        setTimeout(() => this._exitCinema(), 1800);
+        // 最终视频 → 故事完成
+        this._onStoryVideoComplete();
       }
     };
 
     video.onerror = () => {
-      console.warn('[Galgame] 视频加载失败');
+      console.warn('[Galgame] 视频加载失败:', video.src);
       this._videoPlaying = false;
       if (this._videoIndex < this._videoSequence.length - 1) {
         this._galgameQuestionActive = true;
         this._currentQuestionIndex = this._videoIndex;
         this._renderGalgameQuestion();
       } else {
-        this._showGalgameCompleteToast();
-        setTimeout(() => this._exitCinema(), 1200);
+        this._onStoryVideoComplete();
       }
     };
   },
@@ -385,19 +456,42 @@ const Experiment = {
    * 播放下一个视频（选题+语音完成后调用）
    */
   _playNextVideo() {
-    // 隐藏所有 UI，进入纯视频模式
     this._hideGalgameUI();
     const nextIdx = this._videoIndex + 1;
     if (nextIdx < this._videoSequence.length) {
       this._loadVideoByIndex(nextIdx);
       this._bindVideoEnded();
     } else {
-      this._exitCinema();
+      this._onStoryVideoComplete();
     }
   },
 
-  _exitCinema() {
-    // 清理 Galgame 音频
+  /**
+   * 故事所有视频播放完毕
+   */
+  _onStoryVideoComplete() {
+    this._showGalgameCompleteToast();
+    setTimeout(() => this._showStoryComplete(), 1800);
+  },
+
+  /**
+   * 故事完成 → 显示过渡面板
+   */
+  _showStoryComplete() {
+    const story = this._currentStory;
+    const enabledStories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    const hasNext = this._currentStoryIndex + 1 < enabledStories.length;
+
+    document.getElementById('storyCompleteName').textContent = story.name;
+    document.getElementById('btnNextStory').style.display = hasNext ? 'inline-flex' : 'none';
+    document.getElementById('storyCompleteNextHint').style.display = hasNext ? 'block' : 'none';
+
+    document.getElementById('cinemaVideo').style.display = 'none';
+    this._hideGalgameUI();
+    this._showOverlay('storyComplete');
+  },
+
+  _exitCinema(toComplete) {
     this._stopGalgameAudio();
     const overlay = document.getElementById('cinemaOverlay');
     overlay.classList.remove('active');
@@ -405,11 +499,15 @@ const Experiment = {
       overlay.style.display = 'none';
       document.getElementById('cinemaVideo').pause();
       document.getElementById('cinemaVideo').onended = null;
+      document.getElementById('cinemaVideo').style.display = 'block';
       document.getElementById('cinemaControls').classList.remove('visible');
       document.getElementById('progressBar').style.display = 'block';
       document.getElementById('mainContainer').style.display = 'block';
       this._hideGalgameUI();
-      this._showStage(4);
+      this._hideAllOverlays();
+      if (toComplete) {
+        this._showStage(4);
+      }
     }, 400);
   },
 
@@ -428,7 +526,6 @@ const Experiment = {
 
   _seekVideo(seconds) {
     const video = document.getElementById('cinemaVideo');
-    // 确保视频时长有效再跳转，避免 currentTime 变成 NaN 导致重播
     if (!video.duration || !isFinite(video.duration)) return;
     const target = video.currentTime + seconds;
     video.currentTime = Math.max(0, Math.min(video.duration, target));
@@ -436,20 +533,13 @@ const Experiment = {
 
   // ==================== Galgame UI 控制 ====================
 
-  /**
-   * 隐藏所有选项 UI 元素和选择遮罩
-   */
   _hideGalgameUI() {
     document.getElementById('galgameDialogArea').style.display = 'none';
     document.getElementById('galgameOptionsPanel').style.display = 'none';
     this._hideChoiceVeil();
-    // 清理音频
     this._stopGalgameAudio();
   },
 
-  /**
-   * 停止当前音频
-   */
   _stopGalgameAudio() {
     if (this._galgameCurrentAudio) {
       try { this._galgameCurrentAudio.pause(); } catch(e) {}
@@ -466,15 +556,17 @@ const Experiment = {
 
   /**
    * 获取选项音频路径
+   * 格式: {audioFolder}/{qNum}-{optNum}.{ext}
+   *   qNum = 题号(1-based), optNum = 选项编号(1=A, 2=B, 3=C)
+   *   例如: assets/audio/diningHall/1-1.mp3（第1题A选项）
    */
   _getOptionAudioPath(questionId, optionValue) {
-    const key = `${questionId}_${optionValue}`;
-    return EXPERIMENT_CONFIG.scenario.optionAudio[key] || null;
+    const story = this._currentStory;
+    const optNum = optionValue === 'A' ? 1 : optionValue === 'B' ? 2 : 3;
+    const qNum = parseInt(questionId.replace('q', ''));
+    return `${story.audioFolder}/${qNum}-${optNum}.${story.audioExt}`;
   },
 
-  /**
-   * 显示选择阶段遮罩
-   */
   _showChoiceVeil() {
     const veil = document.getElementById('choiceVeil');
     if (!veil) return;
@@ -482,9 +574,6 @@ const Experiment = {
     requestAnimationFrame(() => veil.classList.add('visible'));
   },
 
-  /**
-   * 隐藏选择阶段遮罩
-   */
   _hideChoiceVeil() {
     const veil = document.getElementById('choiceVeil');
     if (!veil) return;
@@ -494,9 +583,6 @@ const Experiment = {
     }, 500);
   },
 
-  /**
-   * 显示过渡提示
-   */
   _showGalgameCompleteToast() {
     const toast = document.getElementById('cinemaCompleteOverlay');
     toast.style.display = 'block';
@@ -505,17 +591,11 @@ const Experiment = {
 
   // ==================== Galgame 提问流程 ====================
 
-  /**
-   * 渲染当前问题
-   * - 问题 1-6：先播放问题语音，语音结束后平滑浮现选项
-   * - 问题 7-9：直接浮现选项（无问题语音）
-   * - 选择期间显示轻微变暗遮罩
-   */
   _renderGalgameQuestion() {
-    const questions = EXPERIMENT_CONFIG.scenario.questions;
+    const story = this._currentStory;
+    const questions = story.questions;
     const q = questions[this._currentQuestionIndex];
     if (!q) {
-      // 所有问题完成 → 进入语音环节
       this._collectCinemaChoices();
       this._choicesSubmitted = true;
       this._hideGalgameUI();
@@ -523,30 +603,23 @@ const Experiment = {
       return;
     }
 
-    // 清理之前状态
     this._stopGalgameAudio();
     this._galgameOptionSelected = null;
     this._galgameConfirmVisible = false;
 
-    // 显示选项区域
     document.getElementById('galgameDialogArea').style.display = 'block';
     document.getElementById('galgameOptionsPanel').style.display = 'none';
-
-    // 显示选择遮罩（提示现在是选择时间）
     this._showChoiceVeil();
 
-    // 问题 1-6 播放问题语音；问题 7-9 直接出选项
-    if (this._currentQuestionIndex <= 5) {
-      const audioPath = `assets/audio/${q.id}.wav`;
+    // 前 N 题播放问题语音
+    if (this._currentQuestionIndex < story.questionAudioCount) {
+      const audioPath = `${story.audioFolder}/q${this._currentQuestionIndex + 1}.${story.audioExt}`;
       this._playQuestionAudioAndShowOptions(q, audioPath);
     } else {
       this._showGalgameOptions(q);
     }
   },
 
-  /**
-   * 播放问题语音，播放结束后平滑浮现选项
-   */
   _playQuestionAudioAndShowOptions(question, audioPath) {
     this._galgameAudioPlaying = true;
 
@@ -555,7 +628,7 @@ const Experiment = {
     this._galgameCurrentAudio = audio;
 
     audio.play().catch(e => {
-      console.warn('[Galgame] 问题音频播放失败:', e.message);
+      console.warn('[Galgame] 问题音频播放失败:', e.message, ' 路径:', audioPath);
       this._stopGalgameAudio();
       this._showGalgameOptions(question);
     });
@@ -565,7 +638,6 @@ const Experiment = {
       this._showGalgameOptions(question);
     };
 
-    // 兜底：最多等 15 秒
     this._galgameQuestionAudioTimeout = setTimeout(() => {
       if (this._galgameCurrentAudio === audio && this._galgameAudioPlaying) {
         try { audio.pause(); } catch(e) {}
@@ -575,9 +647,6 @@ const Experiment = {
     }, 15000);
   },
 
-  /**
-   * 显示选项
-   */
   _showGalgameOptions(question) {
     const panel = document.getElementById('galgameOptionsPanel');
     const list = document.getElementById('galgameOptionsList');
@@ -585,9 +654,8 @@ const Experiment = {
     list.innerHTML = '';
     panel.style.display = 'block';
 
-    // 强制重启动画，确保每次浮现都平滑
     panel.style.animation = 'none';
-    void panel.offsetHeight; // 强制回流
+    void panel.offsetHeight;
     panel.style.animation = '';
 
     question.options.forEach((opt, index) => {
@@ -610,57 +678,40 @@ const Experiment = {
     });
   },
 
-  /**
-   * 选项点击
-   * - 如果正在播放其他选项音频 → 停止当前音频，切换到新选项
-   * - 如果正在播放同一选项音频 → 忽略（静待播放完成）
-   * - 如果已显示确认按钮 → 允许切换到其他选项（重置确认状态）
-   */
   _onGalgameOptionClick(question, option, btnElement) {
-    // 如果正在播放同一选项音频，忽略
     const isSameOption = this._galgameOptionSelected &&
       this._galgameOptionSelected.optionValue === option.value &&
       this._galgameOptionSelected.questionId === question.id;
 
     if (this._galgameAudioPlaying && isSameOption) return;
 
-    // 停止当前音频（如果正在播放）
     if (this._galgameAudioPlaying) {
       this._stopGalgameAudio();
     }
 
-    // 移除之前选项的确认按钮
     document.querySelectorAll('.option-confirm-btn').forEach(b => b.remove());
     this._galgameConfirmVisible = false;
-
-    // 取消之前的选择高亮
     document.querySelectorAll('.galgame-option-btn').forEach(b => b.classList.remove('selected', 'audio-playing'));
     btnElement.classList.add('selected');
 
-    // 保存选择
     this._galgameOptionSelected = {
       questionId: question.id,
       questionStem: question.stem,
       optionValue: option.value,
       optionLabel: option.label,
+      storyId: this._currentStory.id,
     };
 
-    // 记录到答案
     this._choiceAnswers[question.id] = this._galgameOptionSelected;
 
-    // 播放选项音频
     const audioPath = this._getOptionAudioPath(question.id, option.value);
     if (audioPath) {
       this._playOptionAudioAndShowConfirm(audioPath, btnElement);
     } else {
-      // 无音频，直接显示确认按钮
       this._showConfirmButton(btnElement);
     }
   },
 
-  /**
-   * 播放选项音频，播放完毕后显示确认按钮
-   */
   _playOptionAudioAndShowConfirm(audioPath, btnElement) {
     this._galgameAudioPlaying = true;
     btnElement.classList.add('audio-playing');
@@ -670,11 +721,10 @@ const Experiment = {
     this._galgameCurrentAudio = audio;
 
     audio.play().catch(e => {
-      console.warn('[Galgame] 选项音频播放失败:', e.message);
+      console.warn('[Galgame] 选项音频播放失败:', e.message, ' 路径:', audioPath);
       this._galgameAudioPlaying = false;
       this._galgameCurrentAudio = null;
       btnElement.classList.remove('audio-playing');
-      // 失败也显示确认
       this._showConfirmButton(btnElement);
     });
 
@@ -686,14 +736,10 @@ const Experiment = {
     };
   },
 
-  /**
-   * 在选项按钮右侧显示确认按钮
-   */
   _showConfirmButton(btnElement) {
     if (this._galgameConfirmVisible) return;
     this._galgameConfirmVisible = true;
 
-    // 移除已有的确认按钮
     const existing = btnElement.querySelector('.option-confirm-btn');
     if (existing) existing.remove();
 
@@ -709,24 +755,15 @@ const Experiment = {
     btnElement.appendChild(confirmBtn);
   },
 
-  /**
-   * 进入下一题或完成选择
-   * 如果还有下一题 → 先播放过渡剧情视频
-   * 所有题目完成 → 进入语音环节
-   */
   _advanceGalgameQuestion() {
-    const questions = EXPERIMENT_CONFIG.scenario.questions;
+    const questions = this._currentStory.questions;
     this._currentQuestionIndex += 1;
 
     if (this._currentQuestionIndex < questions.length) {
-      // 还有下一题 → 隐藏选项，播放过渡视频
       this._hideGalgameUI();
-      // 过渡视频索引 = 当前已答完的题目数（也是下一题序号）
-      // 例如：答完Q1（questionIdx=0→1），播放scenario2（videoIdx=1）
       this._loadVideoByIndex(this._currentQuestionIndex);
       this._bindVideoEnded();
     } else {
-      // 所有问题完成 → 进入语音环节
       this._collectCinemaChoices();
       this._choicesSubmitted = true;
       this._hideGalgameUI();
@@ -735,7 +772,7 @@ const Experiment = {
   },
 
   _collectCinemaChoices() {
-    const results = EXPERIMENT_CONFIG.scenario.questions.map(q => (
+    const results = this._currentStory.questions.map(q => (
       this._choiceAnswers[q.id] || {
         questionId: q.id,
         questionStem: q.stem,
@@ -743,25 +780,33 @@ const Experiment = {
         selectedLabel: null,
       }
     ));
-    DataCollector.setChoices(results);
+    // 添加故事ID
+    const storyData = {
+      storyId: this._currentStory.id,
+      storyName: this._currentStory.name,
+      choices: results,
+    };
+    DataCollector.appendStoryData(storyData);
   },
 
-  // ==================== 浮层（兼容旧接口，实际只用于 voice） ====================
+  // ==================== 浮层 ====================
 
   _showOverlay(name) {
-    this._hideAllOverlays();
-    if (name === 'voice') {
-      const el = document.getElementById('voiceOverlay');
+    if (name === 'voice' || name === 'storyComplete') {
+      const el = document.getElementById(name === 'voice' ? 'voiceOverlay' : 'storyCompleteOverlay');
       if (el) {
         el.style.display = 'flex';
         requestAnimationFrame(() => el.classList.add('visible'));
       }
+    }
+    if (name === 'voice') {
       this._initCinemaVoice();
     }
   },
 
   _hideOverlay(name) {
-    const el = document.getElementById(name + 'Overlay');
+    const id = name === 'voice' ? 'voiceOverlay' : name === 'storyComplete' ? 'storyCompleteOverlay' : name + 'Overlay';
+    const el = document.getElementById(id);
     if (el) {
       el.classList.remove('visible');
       setTimeout(() => { el.style.display = 'none'; }, 500);
@@ -769,17 +814,14 @@ const Experiment = {
   },
 
   _hideAllOverlays() {
-    ['voice'].forEach(name => {
-      const el = document.getElementById(name + 'Overlay');
-      if (el) { el.classList.remove('visible'); el.style.display = 'none'; }
-    });
+    ['voice', 'storyComplete'].forEach(name => this._hideOverlay(name));
   },
 
-  // ==================== 语音录制可视化 ====================
+  // ==================== 语音录制 ====================
 
   _initCinemaVoice() {
     document.getElementById('cinemaVoiceQuestion').textContent =
-      EXPERIMENT_CONFIG.scenario.voiceQuestion;
+      this._currentStory.voiceQuestion;
 
     const btn = document.getElementById('btnCinemaRecord');
     btn.disabled = false;
@@ -812,12 +854,10 @@ const Experiment = {
       onVisualizer: (data) => this._updateVisualizer('cinemaVisualizer', data),
     });
 
-    // 复用已有 stream 并正确初始化 AudioContext/Analyser（修复可视化bug）
     if (this.micTestRecorder?.stream) {
       this.voiceRecorder.stream = this.micTestRecorder.stream;
       this.voiceRecorder.micPermission = 'granted';
       this.voiceRecorder.isSupported = true;
-      // ★ 关键修复：从已有 stream 新建 AudioContext + Analyser
       this.voiceRecorder.initAnalyserFromStream();
     }
   },
@@ -839,16 +879,15 @@ const Experiment = {
     const voiceEl = document.getElementById('voiceOverlay');
     const dialogArea = document.getElementById('galgameDialogArea');
     const video = document.getElementById('cinemaVideo');
-    
+
     const voiceVisible = voiceEl.style.display !== 'none' && voiceEl.classList.contains('visible');
     const dialogVisible = dialogArea.style.display !== 'none' && this._galgameQuestionActive;
-    
+
     if (voiceVisible) {
       if (this.voiceRecorder?.isRecording) this.voiceRecorder.stop();
       this._hideOverlay('voice');
       this._playNextVideo();
     } else if (dialogVisible) {
-      // 跳过当前问题 → 直接进入语音环节
       this._galgameQuestionActive = false;
       this._stopGalgameAudio();
       this._collectCinemaChoices();
@@ -856,7 +895,6 @@ const Experiment = {
       this._hideGalgameUI();
       this._showOverlay('voice');
     } else {
-      // 视频播放中 → 跳过视频
       video.pause();
       this._videoPlaying = false;
       DataCollector.logVideoWatched();
@@ -865,8 +903,7 @@ const Experiment = {
         this._currentQuestionIndex = this._videoIndex;
         this._renderGalgameQuestion();
       } else {
-        this._showGalgameCompleteToast();
-        setTimeout(() => this._exitCinema(), 1200);
+        this._onStoryVideoComplete();
       }
     }
   },
@@ -874,7 +911,6 @@ const Experiment = {
   // ==================== 完成页 ====================
 
   async _handleComplete() {
-    // 语音数据已在 _initCinemaVoice → onStop 中通过 btnCinemaVoiceOK 保存
     const st = document.getElementById('uploadStatusText');
     const sp = document.getElementById('uploadSpinner');
     const re = document.getElementById('uploadResult');
@@ -915,15 +951,6 @@ const Experiment = {
     const step = Math.floor(dataArray.length / bars.length);
     bars.forEach((bar, i) => {
       bar.style.height = `${Math.max(2, (dataArray[i * step] || 0) / 255 * 100)}%`;
-    });
-  },
-
-  _blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const r = new FileReader();
-      r.onloadend = () => resolve(r.result);
-      r.onerror = reject;
-      r.readAsDataURL(blob);
     });
   },
 
