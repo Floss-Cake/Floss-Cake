@@ -828,6 +828,11 @@ const Experiment = {
   // ==================== 浮层 ====================
 
   _showOverlay(name) {
+    // 语音录制已禁用 → 直接跳过到下一步
+    if (name === 'voice' && !EXPERIMENT_CONFIG.experiment.enableVoiceRecording) {
+      this._playNextVideo();
+      return;
+    }
     if (name === 'voice' || name === 'storyComplete') {
       const el = document.getElementById(name === 'voice' ? 'voiceOverlay' : 'storyCompleteOverlay');
       if (el) {

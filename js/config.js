@@ -59,6 +59,7 @@ const EXPERIMENT_CONFIG = {
     showSkipButton: true,
     debugMode: true,
     localStorageBackup: true,
+    enableVoiceRecording: false,  // false=跳过语音录制环节
   },
 
   // ==========================================
