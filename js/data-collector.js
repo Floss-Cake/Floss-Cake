@@ -1,30 +1,25 @@
 /**
  * ============================================================
- * 数据采集模块 - 汇总实验各阶段数据
+ * 数据采集模块 v2.0 - 多故事支持
  * ============================================================
  */
 
 const DataCollector = {
-  // 会话数据容器
   session: {
     sessionId: StorageManager.generateSessionId(),
     subjectId: '',
     consentTime: null,
     experimentStartTime: null,
-    
-    // 各阶段数据
+
     micTest: null,
-    choices: [],
-    voiceAnswer: null,
+    choices: [],          // 兼容旧格式
+    storiesData: [],      // 多故事数据累积 [{storyId, storyName, choices, voiceAnswer}]
+    voiceAnswer: null,    // 最新声音回答
     textInput: '',
-    
-    // 元数据
-    events: [], // 事件时间线
+
+    events: [],
   },
 
-  /**
-   * 重置会话
-   */
   reset() {
     this.session = {
       sessionId: StorageManager.generateSessionId(),
@@ -33,17 +28,13 @@ const DataCollector = {
       experimentStartTime: null,
       micTest: null,
       choices: [],
+      storiesData: [],
       voiceAnswer: null,
       textInput: '',
       events: [],
     };
   },
 
-  /**
-   * 记录事件
-   * @param {string} eventName
-   * @param {object} data
-   */
   logEvent(eventName, data = {}) {
     this.session.events.push({
       event: eventName,
@@ -52,19 +43,12 @@ const DataCollector = {
     });
   },
 
-  /**
-   * 设置知情同意时间
-   */
   setConsent() {
     this.session.consentTime = new Date().toISOString();
     this.logEvent('consent_given');
     StorageManager.save('sessionId', this.session.sessionId);
   },
 
-  /**
-   * 设置被试编号
-   * @param {string} id
-   */
   setSubjectId(id) {
     this.session.subjectId = id;
     this.session.experimentStartTime = new Date().toISOString();
@@ -72,10 +56,6 @@ const DataCollector = {
     StorageManager.save('subjectId', id);
   },
 
-  /**
-   * 记录麦克风测试结果
-   * @param {object} testData
-   */
   setMicTest(testData) {
     this.session.micTest = {
       passed: testData.passed,
@@ -87,33 +67,37 @@ const DataCollector = {
     this.logEvent('mic_test_completed', { passed: testData.passed, duration: testData.duration });
   },
 
-  /**
-   * 记录视频观看事件
-   */
   logVideoWatched() {
     this.logEvent('video_watched');
   },
 
-  /**
-   * 记录视频跳过事件
-   */
   logVideoSkipped() {
     this.logEvent('video_skipped');
   },
 
-  /**
-   * 设置选择题答案
-   * @param {Array} choices
-   */
   setChoices(choices) {
     this.session.choices = choices;
     this.logEvent('choices_submitted', { count: choices.length });
   },
 
   /**
-   * 设置语音回答
-   * @param {object} voiceData
+   * 追加一个故事的完整数据
+   * @param {object} storyData  {storyId, storyName, choices}
    */
+  appendStoryData(storyData) {
+    this.session.storiesData.push({
+      storyId: storyData.storyId,
+      storyName: storyData.storyName,
+      choices: storyData.choices,
+      timestamp: new Date().toISOString(),
+    });
+    // 同时更新 choices 兼容旧格式
+    this.session.choices = this.session.choices.concat(
+      storyData.choices.map(c => ({ ...c, storyId: storyData.storyId }))
+    );
+    this.logEvent('story_completed', { storyId: storyData.storyId, choiceCount: storyData.choices.length });
+  },
+
   setVoiceAnswer(voiceData) {
     this.session.voiceAnswer = {
       audioBase64: voiceData.audioBase64 || null,
@@ -124,11 +108,12 @@ const DataCollector = {
     this.logEvent('voice_answer_recorded');
   },
 
-  /**
-   * 获取完整数据包
-   * @returns {object}
-   */
   getPackage() {
+    // 获取当前故事信息
+    const currentStoryData = this.session.storiesData.length > 0 
+      ? this.session.storiesData[this.session.storiesData.length - 1] 
+      : null;
+
     return StorageManager.createDataPackage({
       sessionId: this.session.sessionId,
       subjectId: this.session.subjectId,
@@ -136,25 +121,22 @@ const DataCollector = {
       experimentStartTime: this.session.experimentStartTime,
       micTest: this.session.micTest,
       choices: this.session.choices,
+      storiesData: this.session.storiesData,
       voiceAnswer: this.session.voiceAnswer,
       textInput: this.session.textInput,
       events: this.session.events,
+      // 当前故事上下文
+      storyId: currentStoryData ? currentStoryData.storyId : '',
+      storyName: currentStoryData ? currentStoryData.storyName : '',
     });
   },
 
-  /**
-   * 导出数据为 JSON 下载
-   */
   download() {
     const pkg = this.getPackage();
     const filename = `experiment-${this.session.subjectId}-${this.session.sessionId}.json`;
     StorageManager.downloadJSON(pkg, filename);
   },
 
-  /**
-   * 上传到云端
-   * @returns {Promise<object>}
-   */
   async upload() {
     const pkg = this.getPackage();
     return StorageManager.upload(pkg);

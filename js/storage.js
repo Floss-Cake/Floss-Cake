@@ -80,6 +80,9 @@ const StorageManager = {
         voiceAnswer: data.voiceAnswer || null,
       },
       textInput: data.textInput || '',
+      // 故事上下文（飞书写入需要）
+      storyId: data.storyId || '',
+      storyName: data.storyName || '',
       metadata: {
         consentTime: data.consentTime || null,
         experimentStartTime: data.experimentStartTime || null,
@@ -195,6 +198,60 @@ const StorageManager = {
   },
 
   /**
+   * 上传到飞书多维表格后端
+   * @param {object} dataPackage
+   * @returns {Promise<object>}
+   */
+  async uploadToFeishu(dataPackage) {
+    const config = EXPERIMENT_CONFIG.backend.feishu;
+
+    if (!config) {
+      return { success: false, reason: 'not_configured', local: true };
+    }
+
+    // 本地备份
+    this.save('lastExperiment', dataPackage);
+
+    // 构造飞书后端需要的格式
+    const payload = {
+      participant_id: dataPackage.subjectId || dataPackage.sessionId,
+      experiment_version: dataPackage.experiment ? dataPackage.experiment.version : '',
+      story_id: dataPackage.storyId || '',
+      story_name: dataPackage.storyName || '',
+      start_time: dataPackage.metadata ? dataPackage.metadata.experimentStartTime : '',
+      end_time: dataPackage.metadata ? dataPackage.metadata.experimentEndTime : '',
+      duration_seconds: dataPackage.metadata ? dataPackage.metadata.totalDuration : 0,
+      browser: dataPackage.userAgent || navigator.userAgent,
+      language: navigator.language || '',
+      screen_width: window.screen.width,
+      screen_height: window.screen.height,
+      questions: dataPackage.stages ? dataPackage.stages.choices : (dataPackage.choices || []),
+      voice_audio_base64: dataPackage.stages && dataPackage.stages.voiceAnswer 
+        ? dataPackage.stages.voiceAnswer.audioBase64 : null,
+    };
+
+    try {
+      const response = await fetch(config.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        console.log('[Storage] 飞书提交成功, record_id:', result.record_id);
+        return { success: true, data: result };
+      } else {
+        console.warn('[Storage] 飞书提交失败:', result.error || result);
+        return { success: false, reason: 'feishu_error', data: result, local: true };
+      }
+    } catch (error) {
+      console.error('[Storage] 飞书网络错误:', error.message);
+      return { success: false, reason: 'network_error', error: error.message, local: true };
+    }
+  },
+
+  /**
    * 智能上传（根据配置自动选择后端）
    * @param {object} dataPackage
    * @returns {Promise<object>}
@@ -208,6 +265,8 @@ const StorageManager = {
     }
 
     switch (backendType) {
+      case 'feishu':
+        return this.uploadToFeishu(dataPackage);
       case 'aliyun':
         return this.uploadToAliyun(dataPackage);
       case 'leancloud':
