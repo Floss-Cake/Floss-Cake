@@ -1,24 +1,26 @@
 /**
  * ============================================================
- * Floss-Cake Serverless Function — 阿里云函数计算 (FC)
+ * Floss-Cake Serverless — 阿里云 FC Web 函数
  * ============================================================
  *
- * 部署方式: HTTP Trigger
- * 环境变量:
+ * 部署环境变量:
  *   FEISHU_APP_ID      飞书应用 App ID
  *   FEISHU_APP_SECRET  飞书应用 App Secret
- *   FEISHU_BASE_TOKEN  飞书多维表格 ID (URL 中的 base 部分)
- *   FEISHU_TABLE_ID    要写入的数据表 ID
+ *   FEISHU_BASE_TOKEN  飞书多维表格 ID
+ *   FEISHU_TABLE_ID    数据表 ID
  *
- * 触发: POST /api/submit
- * 返回: {"success":true,"record_id":"xxx"} 或 {"success":false,...}
+ * 启动: node index.js  (监听 9000 端口)
+ * 调用: POST /api/submit  →  {"success":true,"record_id":"xxx"}
  * ============================================================
  */
 
+const http = require('http');
 const https = require('https');
 const { Buffer } = require('buffer');
 
-// ========= 飞书 Token 缓存 (函数实例内复用) =========
+const PORT = process.env.PORT || 9000;
+
+// ========= 飞书 Token 缓存 =========
 let tokenCache = { token: null, expiresAt: 0 };
 
 async function getToken() {
@@ -50,7 +52,7 @@ function choicesToFields(storyId, choices) {
   return f;
 }
 
-// ========= 读写记录 =========
+// ========= 写入飞书 =========
 async function writeRecord(payload) {
   const token = await getToken();
   const { FEISHU_BASE_TOKEN: base, FEISHU_TABLE_ID: table } = process.env;
@@ -68,7 +70,6 @@ async function writeRecord(payload) {
   const storyFields = choicesToFields(payload.storyId || '', payload.questions || []);
   const recordId = payload.feishu_record_id || '';
 
-  // 有 record_id → 更新
   if (recordId) {
     const updt = await rpc('PUT', `/open-apis/bitable/v1/apps/${base}/tables/${table}/records/${recordId}`, {
       fields: { story_order: payload.story_order || payload.storyId || '', end_time: payload.end_time || '', duration_seconds: payload.duration_seconds || 0, ...storyFields }
@@ -77,7 +78,6 @@ async function writeRecord(payload) {
     return { success: false, error: updt.msg, code: updt.code };
   }
 
-  // 新建
   const meta = {
     participant_id: payload.participant_id, experiment_version: payload.experiment_version || '',
     story_order: payload.story_order || payload.storyId || '',
@@ -91,75 +91,70 @@ async function writeRecord(payload) {
   return { success: false, error: crt.msg, code: crt.code };
 }
 
-// ========= Alibaba Cloud FC HTTP Handler =========
-module.exports.handler = async function(req, resp, context) {
-  // CORS
-  resp.setHeader('Access-Control-Allow-Origin', '*');
-  resp.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  resp.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+// ========= HTTP Server =========
+const server = http.createServer(async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    resp.statusCode = 204;
-    resp.send('');
+  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+
+  // 健康检查
+  if (req.method === 'GET' && (req.url === '/' || req.url === '/health')) {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ status: 'ok' }));
     return;
   }
 
-  // POST only — 匹配 /api/submit（兼容 FC HTTP 触发器的多种路径格式）
-  const targetPath = req.path || req.url || '';
-  if (req.method !== 'POST' || !targetPath.includes('/api/submit')) {
-    resp.setHeader('Content-Type', 'application/json; charset=utf-8');
-    resp.statusCode = 404;
-    resp.send(JSON.stringify({ error: 'Not Found' }));
+  if (req.method !== 'POST' || !String(req.url).includes('/api/submit')) {
+    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ error: 'Not Found' }));
     return;
   }
 
   try {
-    // Read body
-    const raw = await readBody(req);
-    const body = JSON.parse(raw);
-
-    // 单故事
-    if (!body.storiesData || !Array.isArray(body.storiesData)) {
-      const r = await writeRecord(body);
-      resp.setHeader('Content-Type', 'application/json; charset=utf-8');
-      resp.statusCode = 200;
-      resp.send(JSON.stringify({ success: true, results: [r] }));
-      return;
-    }
-
-    // 多故事批量
-    const results = [];
-    for (const s of body.storiesData) {
-      const r = await writeRecord({
-        participant_id: body.participant_id, experiment_version: body.experiment_version,
-        storyId: s.storyId, questions: s.choices || [],
-        story_order: body.story_order || '', start_time: body.start_time,
-        end_time: body.end_time, duration_seconds: body.duration_seconds,
-        browser: body.browser, language: body.language,
-        screen_width: body.screen_width, screen_height: body.screen_height,
-        feishu_record_id: body.feishu_record_id || '',
-      });
-      results.push(r);
-    }
-    resp.setHeader('Content-Type', 'application/json; charset=utf-8');
-    resp.statusCode = 200;
-    resp.send(JSON.stringify({ success: true, results }));
-  } catch (e) {
-    resp.setHeader('Content-Type', 'application/json; charset=utf-8');
-    resp.statusCode = 500;
-    resp.send(JSON.stringify({ success: false, error: e.message }));
-  }
-};
-
-// 读取请求 body（兼容 FC 不同版本）
-function readBody(req) {
-  // FC 3.0+: body already parsed
-  if (req.body) return Promise.resolve(typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
-  // FC 2.0: stream body
-  return new Promise((resolve, reject) => {
-    let chunks = [];
+    const chunks = [];
     req.on('data', c => chunks.push(c));
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-    req.on('error', reject);
-  });
-}
+    req.on('end', async () => {
+      try {
+        const raw = Buffer.concat(chunks).toString('utf8');
+        const body = JSON.parse(raw);
+
+        // 单故事写入
+        if (!body.storiesData || !Array.isArray(body.storiesData)) {
+          const r = await writeRecord(body);
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, results: [r] }));
+          return;
+        }
+
+        // 多故事批量写入
+        const results = [];
+        for (const s of body.storiesData) {
+          const r = await writeRecord({
+            participant_id: body.participant_id, experiment_version: body.experiment_version,
+            storyId: s.storyId, questions: s.choices || [],
+            story_order: body.story_order || '', start_time: body.start_time,
+            end_time: body.end_time, duration_seconds: body.duration_seconds,
+            browser: body.browser, language: body.language,
+            screen_width: body.screen_width, screen_height: body.screen_height,
+            feishu_record_id: body.feishu_record_id || '',
+          });
+          results.push(r);
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, results }));
+      } catch (e) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: e.message }));
+      }
+    });
+  } catch (e) {
+    res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ success: false, error: e.message }));
+  }
+});
+
+server.listen(PORT, () => {
+  console.log(`[Floss-Cake FC] listening on port ${PORT}`);
+});

@@ -1,8 +1,11 @@
 {
   "name": "floss-cake-fc",
   "version": "1.0.0",
-  "description": "阿里云函数计算 — 飞书多维表格数据写入",
+  "description": "Floss-Cake 实验 — 飞书多维表格写入 (阿里云 FC Web 函数)",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "engines": {
     "node": ">=18"
   }
