@@ -787,6 +787,32 @@ const Experiment = {
       choices: results,
     };
     DataCollector.appendStoryData(storyData);
+
+    // 渐进式上传：每完成一个故事立即写入飞书
+    if (EXPERIMENT_CONFIG.backend.type === 'feishu') {
+      const progPayload = {
+        participant_id: DataCollector.session.subjectId || DataCollector.session.sessionId,
+        storyId: storyData.storyId,
+        questions: results,
+        story_order: storyData.storyId,
+        start_time: DataCollector.session.experimentStartTime,
+        end_time: new Date().toISOString(),
+        duration_seconds: DataCollector.session.experimentStartTime
+          ? Math.round((Date.now() - new Date(DataCollector.session.experimentStartTime).getTime()) / 1000)
+          : 0,
+        record_id: StorageManager.load('feishuRecordId') || '',
+      };
+      StorageManager.uploadProgressive(progPayload).then(r => {
+        if (r && r.success && r.record_id) {
+          StorageManager.save('feishuRecordId', r.record_id);
+        } else if (r && r.results) {
+          const first = r.results[0];
+          if (first && first.success && first.record_id) {
+            StorageManager.save('feishuRecordId', first.record_id);
+          }
+        }
+      });
+    }
   },
 
   // ==================== 浮层 ====================

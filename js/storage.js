@@ -204,19 +204,14 @@ const StorageManager = {
    */
   async uploadToFeishu(dataPackage) {
     const config = EXPERIMENT_CONFIG.backend.feishu;
+    if (!config) return { success: false, reason: 'not_configured', local: true };
 
-    if (!config) {
-      return { success: false, reason: 'not_configured', local: true };
-    }
-
-    // 本地备份
     this.save('lastExperiment', dataPackage);
 
-    // 构造飞书后端需要的格式（多故事支持）
-    const payload = {
+    // 渐进式：每个故事单独提交
+    const basePayload = {
       participant_id: dataPackage.subjectId || dataPackage.sessionId,
       experiment_version: dataPackage.experiment ? dataPackage.experiment.version : '',
-      story_order: dataPackage.storiesData ? dataPackage.storiesData.map(s => s.storyId).join(',') : '',
       start_time: dataPackage.metadata ? dataPackage.metadata.experimentStartTime : '',
       end_time: dataPackage.metadata ? dataPackage.metadata.experimentEndTime : '',
       duration_seconds: dataPackage.metadata ? dataPackage.metadata.totalDuration : 0,
@@ -224,16 +219,19 @@ const StorageManager = {
       language: navigator.language || '',
       screen_width: window.screen.width,
       screen_height: window.screen.height,
-      // 多故事数据：每个故事的选择题结果
-      storiesData: dataPackage.storiesData || (
-        dataPackage.stages ? dataPackage.stages.choices : (dataPackage.choices || [])
-      ),
+    };
+
+    // 多条故事数据：一次性全部提交（后端拆成多次写入）
+    const payload = {
+      ...basePayload,
+      story_order: dataPackage.storiesData ? dataPackage.storiesData.map(s => s.storyId).join(',') : '',
+      storiesData: dataPackage.storiesData || [],
     };
 
     try {
       const response = await fetch(config.apiEndpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(payload),
       });
 
@@ -248,6 +246,44 @@ const StorageManager = {
     } catch (error) {
       console.error('[Storage] 飞书网络错误:', error.message);
       return { success: false, reason: 'network_error', error: error.message, local: true };
+    }
+  },
+
+  /**
+   * 渐进式上传：每完成一个故事立即写入
+   * @param {object} storyPayload {participant_id, storyId, questions:[], story_order, record_id?}
+   */
+  async uploadProgressive(storyPayload) {
+    const config = EXPERIMENT_CONFIG.backend.feishu;
+    if (!config) return { success: false, reason: 'not_configured' };
+
+    const payload = {
+      participant_id: storyPayload.participant_id || '',
+      experiment_version: EXPERIMENT_CONFIG.experiment.version,
+      storyId: storyPayload.storyId || '',
+      questions: storyPayload.questions || [],
+      story_order: storyPayload.story_order || '',
+      start_time: storyPayload.start_time || '',
+      end_time: storyPayload.end_time || '',
+      duration_seconds: storyPayload.duration_seconds || 0,
+      browser: navigator.userAgent,
+      language: navigator.language || '',
+      screen_width: window.screen.width,
+      screen_height: window.screen.height,
+      feishu_record_id: storyPayload.record_id || '',
+    };
+
+    try {
+      const resp = await fetch(config.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify(payload),
+      });
+      const result = await resp.json();
+      return result;
+    } catch (e) {
+      console.error('[Progressive]', e.message);
+      return { success: false, error: e.message };
     }
   },
 
