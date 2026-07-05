@@ -13,11 +13,10 @@ const EXPERIMENT_CONFIG = {
   backend: {
     type: 'feishu',
 
-    // 飞书多维表格后端
+    // 阿里云函数计算 HTTP 端点（部署后替换）
+    // FC 控制台 → 函数 → 触发器管理 → 复制 HTTP 触发器 URL
     feishu: {
-      apiEndpoint: 'http://localhost:3456/api/submit',
-      // 如果部署到云端，改为实际 HTTPS 地址:
-      // apiEndpoint: 'https://your-server.com/api/submit',
+      apiEndpoint: 'https://YOUR-FC-HTTP-TRIGGER-URL',
     },
 
     aliyun: {

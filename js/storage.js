@@ -229,7 +229,11 @@ const StorageManager = {
     };
 
     try {
-      const response = await fetch(config.apiEndpoint, {
+      // 确保 HTTP 端点包含 /api/submit 路径
+      const url = config.apiEndpoint.includes('/api/submit')
+        ? config.apiEndpoint
+        : config.apiEndpoint.replace(/\/+$/, '') + '/api/submit';
+      const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(payload),
@@ -274,7 +278,10 @@ const StorageManager = {
     };
 
     try {
-      const resp = await fetch(config.apiEndpoint, {
+      const url = config.apiEndpoint.includes('/api/submit')
+        ? config.apiEndpoint
+        : config.apiEndpoint.replace(/\/+$/, '') + '/api/submit';
+      const resp = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(payload),

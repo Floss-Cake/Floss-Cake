@@ -1,0 +1,9 @@
+{
+  "name": "floss-cake-fc",
+  "version": "1.0.0",
+  "description": "阿里云函数计算 — 飞书多维表格数据写入",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  }
+}
