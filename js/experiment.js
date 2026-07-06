@@ -46,16 +46,8 @@ const Experiment = {
     this._bindEvents();
     this._checkBrowser();
 
-    // 预加载所有视频和音频
-    this._preloadAllAssets().then(() => {
-      document.getElementById('preloadStartBtn').style.display = 'inline-block';
-      document.getElementById('preloadStartBtn').disabled = false;
-      document.getElementById('preloadStartBtn').textContent = '开始实验';
-      document.getElementById('preloadStartBtn').addEventListener('click', () => {
-        document.getElementById('preloadOverlay').classList.add('done');
-        this._onPreloadComplete();
-      });
-    });
+    // Service Worker：首次下载全部资源到浏览器缓存，后续秒开
+    this._initServiceWorker();
   },
 
   _onPreloadComplete() {
@@ -72,72 +64,56 @@ const Experiment = {
   },
 
   /**
-   * 预加载所有启用的故事的视频和音频资源
+   * Service Worker 方案：
+   * 首次访问 → SW 后台下载全部 196 个音视频到 Cache API
+   * 后续访问 → SW 拦截请求，直接从缓存返回，无需重新下载
+   * 同一台电脑多个被试轮流 → 只需第一次加载
    */
-  async _preloadAllAssets() {
-    const urls = [];
-    const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+  _initServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+      this._onPreloadComplete();
+      return;
+    }
 
-    stories.forEach(story => {
-      const totalVideos = story.questions.length + 1;
-      for (let i = 1; i <= totalVideos; i++) {
-        urls.push({ url: `assets/video/${story.id}/Scenario${i}.mp4`, type: 'video', story: story.name });
-      }
+    const bar = document.getElementById('preloadBarFill');
+    const pct = document.getElementById('preloadPercent');
+    const detail = document.getElementById('preloadDetail');
+    const spinner = document.getElementById('preloadSpinner');
+    const btn = document.getElementById('preloadStartBtn');
+    const title = document.getElementById('preloadTitle');
 
-      const qCount = story.questionAudioCount || 0;
-      for (let i = 1; i <= qCount; i++) {
-        urls.push({ url: `${story.audioFolder}/q${i}.${story.audioExt}`, type: 'audio', story: story.name });
-      }
+    const showReady = (msg) => {
+      if (bar) bar.style.width = '100%';
+      if (pct) pct.textContent = '100%';
+      if (detail) detail.textContent = msg;
+      if (spinner) spinner.style.display = 'none';
+      if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
+      if (title) title.textContent = '准备就绪';
+    };
 
-      const sep = story.optionAudioSep || '-';
-      for (let q = 1; q <= 9; q++) {
-        for (let opt = 1; opt <= 3; opt++) {
-          urls.push({ url: `${story.audioFolder}/${q}${sep}${opt}.${story.audioExt}`, type: 'audio', story: story.name });
-        }
-      }
+    if (btn) btn.addEventListener('click', () => {
+      document.getElementById('preloadOverlay').classList.add('done');
+      this._onPreloadComplete();
     });
 
-    const total = urls.length;
-    let loaded = 0;
-    let errors = 0;
-
-    const updateProgress = (url, ok) => {
-      loaded++;
-      if (!ok) errors++;
-      const pct = Math.round((loaded / total) * 100);
-      document.getElementById('preloadBarFill').style.width = pct + '%';
-      document.getElementById('preloadPercent').textContent = pct + '%';
-      document.getElementById('preloadDetail').textContent =
-        `已加载 ${loaded}/${total}${errors ? '（跳过 ' + errors + ' 个）' : ''}`;
-    };
-
-    const loadOne = (item) => {
-      return new Promise((resolve) => {
-        if (item.type === 'video') {
-          const el = document.createElement('video');
-          el.preload = 'auto';
-          el.muted = true;
-          el.src = item.url;
-          el.oncanplaythrough = () => { updateProgress(item.url, true); resolve(); };
-          el.onerror = () => { updateProgress(item.url, false); resolve(); };
-          // 超时 15s
-          setTimeout(() => { if (!el._done) { el._done = true; updateProgress(item.url, false); resolve(); } }, 15000);
-        } else {
-          const el = document.createElement('audio');
-          el.preload = 'auto';
-          el.src = item.url;
-          el.oncanplaythrough = () => { updateProgress(item.url, true); resolve(); };
-          el.onerror = () => { updateProgress(item.url, false); resolve(); };
-          setTimeout(() => { if (!el._done) { el._done = true; updateProgress(item.url, false); resolve(); } }, 10000);
-        }
-      });
-    };
-
-    // 并发预加载（一次最多 6 个）
-    for (let i = 0; i < urls.length; i += 6) {
-      const batch = urls.slice(i, i + 6);
-      await Promise.all(batch.map(loadOne));
-    }
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(reg => {
+      // 已有缓存 → 直接就绪
+      caches.open('floss-cake-v3').then(c => c.keys().then(keys => {
+        if (keys.length > 100) { showReady('从缓存加载，即刻开始'); return; }
+        if (pct) pct.textContent = '0%';
+        if (detail) detail.textContent = '首次下载资源中...';
+        // 轮询 SW 安装完成
+        const poll = setInterval(() => {
+          if (reg.active) {
+            clearInterval(poll);
+            showReady(keys.length + ' 个资源已缓存，再次访问无需下载');
+          }
+        }, 300);
+      }));
+    }).catch(e => {
+      console.warn('[Preload] SW 不可用:', e.message);
+      this._onPreloadComplete();
+    });
   },
 
   _checkBrowser() {
