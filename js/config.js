@@ -58,6 +58,11 @@ const EXPERIMENT_CONFIG = {
     name: '语言交互行为实验',
     version: '3.0.0',
 
+    // ★ 资源 CDN 基地址（视频/音频从 OSS 加载，国内秒下）
+    //   置空 = 从 GitHub 同源加载（海外慢）
+    //   设置 = OSS 公网域名（需先在 OSS 开启 CORS 和公共读）
+    assetsBaseURL: 'https://education-video-game1.oss-cn-shanghai.aliyuncs.com',
+
     micTestMaxDuration: 30,
     voiceAnswerMaxDuration: 120,
     audioMimeType: 'audio/webm;codecs=opus',

@@ -41,6 +41,12 @@ const Experiment = {
   _galgameQuestionAudioTimeout: null,
   _galgameConfirmVisible: false,
 
+  /** 统一资源地址：OSS base URL + 相对路径 */
+  _asset(path) {
+    const base = EXPERIMENT_CONFIG.experiment.assetsBaseURL;
+    return base ? base + '/' + path : path;
+  },
+
   init() {
     DataCollector.reset();
     this._bindEvents();
@@ -106,17 +112,17 @@ const Experiment = {
     stories.forEach(story => {
       const N = story.questions.length + 1;
       for (let i = 1; i <= N; i++) {
-        items.push({ type: 'video', url: `assets/video/${story.id}/Scenario${i}.mp4`, label: story.name + '·S' + i });
+        items.push({ type: 'video', url: this._asset(`assets/video/${story.id}/Scenario${i}.mp4`), label: story.name + '·S' + i });
       }
     });
     stories.forEach(story => {
       const qc = story.questionAudioCount || 0;
       for (let i = 1; i <= qc; i++)
-        items.push({ type: 'audio', url: `${story.audioFolder}/q${i}.${story.audioExt}`, label: story.name + '·Q' + i });
+        items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/q${i}.${story.audioExt}`), label: story.name + '·Q' + i });
       const sep = story.optionAudioSep || '-';
       for (let q = 1; q <= 9; q++)
         for (let o = 1; o <= 3; o++)
-          items.push({ type: 'audio', url: `${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`, label: story.name + '·A' + q + '-' + o });
+          items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`), label: story.name + '·A' + q + '-' + o });
     });
 
     const total = items.length;
@@ -455,7 +461,7 @@ const Experiment = {
     // 构建视频序列
     this._videoSequence = [];
     for (let i = 1; i <= totalVideos; i++) {
-      this._videoSequence.push(`${story.videoFolder}/Scenario${i}.mp4`);
+      this._videoSequence.push(this._asset(`${story.videoFolder}/Scenario${i}.mp4`));
     }
     this._videoIndex = 0;
     this._videoPlaying = true;
@@ -693,7 +699,7 @@ const Experiment = {
     const optNum = optionValue === 'A' ? 1 : optionValue === 'B' ? 2 : 3;
     const qNum = parseInt(questionId.replace('q', ''));
     const sep = story.optionAudioSep || '-';
-    return `${story.audioFolder}/${qNum}${sep}${optNum}.${story.audioExt}`;
+    return this._asset(`${story.audioFolder}/${qNum}${sep}${optNum}.${story.audioExt}`);
   },
 
   _showChoiceVeil() {
@@ -750,7 +756,7 @@ const Experiment = {
 
     // 前 N 题播放问题语音
     if (this._currentQuestionIndex < story.questionAudioCount) {
-      const audioPath = `${story.audioFolder}/q${this._currentQuestionIndex + 1}.${story.audioExt}`;
+      const audioPath = this._asset(`${story.audioFolder}/q${this._currentQuestionIndex + 1}.${story.audioExt}`);
       this._playQuestionAudioAndShowOptions(q, audioPath);
     } else {
       this._showGalgameOptions(q);
