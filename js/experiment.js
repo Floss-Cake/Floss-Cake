@@ -41,10 +41,14 @@ const Experiment = {
   _galgameQuestionAudioTimeout: null,
   _galgameConfirmVisible: false,
 
-  /** 统一资源地址：OSS base URL + 相对路径 */
+  // 媒体缓存：OSS URL → Blob URL 映射
+  _mediaCache: {},
+
+  /** 统一资源地址：优先返回已缓存的 Blob URL，否则返回 OSS URL */
   _asset(path) {
     const base = EXPERIMENT_CONFIG.experiment.assetsBaseURL;
-    return base ? base + '/' + path : path;
+    const ossUrl = base ? base + '/' + path : path;
+    return this._mediaCache[ossUrl] || ossUrl;
   },
 
   init() {
@@ -76,9 +80,9 @@ const Experiment = {
   },
 
   /**
-   * 全面预加载：所有视频 + 音频从 OSS 并行加载到浏览器解码缓存。
-   * 6 路并发，canplaythrough 触发即标记成功。
-   * 不设 crossOrigin（播放不需要 CORS），不注册 SW（OSS + HTTP 缓存已足够）。
+   * 全面预加载：用 fetch() 下载所有视频/音频为 Blob，
+   * 再创建 Blob URL 供 <video>/<audio> 内联播放。
+   * 绕过 OSS bucket 级别 Content-Disposition: attachment 限制。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
@@ -120,22 +124,22 @@ const Experiment = {
     const items = [];
     const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
 
-    // 视频优先（大文件先加载）
+    // 视频优先（大文件先下载）
     stories.forEach(story => {
       const N = story.questions.length + 1;
       for (let i = 1; i <= N; i++) {
-        items.push({ type: 'video', url: this._asset(`assets/video/${story.id}/Scenario${i}.mp4`) });
+        items.push(this._assetRaw(`assets/video/${story.id}/Scenario${i}.mp4`));
       }
     });
     // 音频在后
     stories.forEach(story => {
       const qc = story.questionAudioCount || 0;
       for (let i = 1; i <= qc; i++)
-        items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/q${i}.${story.audioExt}`) });
+        items.push(this._assetRaw(`${story.audioFolder}/q${i}.${story.audioExt}`));
       const sep = story.optionAudioSep || '-';
       for (let q = 1; q <= 9; q++)
         for (let o = 1; o <= 3; o++)
-          items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`) });
+          items.push(this._assetRaw(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`));
     });
 
     const total = items.length;
@@ -148,49 +152,40 @@ const Experiment = {
       if (detailEl) detailEl.textContent = '已就绪 ' + ok + '/' + total;
     };
 
-    // ---- 6 路并行加载 ----
+    // ---- 6 路并行 fetch 下载 ----
     const CONCURRENCY = 6;
 
-    const loadOne = () => {
+    const fetchOne = () => {
       if (userStarted || nextIndex >= items.length) return;
       const i = nextIndex++;
-      const it = items[i];
-      const el = document.createElement(it.type);
-      el.preload = 'auto';
-      // ★ 不设 crossOrigin — video/audio 跨域播放不需要 CORS
-      if (it.type === 'video') {
-        el.muted = true;
-        el.playsInline = true;
-        el.setAttribute('playsinline', '');
-        el.setAttribute('webkit-playsinline', '');
-        el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px;pointer-events:none;opacity:0;';
-      } else {
-        el.style.cssText = 'position:absolute;left:-9999px;top:0;pointer-events:none;opacity:0;';
-      }
-      document.body.appendChild(el);
+      const ossUrl = items[i];
 
-      let settled = false;
-      const finish = (success) => {
-        if (settled) return; settled = true;
-        loaded++;
-        if (success) ok++; else failedUrls.push(it.url);
-        upd();
-        try { el.pause(); el.removeAttribute('src'); el.load(); el.remove(); } catch (e) { el.remove(); }
-        if (loaded >= total) { showReady(); return; }
-        loadOne(); // 继续下一个
-      };
-
-      el.oncanplaythrough = () => finish(true);
-      el.onerror = () => finish(false);
-      el.src = it.url;
-      el.load();
-      // 超时保护：视频 30s，音频 15s
-      setTimeout(() => finish(false), it.type === 'video' ? 30000 : 15000);
+      fetch(ossUrl)
+        .then(resp => {
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          return resp.blob();
+        })
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          this._mediaCache[ossUrl] = blobUrl;
+          loaded++; ok++;
+          upd();
+          if (loaded >= total) { showReady(); return; }
+          fetchOne();
+        })
+        .catch(err => {
+          console.warn('[Preload] fetch failed:', ossUrl, err.message);
+          failedUrls.push(ossUrl);
+          loaded++;
+          upd();
+          if (loaded >= total) { showReady(); return; }
+          fetchOne();
+        });
     };
 
     upd();
     for (let c = 0; c < CONCURRENCY; c++) {
-      setTimeout(loadOne, c * 80);
+      setTimeout(fetchOne, c * 80);
     }
 
     // 安全网：120 秒后无论如何允许开始
@@ -201,6 +196,12 @@ const Experiment = {
         showReady();
       }
     }, 120000);
+  },
+
+  /** 获取原始 OSS URL（不经过 Blob 缓存），用于预加载阶段 */
+  _assetRaw(path) {
+    const base = EXPERIMENT_CONFIG.experiment.assetsBaseURL;
+    return base ? base + '/' + path : path;
   },
 
   _checkBrowser() {
