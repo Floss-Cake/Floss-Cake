@@ -64,8 +64,9 @@ const Experiment = {
   },
 
   /**
-   * 预加载：每个故事的第一段视频 + 播放时实时预加载下一段。
-   * 使用 <video> 元素走浏览器解码管道，避免 fetch() 不进视频缓存的缺陷。
+   * 全面预加载：所有故事的全部视频 + 全部音频。
+   * 用 <video>/<audio> 标签走浏览器解码管道逐一预热。
+   * 视频优先 → 音频在后 → 全部完成后显示开始按钮。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
@@ -74,74 +75,88 @@ const Experiment = {
     const spinner = document.getElementById('preloadSpinner');
     const btn = document.getElementById('preloadStartBtn');
     const title = document.getElementById('preloadTitle');
-    const preEl = document.getElementById('preloadVideoContainer');
+    const startEarly = document.getElementById('preloadSkipBtn');
+
+    let userStarted = false;
 
     const showReady = () => {
       if (bar) bar.style.width = '100%'; if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
       if (title) title.textContent = '准备就绪';
+      if (startEarly) startEarly.style.display = 'none';
     };
 
-    this._preloadPool = [];  // 预加载用的隐藏 video 元素池
-
-    if (btn) btn.addEventListener('click', () => {
+    const startExperiment = () => {
+      if (userStarted) return; userStarted = true;
       document.getElementById('preloadOverlay').classList.add('done');
-      // 释放预加载池
-      this._preloadPool.forEach(v => { v.src = ''; v.load(); v.remove(); });
-      this._preloadPool = [];
       this._onPreloadComplete();
-    });
+    };
 
-    // SW — 持久缓存
+    if (btn) btn.addEventListener('click', startExperiment);
+    if (startEarly) startEarly.addEventListener('click', startExperiment);
+
+    // SW
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
     }
 
-    // 收集每个故事的第一段视频
+    // ---- 收集全部资源：视频优先，音频在后 ----
+    const items = [];
     const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
-    const firstVideos = stories.map(s => ({
-      story: s.name,
-      url: `assets/video/${s.id}/Scenario1.mp4`,
-    }));
-    const total = firstVideos.length;
-    let loaded = 0;
+    stories.forEach(story => {
+      const N = story.questions.length + 1;
+      for (let i = 1; i <= N; i++) {
+        items.push({ type: 'video', url: `assets/video/${story.id}/Scenario${i}.mp4`, label: story.name + '·S' + i });
+      }
+    });
+    stories.forEach(story => {
+      const qc = story.questionAudioCount || 0;
+      for (let i = 1; i <= qc; i++)
+        items.push({ type: 'audio', url: `${story.audioFolder}/q${i}.${story.audioExt}`, label: story.name + '·Q' + i });
+      const sep = story.optionAudioSep || '-';
+      for (let q = 1; q <= 9; q++)
+        for (let o = 1; o <= 3; o++)
+          items.push({ type: 'audio', url: `${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`, label: story.name + '·A' + q + '-' + o });
+    });
 
-    const updateUI = () => {
+    const total = items.length;
+    let loaded = 0, ok = 0;
+
+    const upd = () => {
       const pct = Math.round((loaded / total) * 100);
       if (bar) bar.style.width = pct + '%';
-      if (pctEl) pctEl.textContent = loaded + '/' + total;
-      if (detailEl) detailEl.textContent = loaded >= total
-        ? '首段视频全部就绪，实验全程流畅'
-        : '预加载中 ' + loaded + '/' + total + ' (' + pct + '%)';
+      if (pctEl) pctEl.textContent = ok + '/' + total;
+      if (detailEl) detailEl.textContent = loaded < total
+        ? '预加载中 ' + ok + '/' + total + ' (' + pct + '%)'
+        : ok + ' 个资源全部就绪，全程零卡顿';
     };
 
-    // 用隐藏 video 逐一预加载（避免浏览器限制并发）
-    let idx = 0;
-    const preloadNext = () => {
-      if (idx >= firstVideos.length) { showReady(); return; }
-      const { story, url } = firstVideos[idx++];
-      const v = document.createElement('video');
-      v.muted = true; v.preload = 'auto';
-      v.style.position = 'absolute'; v.style.left = '-9999px'; v.style.top = '-9999px';
-      v.style.width = '1px'; v.style.height = '1px';
-      document.body.appendChild(v);
+    // 逐一加载（逐个避免并发争抢带宽）
+    const load = (i) => {
+      if (i >= items.length) { showReady(); return; }
+      const it = items[i];
+      const el = document.createElement(it.type);
+      el.preload = 'auto';
+      if (it.type === 'video') { el.muted = true; el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px'; }
+      else { el.style.cssText = 'position:absolute;left:-9999px;top:0'; }
+      document.body.appendChild(el);
 
-      let done = false;
-      const finish = (ok) => {
-        if (done) return; done = true;
-        loaded++;
-        updateUI();
-        v.remove();
-        preloadNext();
+      let settled = false;
+      const done = (okay) => {
+        if (settled) return; settled = true;
+        loaded++; if (okay) ok++;
+        upd();
+        el.remove();
+        if (!userStarted) load(i + 1);
       };
-      v.oncanplaythrough = () => finish(true);
-      v.onerror = () => finish(false);
-      v.src = url;
-      v.load();
-      // 10s 超时
-      setTimeout(() => finish(false), 10000);
+      el.oncanplaythrough = () => done(true);
+      el.onerror = () => done(false);
+      el.src = it.url;
+      el.load();
+      setTimeout(() => done(false), it.type === 'video' ? 15000 : 8000);
     };
-    preloadNext();
+
+    setTimeout(() => load(0), 200); // 让 UI 先渲染
   },
 
   _checkBrowser() {
