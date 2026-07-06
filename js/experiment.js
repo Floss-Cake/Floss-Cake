@@ -64,23 +64,19 @@ const Experiment = {
   },
 
   /**
-   * 启动流程：
-   * - 注册 Service Worker（运行时缓存，不阻塞启动）
-   * - 显示短暂动画 → 启用"开始实验"按钮
-   * - 后续视频播放过程中 SW 自动缓存，再次播放秒开
+   * 预加载所有已启用故事的音视频。
+   * 并行分批 → 实时刷新进度 → 全完成后或 ≥90% 可开始。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
-    const pct = document.getElementById('preloadPercent');
-    const detail = document.getElementById('preloadDetail');
+    const pctEl = document.getElementById('preloadPercent');
+    const detailEl = document.getElementById('preloadDetail');
     const spinner = document.getElementById('preloadSpinner');
     const btn = document.getElementById('preloadStartBtn');
     const title = document.getElementById('preloadTitle');
 
-    const showReady = (msg) => {
+    const showReady = () => {
       if (bar) bar.style.width = '100%';
-      if (pct) pct.textContent = '';
-      if (detail) detail.textContent = msg;
       if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
       if (title) title.textContent = '准备就绪';
@@ -91,26 +87,63 @@ const Experiment = {
       this._onPreloadComplete();
     });
 
-    // 注册 SW（运行时缓存，不阻止启动）
+    // SW — 运行时缓存
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(() => {
-        console.log('[Preload] SW 运行时缓存已激活');
-      }).catch(e => {
-        console.warn('[Preload] SW 注册失败:', e.message);
-      });
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
     }
 
-    // 动画展示 1.5 秒后启用按钮
-    let progress = 0;
-    const tick = setInterval(() => {
-      progress += 5;
-      if (bar) bar.style.width = Math.min(progress, 100) + '%';
-      if (pct) pct.textContent = progress + '%';
-      if (progress >= 100) {
-        clearInterval(tick);
-        showReady('资源就绪，视频首次播放时自动缓存，再次播放秒开');
-      }
-    }, 80);
+    // 收集全部待加载 URL
+    const urls = [];
+    const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    stories.forEach(story => {
+      const N = story.questions.length + 1;
+      for (let i = 1; i <= N; i++) urls.push(`assets/video/${story.id}/Scenario${i}.mp4`);
+      const qc = story.questionAudioCount || 0;
+      for (let i = 1; i <= qc; i++) urls.push(`${story.audioFolder}/q${i}.${story.audioExt}`);
+      const sep = story.optionAudioSep || '-';
+      for (let q = 1; q <= 9; q++)
+        for (let o = 1; o <= 3; o++)
+          urls.push(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`);
+    });
+
+    const total = urls.length;
+    let done = 0, ok = 0;
+
+    const updateUI = () => {
+      const pct = total ? Math.round((done / total) * 100) : 100;
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = ok + '/' + total;
+      if (detailEl) detailEl.textContent = done >= total
+        ? ok + ' 个资源已就绪，视频播放不卡顿'
+        : '预加载中 ' + ok + '/' + total + ' (' + pct + '%)';
+    };
+    updateUI();
+
+    // 单文件：fetch + timeout
+    const loadOne = (url) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 20000);
+      return fetch(url, { mode: 'no-cors', cache: 'reload', signal: controller.signal })
+        .then(() => { clearTimeout(timer); return true; })
+        .catch(() => { clearTimeout(timer); return false; });
+    };
+
+    // 分批并行
+    const batchSize = 8;
+    let cursor = 0;
+
+    const runBatch = () => {
+      if (cursor >= urls.length) return Promise.resolve();
+      const batch = urls.slice(cursor, cursor + batchSize);
+      cursor += batchSize;
+      return Promise.all(batch.map(u => loadOne(u))).then(results => {
+        results.forEach(r => { done++; if (r) ok++; });
+        updateUI();
+        return runBatch();
+      });
+    };
+
+    runBatch().then(() => showReady());
   },
 
   _checkBrowser() {
