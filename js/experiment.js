@@ -46,8 +46,8 @@ const Experiment = {
     this._bindEvents();
     this._checkBrowser();
 
-    // Service Worker：首次下载全部资源到浏览器缓存，后续秒开
-    this._initServiceWorker();
+    // 简短启动动画 + Service Worker 注册（不做预安装，运行时增量缓存）
+    this._initStartup();
   },
 
   _onPreloadComplete() {
@@ -64,17 +64,12 @@ const Experiment = {
   },
 
   /**
-   * Service Worker 方案：
-   * 首次访问 → SW 后台下载全部 196 个音视频到 Cache API
-   * 后续访问 → SW 拦截请求，直接从缓存返回，无需重新下载
-   * 同一台电脑多个被试轮流 → 只需第一次加载
+   * 启动流程：
+   * - 注册 Service Worker（运行时缓存，不阻塞启动）
+   * - 显示短暂动画 → 启用"开始实验"按钮
+   * - 后续视频播放过程中 SW 自动缓存，再次播放秒开
    */
-  _initServiceWorker() {
-    if (!('serviceWorker' in navigator)) {
-      this._onPreloadComplete();
-      return;
-    }
-
+  _initStartup() {
     const bar = document.getElementById('preloadBarFill');
     const pct = document.getElementById('preloadPercent');
     const detail = document.getElementById('preloadDetail');
@@ -84,7 +79,7 @@ const Experiment = {
 
     const showReady = (msg) => {
       if (bar) bar.style.width = '100%';
-      if (pct) pct.textContent = '100%';
+      if (pct) pct.textContent = '';
       if (detail) detail.textContent = msg;
       if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
@@ -96,24 +91,26 @@ const Experiment = {
       this._onPreloadComplete();
     });
 
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(reg => {
-      // 已有缓存 → 直接就绪
-      caches.open('floss-cake-v3').then(c => c.keys().then(keys => {
-        if (keys.length > 100) { showReady('从缓存加载，即刻开始'); return; }
-        if (pct) pct.textContent = '0%';
-        if (detail) detail.textContent = '首次下载资源中...';
-        // 轮询 SW 安装完成
-        const poll = setInterval(() => {
-          if (reg.active) {
-            clearInterval(poll);
-            showReady(keys.length + ' 个资源已缓存，再次访问无需下载');
-          }
-        }, 300);
-      }));
-    }).catch(e => {
-      console.warn('[Preload] SW 不可用:', e.message);
-      this._onPreloadComplete();
-    });
+    // 注册 SW（运行时缓存，不阻止启动）
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(() => {
+        console.log('[Preload] SW 运行时缓存已激活');
+      }).catch(e => {
+        console.warn('[Preload] SW 注册失败:', e.message);
+      });
+    }
+
+    // 动画展示 1.5 秒后启用按钮
+    let progress = 0;
+    const tick = setInterval(() => {
+      progress += 5;
+      if (bar) bar.style.width = Math.min(progress, 100) + '%';
+      if (pct) pct.textContent = progress + '%';
+      if (progress >= 100) {
+        clearInterval(tick);
+        showReady('资源就绪，视频首次播放时自动缓存，再次播放秒开');
+      }
+    }, 80);
   },
 
   _checkBrowser() {
