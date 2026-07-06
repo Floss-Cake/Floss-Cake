@@ -64,8 +64,8 @@ const Experiment = {
   },
 
   /**
-   * 预加载所有已启用故事的音视频。
-   * 并行分批 → 实时刷新进度 → 全完成后或 ≥90% 可开始。
+   * 预加载：每个故事的第一段视频 + 播放时实时预加载下一段。
+   * 使用 <video> 元素走浏览器解码管道，避免 fetch() 不进视频缓存的缺陷。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
@@ -74,76 +74,74 @@ const Experiment = {
     const spinner = document.getElementById('preloadSpinner');
     const btn = document.getElementById('preloadStartBtn');
     const title = document.getElementById('preloadTitle');
+    const preEl = document.getElementById('preloadVideoContainer');
 
     const showReady = () => {
-      if (bar) bar.style.width = '100%';
-      if (spinner) spinner.style.display = 'none';
+      if (bar) bar.style.width = '100%'; if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
       if (title) title.textContent = '准备就绪';
     };
 
+    this._preloadPool = [];  // 预加载用的隐藏 video 元素池
+
     if (btn) btn.addEventListener('click', () => {
       document.getElementById('preloadOverlay').classList.add('done');
+      // 释放预加载池
+      this._preloadPool.forEach(v => { v.src = ''; v.load(); v.remove(); });
+      this._preloadPool = [];
       this._onPreloadComplete();
     });
 
-    // SW — 运行时缓存
+    // SW — 持久缓存
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
     }
 
-    // 收集全部待加载 URL
-    const urls = [];
+    // 收集每个故事的第一段视频
     const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
-    stories.forEach(story => {
-      const N = story.questions.length + 1;
-      for (let i = 1; i <= N; i++) urls.push(`assets/video/${story.id}/Scenario${i}.mp4`);
-      const qc = story.questionAudioCount || 0;
-      for (let i = 1; i <= qc; i++) urls.push(`${story.audioFolder}/q${i}.${story.audioExt}`);
-      const sep = story.optionAudioSep || '-';
-      for (let q = 1; q <= 9; q++)
-        for (let o = 1; o <= 3; o++)
-          urls.push(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`);
-    });
-
-    const total = urls.length;
-    let done = 0, ok = 0;
+    const firstVideos = stories.map(s => ({
+      story: s.name,
+      url: `assets/video/${s.id}/Scenario1.mp4`,
+    }));
+    const total = firstVideos.length;
+    let loaded = 0;
 
     const updateUI = () => {
-      const pct = total ? Math.round((done / total) * 100) : 100;
+      const pct = Math.round((loaded / total) * 100);
       if (bar) bar.style.width = pct + '%';
-      if (pctEl) pctEl.textContent = ok + '/' + total;
-      if (detailEl) detailEl.textContent = done >= total
-        ? ok + ' 个资源已就绪，视频播放不卡顿'
-        : '预加载中 ' + ok + '/' + total + ' (' + pct + '%)';
-    };
-    updateUI();
-
-    // 单文件：fetch + timeout
-    const loadOne = (url) => {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 20000);
-      return fetch(url, { mode: 'no-cors', cache: 'reload', signal: controller.signal })
-        .then(() => { clearTimeout(timer); return true; })
-        .catch(() => { clearTimeout(timer); return false; });
+      if (pctEl) pctEl.textContent = loaded + '/' + total;
+      if (detailEl) detailEl.textContent = loaded >= total
+        ? '首段视频全部就绪，实验全程流畅'
+        : '预加载中 ' + loaded + '/' + total + ' (' + pct + '%)';
     };
 
-    // 分批并行
-    const batchSize = 8;
-    let cursor = 0;
+    // 用隐藏 video 逐一预加载（避免浏览器限制并发）
+    let idx = 0;
+    const preloadNext = () => {
+      if (idx >= firstVideos.length) { showReady(); return; }
+      const { story, url } = firstVideos[idx++];
+      const v = document.createElement('video');
+      v.muted = true; v.preload = 'auto';
+      v.style.position = 'absolute'; v.style.left = '-9999px'; v.style.top = '-9999px';
+      v.style.width = '1px'; v.style.height = '1px';
+      document.body.appendChild(v);
 
-    const runBatch = () => {
-      if (cursor >= urls.length) return Promise.resolve();
-      const batch = urls.slice(cursor, cursor + batchSize);
-      cursor += batchSize;
-      return Promise.all(batch.map(u => loadOne(u))).then(results => {
-        results.forEach(r => { done++; if (r) ok++; });
+      let done = false;
+      const finish = (ok) => {
+        if (done) return; done = true;
+        loaded++;
         updateUI();
-        return runBatch();
-      });
+        v.remove();
+        preloadNext();
+      };
+      v.oncanplaythrough = () => finish(true);
+      v.onerror = () => finish(false);
+      v.src = url;
+      v.load();
+      // 10s 超时
+      setTimeout(() => finish(false), 10000);
     };
-
-    runBatch().then(() => showReady());
+    preloadNext();
   },
 
   _checkBrowser() {
@@ -218,6 +216,9 @@ const Experiment = {
     this._hideOverlay('storyComplete');
 
     document.getElementById('cinemaVideo').style.display = 'block';
+
+    // 清理旧的预加载元素
+    this._preloadPool = [];
 
     this._enterCinema(story);
   },
@@ -502,6 +503,9 @@ const Experiment = {
       // 视频加载失败不阻塞流程
     });
 
+    // 预加载下一段视频
+    this._preloadNextInBackground(index);
+
     document.getElementById('btnCinemaSkip').style.display =
       EXPERIMENT_CONFIG.experiment.showSkipButton ? 'block' : 'none';
   },
@@ -556,6 +560,24 @@ const Experiment = {
   },
 
   /**
+   * 后台预加载下一段视频（确保播放流畅不黑屏）
+   */
+  _preloadNextInBackground(currentIdx) {
+    const nextIdx = currentIdx + 1;
+    if (nextIdx >= this._videoSequence.length) return;
+    if (!this._preloadPool) this._preloadPool = [];
+
+    const v = document.createElement('video');
+    v.muted = true; v.preload = 'auto';
+    v.style.position = 'absolute'; v.style.left = '-9999px'; v.style.top = '-9999px';
+    v.style.width = '1px'; v.style.height = '1px';
+    document.body.appendChild(v);
+    v.src = this._videoSequence[nextIdx];
+    v.load();
+    this._preloadPool.push(v);
+  },
+
+  /**
    * 故事所有视频播放完毕
    */
   _onStoryVideoComplete() {
@@ -582,6 +604,8 @@ const Experiment = {
 
   _exitCinema(toComplete) {
     this._stopGalgameAudio();
+    // 清理后台预加载
+    if (this._preloadPool) { this._preloadPool.forEach(v => { v.src = ''; v.load(); v.remove(); }); this._preloadPool = []; }
     const overlay = document.getElementById('cinemaOverlay');
     overlay.classList.remove('active');
     setTimeout(() => {
