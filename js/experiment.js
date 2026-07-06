@@ -52,7 +52,13 @@ const Experiment = {
     this._bindEvents();
     this._checkBrowser();
 
-    // 简短启动动画 + Service Worker 注册（不做预安装，运行时增量缓存）
+    // 清理可能残留的旧 Service Worker（已废弃，改用 OSS + 浏览器 HTTP 缓存）
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+      }).catch(() => {});
+    }
+
     this._initStartup();
   },
 
@@ -70,10 +76,9 @@ const Experiment = {
   },
 
   /**
-   * 全面预加载：所有故事的全部视频 + 全部音频。
-   * 用 <video>/<audio> 标签走浏览器解码管道逐一预热。
-   * 视频优先 → 音频在后 → 全部完成后显示开始按钮。
-   * 即使部分资源加载失败也不阻塞实验启动。
+   * 全面预加载：所有视频 + 音频从 OSS 并行加载到浏览器解码缓存。
+   * 6 路并发，canplaythrough 触发即标记成功。
+   * 不设 crossOrigin（播放不需要 CORS），不注册 SW（OSS + HTTP 缓存已足够）。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
@@ -91,15 +96,16 @@ const Experiment = {
       if (bar) bar.style.width = '100%';
       if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
-      if (title) {
-        title.textContent = failCount === 0 ? '全部就绪 ✓' : '准备就绪（' + failCount + ' 个资源未加载）';
-      }
+      if (title) title.textContent = failCount === 0 ? '全部就绪' : '准备就绪';
       if (detailEl) {
         detailEl.textContent = failCount === 0
           ? '所有资源已缓存，全程流畅播放'
-          : failCount + ' 个资源加载失败，可能影响部分音频播放';
+          : failCount + ' 个资源未加载，可能影响部分内容';
       }
       if (pctEl) pctEl.textContent = (total - failCount) + '/' + total + ' 已就绪';
+      if (failCount > 0) {
+        console.warn('[Preload] ' + failCount + ' failed. First 5:', failedUrls.slice(0, 5));
+      }
     };
 
     const startExperiment = () => {
@@ -110,32 +116,30 @@ const Experiment = {
 
     if (btn) btn.addEventListener('click', startExperiment);
 
-    // SW
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
-    }
-
-    // ---- 收集全部资源：视频优先，音频在后 ----
+    // ---- 收集全部资源 ----
     const items = [];
     const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+
+    // 视频优先（大文件先加载）
     stories.forEach(story => {
       const N = story.questions.length + 1;
       for (let i = 1; i <= N; i++) {
-        items.push({ type: 'video', url: this._asset(`assets/video/${story.id}/Scenario${i}.mp4`), label: story.name + '·S' + i });
+        items.push({ type: 'video', url: this._asset(`assets/video/${story.id}/Scenario${i}.mp4`) });
       }
     });
+    // 音频在后
     stories.forEach(story => {
       const qc = story.questionAudioCount || 0;
       for (let i = 1; i <= qc; i++)
-        items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/q${i}.${story.audioExt}`), label: story.name + '·Q' + i });
+        items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/q${i}.${story.audioExt}`) });
       const sep = story.optionAudioSep || '-';
       for (let q = 1; q <= 9; q++)
         for (let o = 1; o <= 3; o++)
-          items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`), label: story.name + '·A' + q + '-' + o });
+          items.push({ type: 'audio', url: this._asset(`${story.audioFolder}/${q}${sep}${o}.${story.audioExt}`) });
     });
 
     const total = items.length;
-    let loaded = 0, ok = 0;
+    let loaded = 0, ok = 0, nextIndex = 0;
 
     const upd = () => {
       const pct = Math.round((loaded / total) * 100);
@@ -144,51 +148,59 @@ const Experiment = {
       if (detailEl) detailEl.textContent = '已就绪 ' + ok + '/' + total;
     };
 
-    // 逐一加载（逐个避免并发争抢带宽）
-    const load = (i) => {
-      if (i >= items.length) { showReady(); return; }
+    // ---- 6 路并行加载 ----
+    const CONCURRENCY = 6;
+
+    const loadOne = () => {
+      if (userStarted || nextIndex >= items.length) return;
+      const i = nextIndex++;
       const it = items[i];
       const el = document.createElement(it.type);
       el.preload = 'auto';
-      el.crossOrigin = 'anonymous';
+      // ★ 不设 crossOrigin — video/audio 跨域播放不需要 CORS
       if (it.type === 'video') {
         el.muted = true;
         el.playsInline = true;
         el.setAttribute('playsinline', '');
         el.setAttribute('webkit-playsinline', '');
-        el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px;pointer-events:none;';
+        el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px;pointer-events:none;opacity:0;';
       } else {
-        el.style.cssText = 'position:absolute;left:-9999px;top:0;pointer-events:none;';
+        el.style.cssText = 'position:absolute;left:-9999px;top:0;pointer-events:none;opacity:0;';
       }
       document.body.appendChild(el);
 
       let settled = false;
-      const done = (okay) => {
+      const finish = (success) => {
         if (settled) return; settled = true;
         loaded++;
-        if (okay) { ok++; }
-        else { failedUrls.push(it.url); }
+        if (success) ok++; else failedUrls.push(it.url);
         upd();
-        // 安全移除
-        try { el.src = ''; el.load(); el.remove(); } catch (e) { el.remove(); }
-        if (!userStarted) load(i + 1);
+        try { el.pause(); el.removeAttribute('src'); el.load(); el.remove(); } catch (e) { el.remove(); }
+        if (loaded >= total) { showReady(); return; }
+        loadOne(); // 继续下一个
       };
 
-      // 对视频用 canplaythrough，对音频用 canplaythrough 或 loadeddata
-      if (it.type === 'video') {
-        el.oncanplaythrough = () => done(true);
-      } else {
-        el.oncanplaythrough = () => done(true);
-      }
-      el.onerror = () => done(false);
+      el.oncanplaythrough = () => finish(true);
+      el.onerror = () => finish(false);
       el.src = it.url;
       el.load();
-
-      // 超时：视频 20s，音频 10s
-      setTimeout(() => done(false), it.type === 'video' ? 20000 : 10000);
+      // 超时保护：视频 30s，音频 15s
+      setTimeout(() => finish(false), it.type === 'video' ? 30000 : 15000);
     };
 
-    setTimeout(() => load(0), 300); // 让 UI 先渲染
+    upd();
+    for (let c = 0; c < CONCURRENCY; c++) {
+      setTimeout(loadOne, c * 80);
+    }
+
+    // 安全网：120 秒后无论如何允许开始
+    setTimeout(() => {
+      if (!userStarted && loaded < total) {
+        console.warn('[Preload] Safety timeout. Forcing ready at ' + loaded + '/' + total);
+        loaded = total;
+        showReady();
+      }
+    }, 120000);
   },
 
   _checkBrowser() {
