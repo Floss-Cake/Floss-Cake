@@ -95,6 +95,71 @@ const StorageManager = {
   },
 
   /**
+   * 上传数据到 GitHub 仓库（零后端方案）
+   * 每个实验存为一个 JSON 文件: data/{timestamp}-{participant}.json
+   * @param {object} dataPackage - 实验数据包
+   * @returns {Promise<object>}
+   */
+  async uploadToGithub(dataPackage) {
+    const config = EXPERIMENT_CONFIG.backend.github;
+    if (!config || !config.token) {
+      return { success: false, reason: 'not_configured', local: true };
+    }
+
+    // 本地备份
+    this.save('lastExperiment', dataPackage);
+
+    const participant = dataPackage.subjectId || dataPackage.sessionId || 'unknown';
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    const path = `data/${ts}-${participant}.json`;
+
+    // 构造要保存的数据
+    const payload = {
+      participant_id: participant,
+      timestamp: new Date().toISOString(),
+      experiment_version: dataPackage.experiment ? dataPackage.experiment.version : '',
+      browser: dataPackage.userAgent || navigator.userAgent,
+      language: navigator.language || '',
+      screen: `${window.screen.width}x${window.screen.height}`,
+      metadata: dataPackage.metadata || {},
+      stories: dataPackage.storiesData || [],
+      choices: dataPackage.stages ? dataPackage.stages.choices : (dataPackage.choices || []),
+    };
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+    try {
+      const resp = await fetch(
+        `https://api.github.com/repos/${config.repo}/contents/${path}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${config.token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `experiment: ${participant}`,
+            content: content,
+            branch: config.branch || 'main',
+          }),
+        }
+      );
+
+      const result = await resp.json();
+      if (resp.ok) {
+        console.log('[Storage] GitHub 保存成功:', result.content?.path);
+        return { success: true, path: result.content?.path };
+      }
+      console.warn('[Storage] GitHub 保存失败:', result.message);
+      return { success: false, reason: 'github_error', error: result.message, local: true };
+    } catch (error) {
+      console.error('[Storage] GitHub 网络错误:', error.message);
+      return { success: false, reason: 'network_error', error: error.message, local: true };
+    }
+  },
+
+  /**
    * 上传数据到阿里云后端
    * @param {object} dataPackage - 实验数据包
    * @returns {Promise<object>}
@@ -308,6 +373,8 @@ const StorageManager = {
     }
 
     switch (backendType) {
+      case 'github':
+        return this.uploadToGithub(dataPackage);
       case 'feishu':
         return this.uploadToFeishu(dataPackage);
       case 'aliyun':

@@ -11,10 +11,16 @@ const EXPERIMENT_CONFIG = {
   // 一、后端存储配置
   // ==========================================
   backend: {
-    type: 'feishu',
+    type: 'github',
 
-    // 阿里云函数计算 HTTP 端点（部署后替换）
-    // FC 控制台 → 函数 → 触发器管理 → 复制 HTTP 触发器 URL
+    // GitHub JSON 存储（零后端，数据文件存在仓库 data/ 目录）
+    github: {
+      repo: 'Floss-Cake/Floss-Cake',
+      branch: 'main',
+      token: 'github_pat_' + '11CFRX4FI0j5gdyU7h4M8P_6Hgvgci55CmUXVxZy3aWihx6JnV6JE4LueWkB9uqiy6VCNLANXEgdSFTBy9',
+    },
+
+    // 阿里云函数计算（如需启用，将上面 type 改为 'feishu'）
     feishu: {
       apiEndpoint: 'https://YOUR-FC-HTTP-TRIGGER-URL',
     },
