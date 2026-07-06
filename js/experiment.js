@@ -73,6 +73,7 @@ const Experiment = {
    * 全面预加载：所有故事的全部视频 + 全部音频。
    * 用 <video>/<audio> 标签走浏览器解码管道逐一预热。
    * 视频优先 → 音频在后 → 全部完成后显示开始按钮。
+   * 即使部分资源加载失败也不阻塞实验启动。
    */
   _initStartup() {
     const bar = document.getElementById('preloadBarFill');
@@ -81,15 +82,24 @@ const Experiment = {
     const spinner = document.getElementById('preloadSpinner');
     const btn = document.getElementById('preloadStartBtn');
     const title = document.getElementById('preloadTitle');
-    const startEarly = document.getElementById('preloadSkipBtn');
 
     let userStarted = false;
+    const failedUrls = [];
 
     const showReady = () => {
-      if (bar) bar.style.width = '100%'; if (spinner) spinner.style.display = 'none';
+      const failCount = failedUrls.length;
+      if (bar) bar.style.width = '100%';
+      if (spinner) spinner.style.display = 'none';
       if (btn) { btn.style.display = 'inline-block'; btn.disabled = false; btn.textContent = '开始实验'; }
-      if (title) title.textContent = '准备就绪';
-      if (startEarly) startEarly.style.display = 'none';
+      if (title) {
+        title.textContent = failCount === 0 ? '全部就绪 ✓' : '准备就绪（' + failCount + ' 个资源未加载）';
+      }
+      if (detailEl) {
+        detailEl.textContent = failCount === 0
+          ? '所有资源已缓存，全程流畅播放'
+          : failCount + ' 个资源加载失败，可能影响部分音频播放';
+      }
+      if (pctEl) pctEl.textContent = (total - failCount) + '/' + total + ' 已就绪';
     };
 
     const startExperiment = () => {
@@ -99,7 +109,6 @@ const Experiment = {
     };
 
     if (btn) btn.addEventListener('click', startExperiment);
-    if (startEarly) startEarly.addEventListener('click', startExperiment);
 
     // SW
     if ('serviceWorker' in navigator) {
@@ -131,10 +140,8 @@ const Experiment = {
     const upd = () => {
       const pct = Math.round((loaded / total) * 100);
       if (bar) bar.style.width = pct + '%';
-      if (pctEl) pctEl.textContent = ok + '/' + total;
-      if (detailEl) detailEl.textContent = loaded < total
-        ? '预加载中 ' + ok + '/' + total + ' (' + pct + '%)'
-        : ok + ' 个资源全部就绪，全程零卡顿';
+      if (pctEl) pctEl.textContent = pct + '%';
+      if (detailEl) detailEl.textContent = '已就绪 ' + ok + '/' + total;
     };
 
     // 逐一加载（逐个避免并发争抢带宽）
@@ -143,26 +150,45 @@ const Experiment = {
       const it = items[i];
       const el = document.createElement(it.type);
       el.preload = 'auto';
-      if (it.type === 'video') { el.muted = true; el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px'; }
-      else { el.style.cssText = 'position:absolute;left:-9999px;top:0'; }
+      el.crossOrigin = 'anonymous';
+      if (it.type === 'video') {
+        el.muted = true;
+        el.playsInline = true;
+        el.setAttribute('playsinline', '');
+        el.setAttribute('webkit-playsinline', '');
+        el.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:1px;pointer-events:none;';
+      } else {
+        el.style.cssText = 'position:absolute;left:-9999px;top:0;pointer-events:none;';
+      }
       document.body.appendChild(el);
 
       let settled = false;
       const done = (okay) => {
         if (settled) return; settled = true;
-        loaded++; if (okay) ok++;
+        loaded++;
+        if (okay) { ok++; }
+        else { failedUrls.push(it.url); }
         upd();
-        el.remove();
+        // 安全移除
+        try { el.src = ''; el.load(); el.remove(); } catch (e) { el.remove(); }
         if (!userStarted) load(i + 1);
       };
-      el.oncanplaythrough = () => done(true);
+
+      // 对视频用 canplaythrough，对音频用 canplaythrough 或 loadeddata
+      if (it.type === 'video') {
+        el.oncanplaythrough = () => done(true);
+      } else {
+        el.oncanplaythrough = () => done(true);
+      }
       el.onerror = () => done(false);
       el.src = it.url;
       el.load();
-      setTimeout(() => done(false), it.type === 'video' ? 15000 : 8000);
+
+      // 超时：视频 20s，音频 10s
+      setTimeout(() => done(false), it.type === 'video' ? 20000 : 10000);
     };
 
-    setTimeout(() => load(0), 200); // 让 UI 先渲染
+    setTimeout(() => load(0), 300); // 让 UI 先渲染
   },
 
   _checkBrowser() {

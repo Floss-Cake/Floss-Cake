@@ -60,13 +60,6 @@
 .preload-start-btn:disabled {
   background: #c5b59a; cursor: not-allowed;
 }
-
-.preload-skip-btn {
-  padding: 8px 24px; font-size: 13px; border: 1px solid #c5b59a;
-  border-radius: 8px; background: transparent; color: #8b7355;
-  cursor: pointer; margin-top: 12px; transition: opacity 0.2s;
-}
-.preload-skip-btn:hover { opacity: 0.7; }
 /* -------- CSS 变量 (可调节参数) -------- */
 :root {
   /* 主色调 */
