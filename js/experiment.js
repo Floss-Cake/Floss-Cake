@@ -46,6 +46,19 @@ const Experiment = {
     this._bindEvents();
     this._checkBrowser();
 
+    // 预加载所有视频和音频
+    this._preloadAllAssets().then(() => {
+      document.getElementById('preloadStartBtn').style.display = 'inline-block';
+      document.getElementById('preloadStartBtn').disabled = false;
+      document.getElementById('preloadStartBtn').textContent = '开始实验';
+      document.getElementById('preloadStartBtn').addEventListener('click', () => {
+        document.getElementById('preloadOverlay').classList.add('done');
+        this._onPreloadComplete();
+      });
+    });
+  },
+
+  _onPreloadComplete() {
     if (EXPERIMENT_CONFIG.experiment.debugMode) {
       DataCollector.setConsent();
       DataCollector.setSubjectId('DEBUG_' + Date.now().toString(36));
@@ -55,6 +68,75 @@ const Experiment = {
       });
     } else {
       this._showStage(0);
+    }
+  },
+
+  /**
+   * 预加载所有启用的故事的视频和音频资源
+   */
+  async _preloadAllAssets() {
+    const urls = [];
+    const stories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+
+    stories.forEach(story => {
+      const totalVideos = story.questions.length + 1;
+      for (let i = 1; i <= totalVideos; i++) {
+        urls.push({ url: `assets/video/${story.id}/Scenario${i}.mp4`, type: 'video', story: story.name });
+      }
+
+      const qCount = story.questionAudioCount || 0;
+      for (let i = 1; i <= qCount; i++) {
+        urls.push({ url: `${story.audioFolder}/q${i}.${story.audioExt}`, type: 'audio', story: story.name });
+      }
+
+      const sep = story.optionAudioSep || '-';
+      for (let q = 1; q <= 9; q++) {
+        for (let opt = 1; opt <= 3; opt++) {
+          urls.push({ url: `${story.audioFolder}/${q}${sep}${opt}.${story.audioExt}`, type: 'audio', story: story.name });
+        }
+      }
+    });
+
+    const total = urls.length;
+    let loaded = 0;
+    let errors = 0;
+
+    const updateProgress = (url, ok) => {
+      loaded++;
+      if (!ok) errors++;
+      const pct = Math.round((loaded / total) * 100);
+      document.getElementById('preloadBarFill').style.width = pct + '%';
+      document.getElementById('preloadPercent').textContent = pct + '%';
+      document.getElementById('preloadDetail').textContent =
+        `已加载 ${loaded}/${total}${errors ? '（跳过 ' + errors + ' 个）' : ''}`;
+    };
+
+    const loadOne = (item) => {
+      return new Promise((resolve) => {
+        if (item.type === 'video') {
+          const el = document.createElement('video');
+          el.preload = 'auto';
+          el.muted = true;
+          el.src = item.url;
+          el.oncanplaythrough = () => { updateProgress(item.url, true); resolve(); };
+          el.onerror = () => { updateProgress(item.url, false); resolve(); };
+          // 超时 15s
+          setTimeout(() => { if (!el._done) { el._done = true; updateProgress(item.url, false); resolve(); } }, 15000);
+        } else {
+          const el = document.createElement('audio');
+          el.preload = 'auto';
+          el.src = item.url;
+          el.oncanplaythrough = () => { updateProgress(item.url, true); resolve(); };
+          el.onerror = () => { updateProgress(item.url, false); resolve(); };
+          setTimeout(() => { if (!el._done) { el._done = true; updateProgress(item.url, false); resolve(); } }, 10000);
+        }
+      });
+    };
+
+    // 并发预加载（一次最多 6 个）
+    for (let i = 0; i < urls.length; i += 6) {
+      const batch = urls.slice(i, i + 6);
+      await Promise.all(batch.map(loadOne));
     }
   },
 

@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- ========== 加载页：预加载所有资源 ========== -->
+  <div class="preload-overlay" id="preloadOverlay">
+    <div class="preload-card">
+      <div class="preload-spinner"></div>
+      <h2 class="preload-title">资源加载中...</h2>
+      <div class="preload-bar-track">
+        <div class="preload-bar-fill" id="preloadBarFill"></div>
+      </div>
+      <p class="preload-percent" id="preloadPercent">0%</p>
+      <p class="preload-detail" id="preloadDetail"></p>
+      <button class="preload-start-btn" id="preloadStartBtn" style="display:none;" disabled>资源加载中，请稍候...</button>
+    </div>
+  </div>
+
   <!-- ========== 顶部进度条 ========== -->
   <div class="progress-bar" id="progressBar">
     <div class="progress-fill" id="progressFill"></div>
