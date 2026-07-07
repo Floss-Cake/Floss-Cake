@@ -1,0 +1,2033 @@
+{
+  "participant_id": "DEBUG_mrack7gf",
+  "timestamp": "2026-07-07T08:19:16.135Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+  "language": "zh-CN",
+  "screen": "1470x956",
+  "metadata": {
+    "consentTime": "2026-07-07T07:48:13.114Z",
+    "experimentStartTime": "2026-07-07T07:48:13.119Z",
+    "experimentEndTime": "2026-07-07T08:19:16.129Z",
+    "totalDuration": 1863.01
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "optionValue": "C",
+      "optionLabel": "他可能怕跑不好丢脸，但又不好意思拒绝大家。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "有点担心他，坐到他旁边问：\"你是不是不太想去？\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"去比赛的都会紧张，别想太多，跑就完了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "optionValue": "C",
+      "optionLabel": "\"你是怕让大家失望吧？别紧张，尽力去跑就好了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "optionValue": "C",
+      "optionLabel": "他应该是因为刚刚掉棒了有点难受。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "optionValue": "A",
+      "optionLabel": "\"别再怪自己了，谁还没有失误的时候。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "optionValue": "B",
+      "optionLabel": "你拍拍他的肩膀，\"怎么会怪你呢？大家都知道你练了很久。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "optionValue": "B",
+      "optionLabel": "\"别啊，你要是不参加了，我们班接力赛更没戏了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "optionValue": "C",
+      "optionLabel": "\"我们来复盘一下失误的原因，之后我陪你加练怎么样？\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "optionValue": "A",
+      "optionLabel": "他可能就是想再等一等，看看水温再下去。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "optionValue": "A",
+      "optionLabel": "可能他真的不怕，只是泳镜不合适，要调一下。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他愿意说出来不容易，怕呛水这种感觉我也能理解。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "optionValue": "A",
+      "optionLabel": "小杰说得也没错，就是头埋下去再抬起来，试一次就行了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "optionValue": "B",
+      "optionLabel": "你别理他，他平常跟别人说话也这样。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "他已经下水练换气了，应该没什么问题了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"没事儿吧，你怎么呛水了？\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "optionValue": "B",
+      "optionLabel": "\"我在这儿挺好的呀，再试试换气呗。\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "optionValue": "B",
+      "optionLabel": "不用在意别人的看法，他们怎么想是他们的事。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "排队取餐时，小哲一直无精打采、磨磨蹭蹭不肯上前，你觉得他当下是什么心情？",
+      "optionValue": "C",
+      "optionLabel": "他因为吃不到想吃的饭菜，心里失落提不起劲。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小哲端着餐盘站在原地没有立刻开心起来，你觉得他在想什么？",
+      "optionValue": "B",
+      "optionLabel": "他在犹豫要不要告诉小华拿错了餐。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小哲主动提出和小华换回餐食，你怎么看待？",
+      "optionValue": "A",
+      "optionLabel": "一顿饭而已，没必要纠结，他想得太多了。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小华表示不用换餐，小哲终于放下心事，开心地分享食物，你内心是什么感受？",
+      "optionValue": "B",
+      "optionLabel": "一份饭菜而已，没必要这么兴奋吧。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "小哲说起家长给自己登记错了饭菜的乌龙，这时你会如何和他交流？",
+      "optionValue": "B",
+      "optionLabel": "食堂的糖醋里脊，味道确实很不错。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小哲放错餐盘被老师提醒，还引来其他同学注视，整个人局促不安，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "主动走到他身边陪着他，轻声安抚他：\"没事，你也不是故意的。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小哲委屈地解释：\"我只是太着急了才看错地方。\" 你会怎么安慰他？",
+      "optionValue": "A",
+      "optionLabel": "错了就错了呗，没必要找理由辩解",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "同班同学小明路过说食堂阿姨收拾更麻烦了，小哲说\"我最近老给别人添麻烦\"，你会如何回应？",
+      "optionValue": "A",
+      "optionLabel": "你想太多了，多大点事啊。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小哲手忙脚乱摆放餐具还碰倒了其他餐盘，你会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "看了一眼散落的餐盘，决定自己先回教室。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "optionValue": "A",
+      "optionLabel": "他腿受伤了，一回来我们估计都得让着他。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "optionValue": "A",
+      "optionLabel": "他只是在家养病太无聊，单纯没事干才叹气。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "optionValue": "B",
+      "optionLabel": "你终于要回学校了，我们等你好久了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "optionValue": "B",
+      "optionLabel": "没什么好担心的，回来了就好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "他怎么一个人坐在那儿？",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"那你就好好坐着休息呗，正好这里晒不到太阳很凉快。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"我之前请假回来也是，聊天没接住梗，挺尴尬的。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"总有个过渡期，给大家一点时间。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "optionValue": "B",
+      "optionLabel": "\"他们在那呢，你去跟他们聊聊呗？\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "optionValue": "A",
+      "optionLabel": "他腿受伤了，一回来我们估计都得让着他。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "optionValue": "B",
+      "optionLabel": "他腿还疼，行动不方便，所以心情不好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "optionValue": "A",
+      "optionLabel": "你在家休息这么久，是不是都不想来上学了？",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "optionValue": "B",
+      "optionLabel": "没什么好担心的，回来了就好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "optionValue": "C",
+      "optionLabel": "他只能一个人坐在旁边看，肯定又无聊又失落。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"那你就好好坐着休息呗，正好这里晒不到太阳很凉快。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"你太久没来学校了，刚开始没话题很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"感觉跟好朋友生疏了，有点失落很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "optionValue": "C",
+      "optionLabel": "\"走，我跟你一起过去，咱们先聊聊以前你们一起打篮球的事。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "brokeleg"
+    }
+  ]
+}
