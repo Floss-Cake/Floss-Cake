@@ -1,0 +1,773 @@
+{
+  "participant_id": "DEBUG_mrads8a1",
+  "timestamp": "2026-07-07T08:30:12.663Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) MacWechat/3.8.7(0x13080712) UnifiedPCMacWechat(0xf2641a50) XWEB/19978 Flue",
+  "language": "zh-CN",
+  "screen": "1470x956",
+  "metadata": {
+    "consentTime": "2026-07-07T08:22:27.042Z",
+    "experimentStartTime": "2026-07-07T08:22:27.050Z",
+    "experimentEndTime": "2026-07-07T08:30:12.663Z",
+    "totalDuration": 465.613
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "selectedValue": null,
+      "selectedLabel": null,
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "排队取餐时，小哲一直无精打采、磨磨蹭蹭不肯上前，你觉得他当下是什么心情？",
+      "optionValue": "A",
+      "optionLabel": "他就是故意偷懒，不想乖乖排队吃饭。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小哲端着餐盘站在原地没有立刻开心起来，你觉得他在想什么？",
+      "optionValue": "B",
+      "optionLabel": "他在犹豫要不要告诉小华拿错了餐。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小哲主动提出和小华换回餐食，你怎么看待？",
+      "optionValue": "B",
+      "optionLabel": "他怕小华怪自己拿错了餐却不告诉他。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小华表示不用换餐，小哲终于放下心事，开心地分享食物，你内心是什么感受？",
+      "optionValue": "A",
+      "optionLabel": "折腾了半天，他两终于都能好好吃饭了。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "小哲说起家长给自己登记错了饭菜的乌龙，这时你会如何和他交流？",
+      "optionValue": "B",
+      "optionLabel": "食堂的糖醋里脊，味道确实很不错。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小哲放错餐盘被老师提醒，还引来其他同学注视，整个人局促不安，你会怎么做？",
+      "optionValue": "B",
+      "optionLabel": "提醒他，\"餐盘位置在这儿呢\"，之后把自己的餐盘放到正确的位置。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小哲委屈地解释：\"我只是太着急了才看错地方。\" 你会怎么安慰他？",
+      "optionValue": "B",
+      "optionLabel": "没事啊，下次细心一点就行。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "同班同学小明路过说食堂阿姨收拾更麻烦了，小哲说\"我最近老给别人添麻烦\"，你会如何回应？",
+      "optionValue": "B",
+      "optionLabel": "别太在意，大家都有犯错的时候。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小哲手忙脚乱摆放餐具还碰倒了其他餐盘，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "走过去帮他把碰倒的餐具扶起来：\"我帮你一起收拾。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他好像不太愿意被选上。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "optionValue": "B",
+      "optionLabel": "走过去拍拍他：\"你被选上啦，多好的事啊！\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"代表班级比赛是很光荣的事情啊。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "optionValue": "B",
+      "optionLabel": "\"跑都还没跑呢，想这些干嘛。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "他担心的事还是发生了，肯定又自责又难过。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "optionValue": "B",
+      "optionLabel": "\"我懂你的心情，我跳绳比赛总绊住也觉得特别自责。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "optionValue": "B",
+      "optionLabel": "你拍拍他的肩膀，\"怎么会怪你呢？大家都知道你练了很久。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "optionValue": "A",
+      "optionLabel": "\"你要是实在压力太大，不想去就别去了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "optionValue": "B",
+      "optionLabel": "\"下次自己小心一点就行了，注意点就不会掉棒了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "optionValue": "B",
+      "optionLabel": "小航终于要回来了，又多一个人可以一起打闹了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "optionValue": "C",
+      "optionLabel": "他的腿还没好，而且好久没见同学，感觉有点孤单。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "optionValue": "B",
+      "optionLabel": "你终于要回学校了，我们等你好久了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "optionValue": "B",
+      "optionLabel": "没什么好担心的，回来了就好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他腿还没好利索，没法跟大家一起玩。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别着急，等腿好了就能和我们一起玩了。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"你太久没来学校了，刚开始没话题很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"总有个过渡期，给大家一点时间。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "optionValue": "B",
+      "optionLabel": "\"他们在那呢，你去跟他们聊聊呗？\"",
+      "storyId": "brokeleg"
+    }
+  ]
+}
