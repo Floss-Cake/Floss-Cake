@@ -1,0 +1,269 @@
+{
+  "participant_id": "DEBUG_mradvc4b",
+  "timestamp": "2026-07-07T08:54:15.560Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+  "language": "zh-CN",
+  "screen": "1470x956",
+  "metadata": {
+    "consentTime": "2026-07-07T08:24:51.995Z",
+    "experimentStartTime": "2026-07-07T08:24:51.995Z",
+    "experimentEndTime": "2026-07-07T08:54:15.559Z",
+    "totalDuration": 1763.564
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "optionValue": "A",
+      "optionLabel": "他可能就是想再等一等，看看水温再下去。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "optionValue": "A",
+      "optionLabel": "可能他真的不怕，只是泳镜不合适，要调一下。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "呛水很常见，没什么大不了的。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "optionValue": "A",
+      "optionLabel": "小杰说得也没错，就是头埋下去再抬起来，试一次就行了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "optionValue": "B",
+      "optionLabel": "你别理他，他平常跟别人说话也这样。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "他已经下水练换气了，应该没什么问题了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"没事儿吧，你怎么呛水了？\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "optionValue": "C",
+      "optionLabel": "\"没事儿你不用不好意思，是我自己想陪你练气。\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "optionValue": "B",
+      "optionLabel": "不用在意别人的看法，他们怎么想是他们的事。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "排队取餐时，小哲一直无精打采、磨磨蹭蹭不肯上前，你觉得他当下是什么心情？",
+      "optionValue": "A",
+      "optionLabel": "他就是故意偷懒，不想乖乖排队吃饭。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小哲端着餐盘站在原地没有立刻开心起来，你觉得他在想什么？",
+      "optionValue": "A",
+      "optionLabel": "他想霸占这份不属于自己的餐食。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小哲主动提出和小华换回餐食，你怎么看待？",
+      "optionValue": "A",
+      "optionLabel": "一顿饭而已，没必要纠结，他想得太多了。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小华表示不用换餐，小哲终于放下心事，开心地分享食物，你内心是什么感受？",
+      "optionValue": "B",
+      "optionLabel": "一份饭菜而已，没必要这么兴奋吧。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "小哲说起家长给自己登记错了饭菜的乌龙，这时你会如何和他交流？",
+      "optionValue": "A",
+      "optionLabel": "别一直聊天了，抓紧时间把自己的午饭吃完。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小哲放错餐盘被老师提醒，还引来其他同学注视，整个人局促不安，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "主动走到他身边陪着他，轻声安抚他：\"没事，你也不是故意的。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小哲委屈地解释：\"我只是太着急了才看错地方。\" 你会怎么安慰他？",
+      "optionValue": "A",
+      "optionLabel": "错了就错了呗，没必要找理由辩解",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "同班同学小明路过说食堂阿姨收拾更麻烦了，小哲说\"我最近老给别人添麻烦\"，你会如何回应？",
+      "optionValue": "A",
+      "optionLabel": "你想太多了，多大点事啊。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小哲手忙脚乱摆放餐具还碰倒了其他餐盘，你会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "看了一眼散落的餐盘，决定自己先回教室。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "被提名接力赛选手时，小星的表情有点僵，头慢慢低了下去。你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他好像不太愿意被选上。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "下课后小星一个人趴在桌上，把脸埋在胳膊里。你会怎么做？",
+      "optionValue": "B",
+      "optionLabel": "走过去拍拍他：\"你被选上啦，多好的事啊！\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小星低声说：\"我怕自己做不好……可大家都选我……。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"换我我也会纠结，答应了怕跑不好，又不好意思拒绝。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小星问：\"万一跑不好，大家会怎么想？\"",
+      "optionValue": "A",
+      "optionLabel": "\"大家不会怪你的，别担心。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "接力赛掉棒后，小星一个人坐在操场角落，低着头不说话。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "他担心的事还是发生了，肯定又自责又难过。",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小星红着眼眶说：\"大家都那么信任我，我却掉棒了……我觉得自己好没用。\"",
+      "optionValue": "A",
+      "optionLabel": "\"别再怪自己了，谁还没有失误的时候。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小星低着头：\"同学们肯定都在怪我……\"",
+      "optionValue": "B",
+      "optionLabel": "你拍拍他的肩膀，\"怎么会怪你呢？大家都知道你练了很久。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小星抱着膝盖说：\"我再也不想跑接力了……以后这种比赛别叫我了。\"",
+      "optionValue": "B",
+      "optionLabel": "\"别啊，你要是不参加了，我们班接力赛更没戏了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小星声音闷闷的：\"我也不是不想跑，可就是怕……怕下次一上场，手又抖，棒又掉了……\"",
+      "optionValue": "B",
+      "optionLabel": "\"下次自己小心一点就行了，注意点就不会掉棒了。\"",
+      "storyId": "playground"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "optionValue": "B",
+      "optionLabel": "小航终于要回来了，又多一个人可以一起打闹了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "optionValue": "A",
+      "optionLabel": "他只是在家养病太无聊，单纯没事干才叹气。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "optionValue": "B",
+      "optionLabel": "你终于要回学校了，我们等你好久了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "optionValue": "A",
+      "optionLabel": "你就是想太多了，啥时候变得婆婆妈妈的。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他腿还没好利索，没法跟大家一起玩。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "optionValue": "A",
+      "optionLabel": "\"那你就好好坐着休息呗，正好这里晒不到太阳很凉快。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"你太久没来学校了，刚开始没话题很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"感觉跟好朋友生疏了，有点失落很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "optionValue": "A",
+      "optionLabel": "大喊：\"嘿小杰！小航说你们跟他都没话聊。\"",
+      "storyId": "brokeleg"
+    }
+  ]
+}
