@@ -793,10 +793,15 @@ const Experiment = {
     document.getElementById('galgameOptionsPanel').style.display = 'none';
     this._showChoiceVeil();
 
-    // 前 N 题播放问题语音
+    // 检查该题是否有预加载成功的问题语音（blob URL = 有音频文件）
     if (this._currentQuestionIndex < story.questionAudioCount) {
       const audioPath = this._asset(`${story.audioFolder}/q${this._currentQuestionIndex + 1}.${story.audioExt}`);
-      this._playQuestionAudioAndShowOptions(q, audioPath);
+      // 以 blob: 开头表示预加载成功，有真实音频文件
+      if (audioPath.startsWith('blob:')) {
+        this._playQuestionAudioAndShowOptions(q, audioPath);
+      } else {
+        this._showGalgameOptions(q);
+      }
     } else {
       this._showGalgameOptions(q);
     }

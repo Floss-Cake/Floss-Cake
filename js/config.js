@@ -385,7 +385,7 @@ const EXPERIMENT_CONFIG = {
       audioExt: 'mp3',
       videoFolder: 'assets/video/brokeleg',
       audioFolder: 'assets/audio/brokeleg',
-      questionAudioCount: 6,
+      questionAudioCount: 9,
       transitionText: '班里同学小航前段时间摔伤了腿，在家休养了一段时间。老师在课间宣布小航马上就要重新回到班级上课了...',
       voiceQuestion: '请用语音回答：在刚才的情景中，您做出选择的主要原因是什么？',
       questions: [
@@ -473,7 +473,104 @@ const EXPERIMENT_CONFIG = {
       ],
     },
 
-    // ---- 故事5：预留 ----
+    // ---- 故事5：美术课 ----
+    {
+      id: 'artClass',
+      name: '美术课',
+      enabled: true,
+      audioExt: 'mp3',
+      optionAudioSep: '-',
+      videoFolder: 'assets/video/ArtClass',
+      audioFolder: 'assets/audio/ArtClass',
+      questionAudioCount: 9,
+      transitionText: '美术课上，老师让大家自由发挥画一幅画...',
+      voiceQuestion: '请用语音回答：在刚才的情景中，您做出选择的主要原因是什么？',
+      questions: [
+        {
+          id: 'q1',
+          stem: '[请填写第1题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q2',
+          stem: '[请填写第2题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q3',
+          stem: '[请填写第3题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q4',
+          stem: '[请填写第4题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q5',
+          stem: '[请填写第5题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q6',
+          stem: '[请填写第6题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q7',
+          stem: '[请填写第7题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q8',
+          stem: '[请填写第8题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+        {
+          id: 'q9',
+          stem: '[请填写第9题题干]',
+          options: [
+            { value: 'A', label: '[请填写A选项]' },
+            { value: 'B', label: '[请填写B选项]' },
+            { value: 'C', label: '[请填写C选项]' },
+          ],
+        },
+      ],
+    },
+
+    // ---- 故事6：预留 ----
     {
       id: 'failed',
       name: '待定',
