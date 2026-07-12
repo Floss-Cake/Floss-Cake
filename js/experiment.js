@@ -1423,12 +1423,54 @@ const Experiment = {
     return names;
   },
 
-  /** 监听校园 iframe 通过 postMessage 发来的「进入建筑」事件 */
+  /** 监听校园 iframe 通过 postMessage 发来的「进入建筑 / 结束实验」事件 */
   _bindCampusMessages() {
     window.addEventListener('message', (e) => {
       const d = e.data;
-      if (!d || d.type !== 'CAMPUS_ENTER') return;
-      this._enterStoryFromCampus(d.building);
+      if (!d) return;
+      if (d.type === 'CAMPUS_ENTER') this._enterStoryFromCampus(d.building);
+      else if (d.type === 'CAMPUS_FINISH') this._finishFromCampus();
+    });
+  },
+
+  /**
+   * 校园任务全部完成 → 结束实验：隐藏校园，展示感谢语并上传数据
+   */
+  _finishFromCampus() {
+    const cf = document.getElementById('campusFrame');
+    if (cf) cf.classList.remove('active');
+    const exitBtn = document.getElementById('campusExitBtn');
+    if (exitBtn) exitBtn.style.display = 'none';
+    this._stopCampusSync();
+    this._stopGalgameAudio();
+    this._showCampusFinish();
+  },
+
+  /** 展示儿童友好的结束浮层：感谢语 + 上传数据 */
+  _showCampusFinish() {
+    const ov = document.getElementById('campusFinishOverlay');
+    if (!ov) { this._exitCinema(true); return; }
+    ov.style.display = 'flex';
+    const spinner = document.getElementById('finishSpinner');
+    const status = document.getElementById('finishStatus');
+    const result = document.getElementById('finishResult');
+    const closeNote = document.getElementById('finishCloseNote');
+    if (spinner) spinner.style.display = 'block';
+    if (status) status.textContent = '正在保存你的精彩表现…';
+    if (result) { result.style.display = 'none'; result.className = 'finish-result'; }
+    if (closeNote) closeNote.style.display = 'none';
+
+    const finish = (html, cls) => {
+      if (spinner) spinner.style.display = 'none';
+      if (result) { result.style.display = 'block'; result.className = 'finish-result ' + cls; result.innerHTML = html; }
+      if (closeNote) closeNote.style.display = 'block';
+    };
+    DataCollector.upload().then((r) => {
+      if (r && r.success) finish('✅ 已保存好啦！谢谢你，小朋友～', 'success');
+      else if (r && r.local) finish('⚠️ 云端没连上，数据只存在了本地。', 'local');
+      else finish('❌ 保存出了点小问题，但你的表现很棒！', 'error');
+    }).catch(() => {
+      finish('❌ 保存出了点小问题，但你的表现很棒！', 'error');
     });
   },
 

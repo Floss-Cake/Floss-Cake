@@ -119,6 +119,108 @@ html, body {
 
 .hidden { display: none !important; }
 
+/* ========== 左上角任务清单 ========== */
+#taskList {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 50;
+  width: 212px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  font-family: inherit;
+  animation: pop 0.22s ease-out;
+}
+
+.task-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #2b2d42;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.task-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: #f3f5fb;
+  transition: background 0.2s, transform 0.12s;
+}
+
+.task-item .t-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.task-item .t-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3a3f55;
+  flex: 1;
+}
+
+.task-item .t-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff8a3d;
+  background: #fff0e3;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.task-item.done {
+  background: #e7f8ec;
+}
+
+.task-item.done .t-name {
+  color: #2e7d32;
+}
+
+.task-item.done .t-status {
+  color: #fff;
+  background: #4caf50;
+}
+
+.finish-btn {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  font-family: inherit;
+  background: linear-gradient(135deg, #ff8a3d, #ff5d8f);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(255, 93, 143, 0.4);
+  animation: finishPulse 1.4s ease-in-out infinite;
+  transition: transform 0.12s;
+}
+
+.finish-btn:active { transform: scale(0.97); }
+
+@keyframes finishPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
 @keyframes pop {
   from { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.96); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }

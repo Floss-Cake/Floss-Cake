@@ -320,6 +320,21 @@
   <div id="campusToast" class="campus-toast" style="display:none;"></div>
   <button id="campusExitBtn" class="campus-exit-btn" style="display:none;">退出实验</button>
 
+  <!-- ========== 校园全部完成：感谢 + 上传数据 ========== -->
+  <div id="campusFinishOverlay" class="campus-finish-overlay" style="display:none;">
+    <div class="finish-card">
+      <div class="finish-emoji">🎉</div>
+      <h2 class="finish-title">全部完成啦！</h2>
+      <p class="finish-thanks">你帮助了小诺、小宇、小星、小航和小哲，<br>完成了所有冒险任务！你真是太棒了！</p>
+      <div class="finish-upload">
+        <div class="spinner" id="finishSpinner"></div>
+        <p id="finishStatus">正在保存你的精彩表现…</p>
+      </div>
+      <div class="finish-result" id="finishResult" style="display:none;"></div>
+      <p class="finish-close-note" id="finishCloseNote" style="display:none;">你可以关闭这个页面啦～拜拜 👋</p>
+    </div>
+  </div>
+
   <!-- ========== 全局弹窗 ========== -->
   <div class="modal-overlay" id="modalOverlay" style="display:none;">
     <div class="modal-card">

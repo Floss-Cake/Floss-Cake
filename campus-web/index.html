@@ -18,6 +18,19 @@
 
   <div id="hint">点击地面移动 · 走到建筑旁可进入 🏫</div>
 
+  <!-- 任务清单（左上角）：前往各建筑完成对应剧情 -->
+  <div id="taskList" class="task-list">
+    <div class="task-title">📋 我的冒险任务</div>
+    <ul class="task-items">
+      <li class="task-item" data-name="教学楼"><span class="t-icon">🏫</span><span class="t-name">教学楼</span><span class="t-status">出发吧</span></li>
+      <li class="task-item" data-name="游泳馆"><span class="t-icon">🏊</span><span class="t-name">游泳馆</span><span class="t-status">出发吧</span></li>
+      <li class="task-item" data-name="操场"><span class="t-icon">🏃</span><span class="t-name">操场</span><span class="t-status">出发吧</span></li>
+      <li class="task-item" data-name="美术馆"><span class="t-icon">🎨</span><span class="t-name">美术馆</span><span class="t-status">出发吧</span></li>
+      <li class="task-item" data-name="食堂"><span class="t-icon">🍱</span><span class="t-name">食堂</span><span class="t-status">出发吧</span></li>
+    </ul>
+    <button id="finishBtn" class="finish-btn hidden">🎉 全部完成！结束实验</button>
+  </div>
+
   <!-- 进入建筑提示 -->
   <div id="prompt" class="hidden">
     <span id="prompt-name">教学楼</span>
@@ -51,7 +64,37 @@
       window.__completedBuildings = d.buildings || [];
     });
 
-    // 3) 轮询当前提示按钮，把已完成的建筑按钮置灰为「已完成 ✓」
+    // 3) 轮询：置灰已完成建筑的「进入」按钮 + 更新左上角任务清单
+    function updateTaskList() {
+      try {
+        var done = window.__completedBuildings || [];
+        var items = document.querySelectorAll('#taskList .task-item');
+        var allDone = true;
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          var name = it.getAttribute('data-name');
+          var isDone = done.indexOf(name) >= 0;
+          var st = it.querySelector('.t-status');
+          if (isDone) {
+            it.classList.add('done');
+            if (st) st.textContent = '完成 ✓';
+          } else {
+            it.classList.remove('done');
+            if (st) st.textContent = '出发吧';
+            allDone = false;
+          }
+        }
+        var fb = document.getElementById('finishBtn');
+        if (fb) fb.classList.toggle('hidden', !allDone);
+      } catch (e) {}
+    }
+
+    // 4) 全部完成后，点击「结束实验」通知父页走收尾流程
+    var fbBtn = document.getElementById('finishBtn');
+    if (fbBtn) fbBtn.addEventListener('click', function () {
+      try { window.parent.postMessage({ type: 'CAMPUS_FINISH' }, '*'); } catch (e) {}
+    });
+
     setInterval(function () {
       try {
         var promptEl = document.getElementById('prompt');
@@ -62,8 +105,10 @@
           if (done) { enter.disabled = true; enter.textContent = '已完成 ✓'; }
           else { enter.disabled = false; enter.textContent = '进入 ▶'; }
         }
+        updateTaskList();
       } catch (e) {}
     }, 300);
+    updateTaskList();
   </script>
 </body>
 </html>
