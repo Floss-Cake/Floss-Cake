@@ -21,6 +21,9 @@
     </div>
   </div>
 
+  <!-- ========== 校园 3D 串场场景（实验入口，点击建筑进入对应故事） ========== -->
+  <iframe id="campusFrame" src="campus-web/index.html" title="校园场景" allow="autoplay; fullscreen"></iframe>
+
   <!-- ========== 顶部进度条 ========== -->
   <div class="progress-bar" id="progressBar">
     <div class="progress-fill" id="progressFill"></div>
@@ -254,6 +257,7 @@
           <button class="btn story-action-btn next-btn" id="btnNextStory">▶ 下一个故事</button>
           <button class="btn story-action-btn picker-btn" id="btnStoryPicker">📋 选择故事</button>
           <button class="btn story-action-btn exit-btn" id="btnExitExperiment">🚪 退出实验</button>
+          <button class="btn story-action-btn campus-return-btn" id="btnReturnCampus" style="display:none;">🏫 返回校园</button>
         </div>
         <p class="story-complete-hint" id="storyCompleteNextHint" style="display:none;">
           下一个故事即将开始...
@@ -311,6 +315,10 @@
     <button class="galgame-skip-btn" id="btnCinemaSkip" style="display:none;">跳过 ▸</button>
 
   </div>
+
+  <!-- ========== 校园浮层：提示与退出 ========== -->
+  <div id="campusToast" class="campus-toast" style="display:none;"></div>
+  <button id="campusExitBtn" class="campus-exit-btn" style="display:none;">退出实验</button>
 
   <!-- ========== 全局弹窗 ========== -->
   <div class="modal-overlay" id="modalOverlay" style="display:none;">

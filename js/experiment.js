@@ -51,8 +51,29 @@ const Experiment = {
     return this._mediaCache[ossUrl] || ossUrl;
   },
 
+  // ==================== 校园 3D 串场场景 ====================
+  // 建筑 id（来自 campus-web）<-> 实验故事 id 映射
+  _buildingToStory: {
+    teach: 'brokeleg', swim: 'swim', play: 'playground',
+    art: 'artClass', canteen: 'diningHall',
+  },
+  _storyToBuilding: {
+    brokeleg: 'teach', swim: 'swim', playground: 'play',
+    artClass: 'art', diningHall: 'canteen',
+  },
+  _buildingNameToId: {
+    '教学楼': 'teach', '游泳馆': 'swim', '操场': 'play',
+    '美术馆': 'art', '食堂': 'canteen',
+  },
+  _completedStories: null,   // 已完成故事 id 集合（Set）
+  _campusActive: false,      // 当前是否处于校园驱动流程
+  _campusSyncTimer: null,    // 禁用已完成建筑按钮的轮询
+  _campusToastTimer: null,
+  _campusReady: false,       // 校园 iframe 是否已就绪
+
   init() {
     DataCollector.reset();
+    this._completedStories = new Set();
     this._bindEvents();
     this._checkBrowser();
 
@@ -72,7 +93,7 @@ const Experiment = {
       DataCollector.setSubjectId('DEBUG_' + Date.now().toString(36));
       this.micTestRecorder = new AudioRecorder({ manualMode: true, maxDuration: 30000 });
       this.micTestRecorder.requestPermission().then(() => {
-        this._showStoryPicker();
+        this._showCampus();
       });
     } else {
       this._showStage(0);
@@ -112,6 +133,9 @@ const Experiment = {
       }
     };
 
+    // 媒体与校园都就绪才显示「开始实验」
+    const tryReady = () => { if (mediaDone && this._campusReady) showReady(); };
+
     const startExperiment = () => {
       if (userStarted) return; userStarted = true;
       document.getElementById('preloadOverlay').classList.add('done');
@@ -145,6 +169,23 @@ const Experiment = {
     const total = items.length;
     let loaded = 0, ok = 0, nextIndex = 0;
 
+    // ---- 校园 3D 串场场景就绪检测（iframe 加载完成才允许开始）----
+    let mediaDone = false;
+    this._campusReady = false;
+    const frame = document.getElementById('campusFrame');
+    const hookFn = (b) => this._enterStoryFromCampus(b && b.id);
+    const attachHook = () => {
+      try { if (frame.contentWindow) frame.contentWindow.CampusOnEnterBuilding = hookFn; } catch (e) {}
+    };
+    if (frame) {
+      frame.addEventListener('load', () => { this._campusReady = true; attachHook(); tryReady(); });
+      attachHook(); // 若 iframe 已提前加载完成
+      // 兜底：20s 内 iframe 未就绪也放行（校园稍后显示）
+      setTimeout(() => { if (!this._campusReady) { this._campusReady = true; tryReady(); } }, 20000);
+    } else {
+      this._campusReady = true;
+    }
+
     const upd = () => {
       const pct = Math.round((loaded / total) * 100);
       if (bar) bar.style.width = pct + '%';
@@ -170,7 +211,7 @@ const Experiment = {
           this._mediaCache[ossUrl] = blobUrl;
           loaded++; ok++;
           upd();
-          if (loaded >= total) { showReady(); return; }
+          if (loaded >= total) { mediaDone = true; tryReady(); return; }
           fetchOne();
         })
         .catch(err => {
@@ -178,7 +219,7 @@ const Experiment = {
           failedUrls.push(ossUrl);
           loaded++;
           upd();
-          if (loaded >= total) { showReady(); return; }
+          if (loaded >= total) { mediaDone = true; tryReady(); return; }
           fetchOne();
         });
     };
@@ -193,8 +234,8 @@ const Experiment = {
       if (!userStarted && loaded < total) {
         console.warn('[Preload] Safety timeout. Forcing ready at ' + loaded + '/' + total);
         loaded = total;
-        showReady();
       }
+      mediaDone = true; this._campusReady = true; tryReady();
     }, 120000);
   },
 
@@ -218,6 +259,18 @@ const Experiment = {
    */
   _showStoryPicker() {
     const enabledStories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+
+    // 检查是否从小游戏跳转过来（sessionStorage.startStory）
+    const startStoryId = sessionStorage.getItem('startStory');
+    if (startStoryId) {
+      sessionStorage.removeItem('startStory');
+      const idx = enabledStories.findIndex(s => s.id === startStoryId);
+      if (idx !== -1) {
+        this._startStory(idx);
+        return;
+      }
+    }
+
     if (enabledStories.length === 1) {
       this._startStory(0);
       return;
@@ -250,6 +303,16 @@ const Experiment = {
       });
       list.appendChild(btn);
     });
+
+    // 返回校园按钮
+    const backBtn = document.createElement('button');
+    backBtn.className = 'story-pick-btn';
+    backBtn.style.background = 'rgba(255,255,255,0.08)';
+    backBtn.innerHTML = '<span class="story-pick-num" style="font-size:20px;">🏫</span><span class="story-pick-name">返回校园</span>';
+    backBtn.addEventListener('click', () => {
+      window.location.href = 'campus-web/index.html';
+    });
+    list.appendChild(backBtn);
 
     panel.style.display = 'flex';
   },
@@ -320,7 +383,7 @@ const Experiment = {
     });
     document.getElementById('btnStartExperiment').addEventListener('click', () => {
       DataCollector.setSubjectId(subj.value.trim());
-      this._startStory(0);
+      this._showCampus();
     });
 
     // ---- 视频控制 ----
@@ -375,6 +438,17 @@ const Experiment = {
     document.getElementById('btnStoryPicker').addEventListener('click', () => {
       this._hideOverlay('storyComplete');
       this._showStoryPicker();
+    });
+    document.getElementById('btnReturnCampus').addEventListener('click', () => {
+      this._hideOverlay('storyComplete');
+      this._returnToCampus();
+    });
+    document.getElementById('campusExitBtn').addEventListener('click', () => {
+      const cf = document.getElementById('campusFrame');
+      if (cf) cf.classList.remove('active');
+      document.getElementById('campusExitBtn').style.display = 'none';
+      this._stopCampusSync();
+      this._exitCinema(true);
     });
 
     // ---- 完成页 ----
@@ -654,8 +728,14 @@ const Experiment = {
     const hasNext = this._currentStoryIndex + 1 < enabledStories.length;
 
     document.getElementById('storyCompleteName').textContent = story.name;
-    document.getElementById('btnNextStory').style.display = hasNext ? 'inline-flex' : 'none';
-    document.getElementById('storyCompleteNextHint').style.display = hasNext ? 'block' : 'none';
+
+    // 校园串场模式：不显示「下一个/选择故事/重播」，改为「返回校园」
+    const campusMode = !!this._campusActive;
+    document.getElementById('btnNextStory').style.display = (!campusMode && hasNext) ? 'inline-flex' : 'none';
+    document.getElementById('btnStoryPicker').style.display = campusMode ? 'none' : 'inline-flex';
+    document.getElementById('btnReplayStory').style.display = campusMode ? 'none' : 'inline-flex';
+    document.getElementById('btnReturnCampus').style.display = campusMode ? 'inline-flex' : 'none';
+    document.getElementById('storyCompleteNextHint').style.display = 'none';
 
     document.getElementById('cinemaVideo').style.display = 'none';
     this._hideGalgameUI();
@@ -664,6 +744,12 @@ const Experiment = {
 
   _exitCinema(toComplete) {
     this._stopGalgameAudio();
+    // 隐藏校园串场层（若存在）
+    const cf = document.getElementById('campusFrame');
+    if (cf) cf.classList.remove('active');
+    const exitBtn = document.getElementById('campusExitBtn');
+    if (exitBtn) exitBtn.style.display = 'none';
+    this._stopCampusSync();
     // 清理后台预加载
     if (this._preloadPool) { this._preloadPool.forEach(v => { v.src = ''; v.load(); v.remove(); }); this._preloadPool = []; }
     const overlay = document.getElementById('cinemaOverlay');
@@ -1184,5 +1270,154 @@ const Experiment = {
   _showModal(msg) {
     document.getElementById('modalBody').innerHTML = msg;
     document.getElementById('modalOverlay').style.display = 'flex';
+  },
+
+  // ==================== 校园 3D 串场：进入/返回 ====================
+
+  /**
+   * 校园场景就绪后显示（隐藏其它界面）
+   */
+  _showCampus() {
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'none';
+
+    const overlay = document.getElementById('cinemaOverlay');
+    overlay.classList.remove('active');
+    overlay.style.display = 'none';
+    const video = document.getElementById('cinemaVideo');
+    video.pause(); video.onended = null; video.style.display = 'block';
+
+    this._hideGalgameUI();
+    this._hideAllOverlays();
+
+    const frame = document.getElementById('campusFrame');
+    if (frame) {
+      frame.classList.add('active');
+      // 把已完成集合同步给校园游戏，用于禁用按钮
+      try {
+        frame.contentWindow.__completedBuildings =
+          Array.from(this._completedStories).map(id => this._storyToBuilding[id]).filter(Boolean);
+      } catch (e) {}
+      this._startCampusSync();
+    }
+
+    const exitBtn = document.getElementById('campusExitBtn');
+    if (exitBtn) exitBtn.style.display = 'block';
+
+    // 全部完成提示
+    const enabled = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    if (enabled.length > 0 && enabled.every(s => this._completedStories.has(s.id))) {
+      this._toastCampus('🎉 所有场景已完成！点击右上角「退出实验」结束。');
+    }
+  },
+
+  /**
+   * 校园钩子：点击建筑「进入 ▶」触发，跳转到对应故事
+   */
+  _enterStoryFromCampus(buildingId) {
+    if (!buildingId) return;
+    const storyId = this._buildingToStory[buildingId];
+    if (!storyId) return;
+    if (this._completedStories.has(storyId)) {
+      this._toastCampus('该场景已完成，无法再次进入');
+      return;
+    }
+    const enabledStories = EXPERIMENT_CONFIG.stories.filter(s => s.enabled);
+    const idx = enabledStories.findIndex(s => s.id === storyId);
+    if (idx === -1) return;
+
+    this._campusActive = true;
+
+    // 隐藏校园，显示影院
+    const frame = document.getElementById('campusFrame');
+    if (frame) frame.classList.remove('active');
+    const exitBtn = document.getElementById('campusExitBtn');
+    if (exitBtn) exitBtn.style.display = 'none';
+    this._stopCampusSync();
+
+    const overlay = document.getElementById('cinemaOverlay');
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => overlay.classList.add('active'));
+    document.getElementById('cinemaVideo').style.display = 'block';
+
+    this._startStory(idx);
+  },
+
+  /**
+   * 故事完成后返回校园，并标记为已完成
+   */
+  _returnToCampus() {
+    if (this._currentStory) this._completedStories.add(this._currentStory.id);
+    this._saveProgress(); // 每个故事完成即保存，防丢失
+
+    const video = document.getElementById('cinemaVideo');
+    video.pause(); video.onended = null;
+    const overlay = document.getElementById('cinemaOverlay');
+    overlay.classList.remove('active');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      this._hideGalgameUI();
+      this._hideAllOverlays();
+      this._showCampus();
+    }, 400);
+  },
+
+  /**
+   * 每个故事完成即渐进式上传（依赖 GitHub JSON 后端）
+   */
+  _saveProgress() {
+    try {
+      DataCollector.upload().then(r => {
+        if (r && r.success) console.log('[Save] 进度已上传');
+        else console.warn('[Save] 进度未成功（将依赖最终退出上传）', r && r.reason);
+      }).catch(e => console.warn('[Save] 上传异常', e.message));
+    } catch (e) {}
+  },
+
+  /**
+   * 轮询校园 iframe 的提示按钮，禁用已完成建筑
+   */
+  _startCampusSync() {
+    this._stopCampusSync();
+    const frame = document.getElementById('campusFrame');
+    if (!frame) return;
+    const tick = () => {
+      try {
+        const doc = frame.contentDocument;
+        if (doc) {
+          const prompt = doc.getElementById('prompt');
+          const enter = doc.getElementById('prompt-enter');
+          const nameEl = doc.getElementById('prompt-name');
+          if (prompt && enter && nameEl && !prompt.classList.contains('hidden')) {
+            const bid = this._buildingNameToId[nameEl.textContent.trim()];
+            const done = bid && this._completedStories.has(this._buildingToStory[bid]);
+            if (done) { enter.disabled = true; enter.textContent = '已完成 ✓'; }
+            else { enter.disabled = false; enter.textContent = '进入 ▶'; }
+          }
+        }
+      } catch (e) {}
+      this._campusSyncTimer = setTimeout(tick, 350);
+    };
+    tick();
+  },
+
+  _stopCampusSync() {
+    if (this._campusSyncTimer) { clearTimeout(this._campusSyncTimer); this._campusSyncTimer = null; }
+  },
+
+  /**
+   * 校园浮层提示
+   */
+  _toastCampus(msg) {
+    const t = document.getElementById('campusToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'block';
+    t.style.opacity = '1';
+    clearTimeout(this._campusToastTimer);
+    this._campusToastTimer = setTimeout(() => {
+      t.style.opacity = '0';
+      setTimeout(() => { t.style.display = 'none'; }, 300);
+    }, 2800);
   },
 };

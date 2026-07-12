@@ -3,3 +3,4 @@
 .codebuddy/
 nul
 fix_oss_headers.py
+upload_campus_assets.py

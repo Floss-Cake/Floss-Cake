@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>校园漫步 · Campus Walk</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 资源基址：从阿里云 OSS 扁平目录拉取 3D 模型（glb/fbx/png） -->
+  <script>
+    window.CAMPUS_ASSET_BASE = 'https://education-video-game1.oss-cn-shanghai.aliyuncs.com/campus-assets/';
+  </script>
+
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <div id="hint">点击地面移动 · 走到建筑旁可进入 🏫</div>
+
+  <!-- 进入建筑提示 -->
+  <div id="prompt" class="hidden">
+    <span id="prompt-name">教学楼</span>
+    <button id="prompt-enter">进入 ▶</button>
+  </div>
+
+  <!-- 进入建筑过渡 / 实际跳转由外部项目通过 window.CampusOnEnterBuilding 接入 -->
+  <div id="transition" class="hidden">
+    <div class="transition-card">
+      <div id="transition-title">教学楼</div>
+      <div class="transition-sub">地点内部场景将在后续开发中开放</div>
+      <button id="transition-back">← 返回校园</button>
+    </div>
+  </div>
+</body>
+</html>
