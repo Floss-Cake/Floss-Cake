@@ -76,6 +76,7 @@ const Experiment = {
     this._completedStories = new Set();
     this._bindEvents();
     this._checkBrowser();
+    this._bindCampusMessages();
 
     // 清理可能残留的旧 Service Worker（已废弃，改用 OSS + 浏览器 HTTP 缓存）
     if ('serviceWorker' in navigator) {
@@ -170,16 +171,21 @@ const Experiment = {
     let loaded = 0, ok = 0, nextIndex = 0;
 
     // ---- 校园 3D 串场场景就绪检测（iframe 加载完成才允许开始）----
-    let mediaDone = false;
     this._campusReady = false;
     const frame = document.getElementById('campusFrame');
-    const hookFn = (b) => this._enterStoryFromCampus(b && b.id);
-    const attachHook = () => {
-      try { if (frame.contentWindow) frame.contentWindow.CampusOnEnterBuilding = hookFn; } catch (e) {}
+    const syncCompleted = () => {
+      // 用 postMessage 同步「已完成建筑」——跨域 / file:// 均可工作
+      try {
+        if (frame && frame.contentWindow) {
+          frame.contentWindow.postMessage({
+            type: 'CAMPUS_COMPLETED',
+            buildings: this._completedBuildingNames(),
+          }, '*');
+        }
+      } catch (e) {}
     };
     if (frame) {
-      frame.addEventListener('load', () => { this._campusReady = true; attachHook(); tryReady(); });
-      attachHook(); // 若 iframe 已提前加载完成
+      frame.addEventListener('load', () => { this._campusReady = true; syncCompleted(); tryReady(); });
       // 兜底：20s 内 iframe 未就绪也放行（校园稍后显示）
       setTimeout(() => { if (!this._campusReady) { this._campusReady = true; tryReady(); } }, 20000);
     } else {
@@ -1293,10 +1299,12 @@ const Experiment = {
     const frame = document.getElementById('campusFrame');
     if (frame) {
       frame.classList.add('active');
-      // 把已完成集合同步给校园游戏，用于禁用按钮
+      // 用 postMessage 把「已完成建筑名」同步给校园游戏，用于禁用按钮
       try {
-        frame.contentWindow.__completedBuildings =
-          Array.from(this._completedStories).map(id => this._storyToBuilding[id]).filter(Boolean);
+        frame.contentWindow.postMessage({
+          type: 'CAMPUS_COMPLETED',
+          buildings: this._completedBuildingNames(),
+        }, '*');
       } catch (e) {}
       this._startCampusSync();
     }
@@ -1375,7 +1383,9 @@ const Experiment = {
   },
 
   /**
-   * 轮询校园 iframe 的提示按钮，禁用已完成建筑
+   * 把「已完成建筑名」列表同步给校园 iframe（postMessage，跨域/file:// 可用）。
+   * 真正的按钮禁用逻辑在 iframe 内部（campus-web/index.html 的轮询脚本）完成，
+   * 避免父页直接访问 iframe.contentDocument 在 file:// 下被浏览器拦截。
    */
   _startCampusSync() {
     this._stopCampusSync();
@@ -1383,26 +1393,43 @@ const Experiment = {
     if (!frame) return;
     const tick = () => {
       try {
-        const doc = frame.contentDocument;
-        if (doc) {
-          const prompt = doc.getElementById('prompt');
-          const enter = doc.getElementById('prompt-enter');
-          const nameEl = doc.getElementById('prompt-name');
-          if (prompt && enter && nameEl && !prompt.classList.contains('hidden')) {
-            const bid = this._buildingNameToId[nameEl.textContent.trim()];
-            const done = bid && this._completedStories.has(this._buildingToStory[bid]);
-            if (done) { enter.disabled = true; enter.textContent = '已完成 ✓'; }
-            else { enter.disabled = false; enter.textContent = '进入 ▶'; }
-          }
+        if (frame.contentWindow) {
+          frame.contentWindow.postMessage({
+            type: 'CAMPUS_COMPLETED',
+            buildings: this._completedBuildingNames(),
+          }, '*');
         }
       } catch (e) {}
-      this._campusSyncTimer = setTimeout(tick, 350);
+      this._campusSyncTimer = setTimeout(tick, 1000);
     };
     tick();
   },
 
   _stopCampusSync() {
     if (this._campusSyncTimer) { clearTimeout(this._campusSyncTimer); this._campusSyncTimer = null; }
+  },
+
+  /** 已完成故事对应的建筑中文名数组（用于同步给校园游戏） */
+  _completedBuildingNames() {
+    const names = [];
+    this._completedStories.forEach(storyId => {
+      const bid = this._storyToBuilding[storyId];
+      if (bid) {
+        for (const name in this._buildingNameToId) {
+          if (this._buildingNameToId[name] === bid) { names.push(name); break; }
+        }
+      }
+    });
+    return names;
+  },
+
+  /** 监听校园 iframe 通过 postMessage 发来的「进入建筑」事件 */
+  _bindCampusMessages() {
+    window.addEventListener('message', (e) => {
+      const d = e.data;
+      if (!d || d.type !== 'CAMPUS_ENTER') return;
+      this._enterStoryFromCampus(d.building);
+    });
   },
 
   /**

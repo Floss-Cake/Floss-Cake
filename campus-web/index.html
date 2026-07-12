@@ -32,5 +32,38 @@
       <button id="transition-back">← 返回校园</button>
     </div>
   </div>
+
+  <!-- 实验平台集成钩子（必须在游戏 main.js 之前/之时注册，使其能接管"进入"点击） -->
+  <script>
+    // 1) 点击建筑「进入 ▶」时通知父页（实验平台）跳转对应故事。
+    //    用 postMessage 通信：本地 file:// 与线上同源都能正常工作。
+    window.CampusOnEnterBuilding = function (building) {
+      try {
+        window.parent.postMessage({ type: 'CAMPUS_ENTER', building: building && building.id }, '*');
+      } catch (e) {}
+    };
+
+    // 2) 接收父页同步的「已完成建筑」列表，禁用对应进入按钮
+    window.__completedBuildings = [];
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (!d || d.type !== 'CAMPUS_COMPLETED') return;
+      window.__completedBuildings = d.buildings || [];
+    });
+
+    // 3) 轮询当前提示按钮，把已完成的建筑按钮置灰为「已完成 ✓」
+    setInterval(function () {
+      try {
+        var promptEl = document.getElementById('prompt');
+        var enter = document.getElementById('prompt-enter');
+        var nameEl = document.getElementById('prompt-name');
+        if (promptEl && enter && nameEl && !promptEl.classList.contains('hidden')) {
+          var done = window.__completedBuildings.indexOf(nameEl.textContent.trim()) >= 0;
+          if (done) { enter.disabled = true; enter.textContent = '已完成 ✓'; }
+          else { enter.disabled = false; enter.textContent = '进入 ▶'; }
+        }
+      } catch (e) {}
+    }, 300);
+  </script>
 </body>
 </html>
