@@ -1,0 +1,269 @@
+{
+  "participant_id": "DEBUG_mrlwbgn3",
+  "timestamp": "2026-07-15T10:00:48.372Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140",
+  "language": "zh-CN",
+  "screen": "1920x1080",
+  "metadata": {
+    "consentTime": "2026-07-15T09:46:45.375Z",
+    "experimentStartTime": "2026-07-15T09:46:45.375Z",
+    "experimentEndTime": "2026-07-15T10:00:48.372Z",
+    "totalDuration": 842.997
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "看到小诺这样，你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "她在干什么，怎么还不开始画呀？",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小诺一直低着头，偷偷瞄旁边的同学，嘴巴动了动又没出声。你会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "不管她，我先画好自己的就行。",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小诺犹豫了一下，对着你小声说：\"我好像把画笔忘在家里了……\"。你轻轻把画笔往她那边推了推，小诺没有马上接。她小声地问了一句：\"那……你自己够用吗？\"你怎么回应她？",
+      "optionValue": "B",
+      "optionLabel": "\"你先拿着用，别担心我。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小诺握着笔，视线悄悄扫过旁边其他人的画纸，声音轻轻的：\"大家都画好一阵子了，就我耽搁了这么久，跟不上大家了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别急，你画得快，来得及的。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "快要画完的时候，小诺正欣赏着自己的画。这时旁边的同学起身交作业，胳膊不小心蹭到她的画纸。画笔在画上\"呲\"地划了一道长长的线。小诺愣住了，整个人僵在那里，她盯着那道多余的线，眼眶一下子就红了，什么话也没说。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "那个人怎么这么不小心啊，把别人的画都毁了。",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小诺拿着画，声音有点抖：\"我画了好久……现在多了一道线，整张画都毁了……\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别太难过了，没事的。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小诺低头看着那道多余的线，小声说：\"我觉得自己好倒霉，每次都是我遇到这种事。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别放心上了，倒霉的事谁都会碰到。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小诺拿着画翻来覆去地看，犹豫地说：\"这道线这么明显，展示的时候大家肯定会注意到……\"她的声音越来越小，手不自觉地想把画折起来。你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"大家看的是整幅画，我觉得你画得挺好。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小诺拿着画，站在座位旁边犹豫，不知道该怎么办。你怎么做？",
+      "optionValue": "B",
+      "optionLabel": "拍拍小诺，\"我们跟老师解释一下就可以了。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "看到小宇站在台阶边、脸红、一直不下水，你觉得他现在的心情是什么？",
+      "optionValue": "B",
+      "optionLabel": "他可能是怕水，所以一直不敢下水。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小宇说\"没有啊\"，却迟迟不动，假装在调整泳镜。你觉得他为什么这样？",
+      "optionValue": "B",
+      "optionLabel": "他单纯不想理小杰。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小宇鼓起勇气把这句话告诉了你。听完之后，你心里怎么想？",
+      "optionValue": "B",
+      "optionLabel": "他愿意说出来不容易，怕呛水这种感觉我也能理解。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "听到小杰说\"这有什么好怕的\"，你心里有什么感觉？",
+      "optionValue": "B",
+      "optionLabel": "小杰这样说小宇肯定不高兴了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "你会对小宇说什么？",
+      "optionValue": "B",
+      "optionLabel": "你别理他，他平常跟别人说话也这样。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "你这时候会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "他已经下水练换气了，应该没什么问题了。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "你会怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"呛水肯定很难受吧，先缓一缓。\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "你会怎么回应他？",
+      "optionValue": "B",
+      "optionLabel": "\"我在这儿挺好的呀，再试试换气呗。\"",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小宇说：\"他们都在那边玩，就我一直学不会，老师和同学肯定在偷偷笑我。\"",
+      "optionValue": "B",
+      "optionLabel": "不用在意别人的看法，他们怎么想是他们的事。",
+      "storyId": "swim"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "排队取餐时，小哲一直无精打采、磨磨蹭蹭不肯上前，你觉得他当下是什么心情？",
+      "optionValue": "A",
+      "optionLabel": "他就是故意偷懒，不想乖乖排队吃饭。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小哲端着餐盘站在原地没有立刻开心起来，你觉得他在想什么？",
+      "optionValue": "A",
+      "optionLabel": "他想霸占这份不属于自己的餐食。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小哲主动提出和小华换回餐食，你怎么看待？",
+      "optionValue": "B",
+      "optionLabel": "他怕小华怪自己拿错了餐却不告诉他。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小华表示不用换餐，小哲终于放下心事，开心地分享食物，你内心是什么感受？",
+      "optionValue": "B",
+      "optionLabel": "一份饭菜而已，没必要这么兴奋吧。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "小哲说起家长给自己登记错了饭菜的乌龙，这时你会如何和他交流？",
+      "optionValue": "B",
+      "optionLabel": "食堂的糖醋里脊，味道确实很不错。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小哲放错餐盘被老师提醒，还引来其他同学注视，整个人局促不安，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "主动走到他身边陪着他，轻声安抚他：\"没事，你也不是故意的。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小哲委屈地解释：\"我只是太着急了才看错地方。\" 你会怎么安慰他？",
+      "optionValue": "C",
+      "optionLabel": "我知道你不是故意的，老师也只是提醒一下你，不是批评你。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "同班同学小明路过说食堂阿姨收拾更麻烦了，小哲说\"我最近老给别人添麻烦\"，你会如何回应？",
+      "optionValue": "C",
+      "optionLabel": "别难为情啦，下回我们互相提醒就好了。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小哲手忙脚乱摆放餐具还碰倒了其他餐盘，你会怎么做？",
+      "optionValue": "B",
+      "optionLabel": "走到他旁边：\"你别急啊，你看越急越乱。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q1",
+      "questionStem": "想到小航下周要返校，你心里的想法是？",
+      "optionValue": "B",
+      "optionLabel": "小航终于要回来了，又多一个人可以一起打闹了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "从小航冷淡简短的消息、频繁叹气的语音里，你觉得他当下是什么心情？",
+      "optionValue": "B",
+      "optionLabel": "他腿还疼，行动不方便，所以心情不好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "你会说什么？",
+      "optionValue": "B",
+      "optionLabel": "你终于要回学校了，我们等你好久了。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小航说担心落下功课、走路慢吞吞给大家添麻烦，你如何回应？",
+      "optionValue": "B",
+      "optionLabel": "没什么好担心的，回来了就好。",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "体育课自由活动，小航一个人坐在台阶上看着大家打球跑步。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "他怎么一个人坐在那儿？",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小航说\"腿还没好透，跑也跑不了，只能在这儿坐着看。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别着急，等腿好了就能和我们一起玩了。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小航低着头说：\"这么久没回来，感觉跟大家都没话聊了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"你太久没来学校了，刚开始没话题很正常。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小航说：\"以前我跟小杰他们什么都说，现在感觉自己像个外人。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"总有个过渡期，给大家一点时间。\"",
+      "storyId": "brokeleg"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "下课后小杰他们说说笑笑走过，没注意到小航。你怎么做？",
+      "optionValue": "B",
+      "optionLabel": "\"他们在那呢，你去跟他们聊聊呗？\"",
+      "storyId": "brokeleg"
+    }
+  ]
+}
