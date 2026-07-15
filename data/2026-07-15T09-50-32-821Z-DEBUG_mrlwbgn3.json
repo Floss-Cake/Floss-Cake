@@ -1,0 +1,80 @@
+{
+  "participant_id": "DEBUG_mrlwbgn3",
+  "timestamp": "2026-07-15T09:50:32.821Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.140",
+  "language": "zh-CN",
+  "screen": "1920x1080",
+  "metadata": {
+    "consentTime": "2026-07-15T09:46:45.375Z",
+    "experimentStartTime": "2026-07-15T09:46:45.375Z",
+    "experimentEndTime": "2026-07-15T09:50:32.821Z",
+    "totalDuration": 227.446
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "看到小诺这样，你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "她在干什么，怎么还不开始画呀？",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小诺一直低着头，偷偷瞄旁边的同学，嘴巴动了动又没出声。你会怎么做？",
+      "optionValue": "A",
+      "optionLabel": "不管她，我先画好自己的就行。",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小诺犹豫了一下，对着你小声说：\"我好像把画笔忘在家里了……\"。你轻轻把画笔往她那边推了推，小诺没有马上接。她小声地问了一句：\"那……你自己够用吗？\"你怎么回应她？",
+      "optionValue": "B",
+      "optionLabel": "\"你先拿着用，别担心我。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小诺握着笔，视线悄悄扫过旁边其他人的画纸，声音轻轻的：\"大家都画好一阵子了，就我耽搁了这么久，跟不上大家了。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别急，你画得快，来得及的。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "快要画完的时候，小诺正欣赏着自己的画。这时旁边的同学起身交作业，胳膊不小心蹭到她的画纸。画笔在画上\"呲\"地划了一道长长的线。小诺愣住了，整个人僵在那里，她盯着那道多余的线，眼眶一下子就红了，什么话也没说。你心里怎么想？",
+      "optionValue": "A",
+      "optionLabel": "那个人怎么这么不小心啊，把别人的画都毁了。",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小诺拿着画，声音有点抖：\"我画了好久……现在多了一道线，整张画都毁了……\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别太难过了，没事的。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小诺低头看着那道多余的线，小声说：\"我觉得自己好倒霉，每次都是我遇到这种事。\"你怎么说？",
+      "optionValue": "B",
+      "optionLabel": "\"别放心上了，倒霉的事谁都会碰到。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "小诺拿着画翻来覆去地看，犹豫地说：\"这道线这么明显，展示的时候大家肯定会注意到……\"她的声音越来越小，手不自觉地想把画折起来。你怎么说？",
+      "optionValue": "C",
+      "optionLabel": "\"大家看的是整幅画，我觉得你画得挺好。\"",
+      "storyId": "artClass"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小诺拿着画，站在座位旁边犹豫，不知道该怎么办。你怎么做？",
+      "optionValue": "B",
+      "optionLabel": "拍拍小诺，\"我们跟老师解释一下就可以了。\"",
+      "storyId": "artClass"
+    }
+  ]
+}
