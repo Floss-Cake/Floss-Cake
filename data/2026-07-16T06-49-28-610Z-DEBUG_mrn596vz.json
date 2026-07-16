@@ -1,0 +1,80 @@
+{
+  "participant_id": "DEBUG_mrn596vz",
+  "timestamp": "2026-07-16T06:49:28.610Z",
+  "experiment_version": "3.0.0",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63090a13) UnifiedPCWindowsWechat(0xf2541b18) XWEB/20079 Flue",
+  "language": "zh-CN",
+  "screen": "1494x934",
+  "metadata": {
+    "consentTime": "2026-07-16T06:44:46.629Z",
+    "experimentStartTime": "2026-07-16T06:44:42.143Z",
+    "experimentEndTime": "2026-07-16T06:49:28.610Z",
+    "totalDuration": 286.467
+  },
+  "stories": [],
+  "choices": [
+    {
+      "questionId": "q1",
+      "questionStem": "排队取餐时，小哲一直无精打采、磨磨蹭蹭不肯上前，你觉得他当下是什么心情？",
+      "optionValue": "C",
+      "optionLabel": "他因为吃不到想吃的饭菜，心里失落提不起劲。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q2",
+      "questionStem": "小哲端着餐盘站在原地没有立刻开心起来，你觉得他在想什么？",
+      "optionValue": "C",
+      "optionLabel": "这是小华的餐食，他担心小华吃到不喜欢的饭。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q3",
+      "questionStem": "小哲主动提出和小华换回餐食，你怎么看待？",
+      "optionValue": "C",
+      "optionLabel": "他怕小华不开心。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q4",
+      "questionStem": "小华表示不用换餐，小哲终于放下心事，开心地分享食物，你内心是什么感受？",
+      "optionValue": "C",
+      "optionLabel": "如愿吃到爱吃的饭肯定是很开心的。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q5",
+      "questionStem": "小哲说起家长给自己登记错了饭菜的乌龙，这时你会如何和他交流？",
+      "optionValue": "B",
+      "optionLabel": "食堂的糖醋里脊，味道确实很不错。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q6",
+      "questionStem": "小哲放错餐盘被老师提醒，还引来其他同学注视，整个人局促不安，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "主动走到他身边陪着他，轻声安抚他：\"没事，你也不是故意的。\"",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q7",
+      "questionStem": "小哲委屈地解释：\"我只是太着急了才看错地方。\" 你会怎么安慰他？",
+      "optionValue": "C",
+      "optionLabel": "我知道你不是故意的，老师也只是提醒一下你，不是批评你。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q8",
+      "questionStem": "同班同学小明路过说食堂阿姨收拾更麻烦了，小哲说\"我最近老给别人添麻烦\"，你会如何回应？",
+      "optionValue": "B",
+      "optionLabel": "别太在意，大家都有犯错的时候。",
+      "storyId": "diningHall"
+    },
+    {
+      "questionId": "q9",
+      "questionStem": "小哲手忙脚乱摆放餐具还碰倒了其他餐盘，你会怎么做？",
+      "optionValue": "C",
+      "optionLabel": "走过去帮他把碰倒的餐具扶起来：\"我帮你一起收拾。\"",
+      "storyId": "diningHall"
+    }
+  ]
+}
