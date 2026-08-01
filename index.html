@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- ========== 管理平台入口（左上角标签 + 内嵌浮层） ========== -->
+  <button id="adminEntryBadge" class="admin-entry-badge" type="button" title="进入实验数据管理平台">📊 进入管理平台</button>
+
+  <div id="adminEmbedOverlay" class="admin-embed-overlay" style="display:none;">
+    <div class="admin-embed-bar">
+      <span class="admin-embed-title">🍰 实验数据管理平台</span>
+      <button id="adminEmbedClose" class="admin-embed-close" type="button">✕ 返回实验</button>
+    </div>
+    <iframe id="adminEmbedFrame" class="admin-embed-frame" title="实验数据管理平台" src="about:blank"></iframe>
+    <div id="adminEmbedLoading" class="admin-embed-loading" style="display:none;">正在加载管理平台…</div>
+  </div>
+
   <!-- ========== 加载页：预加载所有资源 ========== -->
   <div class="preload-overlay" id="preloadOverlay">
     <div class="preload-card">
@@ -149,6 +161,13 @@
             <input type="text" id="subjectId" class="form-input"
                    placeholder="例如：P001" maxlength="20" autocomplete="off">
             <p class="hint-text">此编号仅用于数据标识，不关联任何个人身份信息。</p>
+          </div>
+
+          <div class="form-group">
+            <label for="subjectSchool">所属学校 <span class="req-star">*</span></label>
+            <input type="text" id="subjectSchool" class="form-input"
+                   placeholder="请填写被试所在学校全称" maxlength="40" autocomplete="off">
+            <p class="hint-text">该信息将随实验数据一并保存，便于后续按学校分组分析。</p>
           </div>
 
           <div class="form-group" style="display:none;" id="extraFieldsGroup">

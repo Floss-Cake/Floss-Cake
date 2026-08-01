@@ -1357,3 +1357,75 @@ body {
   body { background: white; }
   .progress-bar { display: none; }
 }
+
+/* ============================================================
+   实验页左上角「进入管理平台」标签 + 内嵌浮层
+   ============================================================ */
+.admin-entry-badge {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 3500;                 /* 高于校园/进度条，低于预加载遮罩(9999) */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: #5a2a2a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.admin-entry-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.24);
+}
+.admin-entry-badge:active { transform: translateY(0); }
+
+/* 进入影院/校园后淡化标签，避免遮挡视频交互 */
+body.cinema-active .admin-entry-badge { opacity: 0.5; }
+body.cinema-active .admin-entry-badge:hover { opacity: 1; }
+
+.admin-embed-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;                /* 高于预加载遮罩，确保可覆盖全屏 */
+  display: flex;
+  flex-direction: column;
+  background: #f4f1ea;
+}
+.admin-embed-bar {
+  flex: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #2d2a26;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.admin-embed-title { font-size: 16px; font-weight: 600; }
+.admin-embed-close {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.admin-embed-close:hover { background: rgba(255,255,255,0.12); }
+.admin-embed-frame {
+  flex: 1 1 auto;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+
+/* 必填星号（学校字段） */
+.req-star { color: #e0584f; font-weight: 700; }

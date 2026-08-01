@@ -67,6 +67,7 @@ const StorageManager = {
     return {
       sessionId: data.sessionId || this.generateSessionId(),
       subjectId: data.subjectId || '',
+      school: data.school || '',
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       screenSize: `${window.screen.width}x${window.screen.height}`,
@@ -118,6 +119,7 @@ const StorageManager = {
       participant_id: participant,
       timestamp: new Date().toISOString(),
       experiment_version: dataPackage.experiment ? dataPackage.experiment.version : '',
+      school: dataPackage.school || '',
       browser: dataPackage.userAgent || navigator.userAgent,
       language: navigator.language || '',
       screen: `${window.screen.width}x${window.screen.height}`,

@@ -9,9 +9,48 @@
 
   // 页面加载完成后初始化实验
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => Experiment.init());
+    document.addEventListener('DOMContentLoaded', () => { Experiment.init(); bindAdminEntry(); });
   } else {
     Experiment.init();
+    bindAdminEntry();
+  }
+
+  /**
+   * 绑定实验页左上角「进入管理平台」标签：
+   * 点击 → 弹出全屏浮层并加载 admin/index.html（管理平台自带登录门禁）。
+   * 不进入管理平台时，实验流程照常进行。
+   */
+  function bindAdminEntry() {
+    const badge = document.getElementById('adminEntryBadge');
+    const overlay = document.getElementById('adminEmbedOverlay');
+    const frame = document.getElementById('adminEmbedFrame');
+    const closeBtn = document.getElementById('adminEmbedClose');
+    if (!badge || !overlay || !frame) return;
+
+    let loaded = false;
+    const open = () => {
+      // 仅在首次打开时加载管理平台，避免无谓请求
+      if (!loaded) {
+        frame.src = 'admin/index.html';
+        loaded = true;
+      }
+      overlay.style.display = 'flex';
+      document.body.classList.add('admin-embed-open');
+      const hint = document.getElementById('adminEmbedLoading');
+      if (hint) hint.style.display = 'flex';
+      frame.onload = () => { if (hint) hint.style.display = 'none'; };
+    };
+    const close = () => {
+      overlay.style.display = 'none';
+      document.body.classList.remove('admin-embed-open');
+    };
+
+    badge.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    // 按 Esc 关闭浮层
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.style.display !== 'none') close();
+    });
   }
 
   // 页面关闭前保存数据

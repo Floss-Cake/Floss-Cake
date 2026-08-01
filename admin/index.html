@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>实验数据管理平台 · Floss-Cake</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ 登录视图 ============ -->
+  <div id="login-view" class="login-view">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-logo">🍰</div>
+        <h1>实验数据管理平台</h1>
+        <p class="login-sub">Floss-Cake · 语言交互行为实验</p>
+      </div>
+      <form id="login-form" autocomplete="off">
+        <label class="field">
+          <span>账号</span>
+          <input type="text" id="username" placeholder="请输入账号" autocomplete="username" />
+        </label>
+        <label class="field">
+          <span>密码</span>
+          <input type="password" id="passcode" placeholder="请输入密码" autocomplete="current-password" />
+        </label>
+        <label class="field">
+          <span>GitHub Token <em class="req">*必填</em></span>
+          <input type="password" id="token" placeholder="github_pat_... 或 ghp_..." autocomplete="off" />
+        </label>
+        <details class="adv">
+          <summary>高级选项（数据源）</summary>
+          <label class="field">
+            <span>GitHub 仓库 (owner/repo)</span>
+            <input type="text" id="cfg-repo" placeholder="Floss-Cake/Floss-Cake" />
+          </label>
+          <label class="field">
+            <span>分支</span>
+            <input type="text" id="cfg-branch" placeholder="main" />
+          </label>
+          <label class="field">
+            <span>数据目录</span>
+            <input type="text" id="cfg-datadir" placeholder="data" />
+          </label>
+        </details>
+        <button type="submit" class="btn-primary">登 录</button>
+        <p id="login-error" class="login-error"></p>
+        <p class="login-hint">默认账号/密码 <code>admin</code> / <code>admin</code>。Token 必填，仅存于本地浏览器，不会写入源码。建议使用<strong>细粒度只读 Token</strong>（仅授权 <code>Floss-Cake/Floss-Cake</code> 的 contents 读权限）以降低泄露风险。</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ 主视图 ============ -->
+  <div id="app-view" class="app-view hidden">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="logo">🍰</span>
+        <div>
+          <div class="topbar-title">实验数据管理平台</div>
+          <div class="topbar-meta" id="conn-meta">连接中…</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button id="btn-refresh" class="btn-ghost">↻ 刷新</button>
+        <button id="btn-export-csv" class="btn-ghost">⬇ CSV</button>
+        <button id="btn-export-json" class="btn-ghost">⬇ JSON</button>
+        <button id="btn-logout" class="btn-ghost danger">退出</button>
+      </div>
+    </header>
+
+    <!-- 统计概览 -->
+    <section class="stats" id="stats"></section>
+
+    <!-- 筛选栏 -->
+    <section class="filters">
+      <div class="filter-row">
+        <label class="field inline">
+          <span>起始日期</span>
+          <input type="date" id="f-date-from" />
+        </label>
+        <label class="field inline">
+          <span>结束日期</span>
+          <input type="date" id="f-date-to" />
+        </label>
+        <label class="field inline">
+          <span>故事</span>
+          <select id="f-story">
+            <option value="">全部</option>
+          </select>
+        </label>
+        <label class="field inline">
+          <span>选项</span>
+          <select id="f-option">
+            <option value="">全部</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+          </select>
+        </label>
+        <label class="field inline grow">
+          <span>样号 / 关键字</span>
+          <input type="text" id="f-search" placeholder="被试编号、浏览器、屏幕…" />
+        </label>
+        <button id="btn-reset" class="btn-ghost">重置</button>
+      </div>
+      <div class="filter-row">
+        <label class="field inline">
+          <span>完成故事数 ≥</span>
+          <select id="f-minstories">
+            <option value="0">不限</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </label>
+        <label class="field inline">
+          <span>实验版本</span>
+          <select id="f-version">
+            <option value="">全部</option>
+          </select>
+        </label>
+        <span class="result-count" id="result-count"></span>
+      </div>
+    </section>
+
+    <!-- 数据表 -->
+    <section class="table-wrap">
+      <table id="data-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <div id="table-empty" class="empty hidden">没有符合条件的数据</div>
+    </section>
+  </div>
+
+  <!-- 加载遮罩 -->
+  <div id="loading" class="loading hidden">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div id="loading-text">加载中…</div>
+      <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- 详情抽屉 -->
+  <div id="drawer" class="drawer hidden">
+    <div class="drawer-mask" id="drawer-mask"></div>
+    <aside class="drawer-panel">
+      <div class="drawer-head">
+        <h2 id="drawer-title">被试详情</h2>
+        <button id="drawer-close" class="btn-ghost">✕</button>
+      </div>
+      <div id="drawer-body" class="drawer-body"></div>
+    </aside>
+  </div>
+
+  <!-- 轻提示 -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

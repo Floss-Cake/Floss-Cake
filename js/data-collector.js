@@ -8,6 +8,7 @@ const DataCollector = {
   session: {
     sessionId: StorageManager.generateSessionId(),
     subjectId: '',
+    school: '',
     consentTime: null,
     experimentStartTime: null,
 
@@ -24,6 +25,7 @@ const DataCollector = {
     this.session = {
       sessionId: StorageManager.generateSessionId(),
       subjectId: '',
+      school: '',
       consentTime: null,
       experimentStartTime: null,
       micTest: null,
@@ -54,6 +56,11 @@ const DataCollector = {
     this.session.experimentStartTime = new Date().toISOString();
     this.logEvent('experiment_started', { subjectId: id });
     StorageManager.save('subjectId', id);
+  },
+
+  setSchool(school) {
+    this.session.school = school;
+    this.logEvent('school_set', { school });
   },
 
   setMicTest(testData) {
@@ -117,6 +124,7 @@ const DataCollector = {
     return StorageManager.createDataPackage({
       sessionId: this.session.sessionId,
       subjectId: this.session.subjectId,
+      school: this.session.school,
       consentTime: this.session.consentTime,
       experimentStartTime: this.session.experimentStartTime,
       micTest: this.session.micTest,

@@ -92,6 +92,7 @@ const Experiment = {
     if (EXPERIMENT_CONFIG.experiment.debugMode) {
       DataCollector.setConsent();
       DataCollector.setSubjectId('DEBUG_' + Date.now().toString(36));
+      DataCollector.setSchool('DEBUG');
       this.micTestRecorder = new AudioRecorder({ manualMode: true, maxDuration: 30000 });
       this.micTestRecorder.requestPermission().then(() => {
         this._showCampus();
@@ -382,13 +383,18 @@ const Experiment = {
       if (this.micTestAudio?.blob) this._downloadBlob(this.micTestAudio.blob, 'mic-test.webm');
     });
 
-    // ---- 被试编号 ----
+    // ---- 被试编号 + 所属学校 ----
     const subj = document.getElementById('subjectId');
-    subj.addEventListener('input', () => {
-      document.getElementById('btnStartExperiment').disabled = !subj.value.trim();
-    });
+    const schoolEl = document.getElementById('subjectSchool');
+    const updateStartBtn = () => {
+      document.getElementById('btnStartExperiment').disabled =
+        !(subj.value.trim() && schoolEl.value.trim());
+    };
+    subj.addEventListener('input', updateStartBtn);
+    schoolEl.addEventListener('input', updateStartBtn);
     document.getElementById('btnStartExperiment').addEventListener('click', () => {
       DataCollector.setSubjectId(subj.value.trim());
+      DataCollector.setSchool(schoolEl.value.trim());
       this._showCampus();
     });
 
