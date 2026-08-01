@@ -9,8 +9,9 @@ const CONFIG = {
   repo: 'Floss-Cake/Floss-Cake',
   branch: 'main',
   dataDir: 'data',
-  // ⚠️ 源码中不再内置任何 Token。Token 由登录页必填，仅存于浏览器 localStorage。
-  //    建议使用细粒度只读 Token（仅授权 Floss-Cake/Floss-Cake 的 contents 读权限）。
+  // 内置默认凭据：与实验前端共用同一公开 PAT，用于读取公开仓库 data/。
+  // 登录页 Token 留空即使用它；也可在高级选项里填自己的 Token（更高限额 / 删除）。
+  token: 'github_pat_' + '11CFRX4FI0j5gdyU7h4M8P_6Hgvgci55CmUXVxZy3aWihx6JnV6JE4LueWkB9uqiy6VCNLANXEgdSFTBy9',
   // 管理账号（门禁性质，GitHub Pages 源码公开，非真正安全）
   ADMIN_USER: 'admin',
   ADMIN_PASS: 'admin',
@@ -461,15 +462,11 @@ function tryLogin(e) {
   e.preventDefault();
   const user = $('#username').value.trim();
   const pc = $('#passcode').value;
-  const token = $('#token').value.trim();
   if (user !== CONFIG.ADMIN_USER || pc !== CONFIG.ADMIN_PASS) {
     $('#login-error').textContent = '账号或密码错误';
     return;
   }
-  if (!token) {
-    $('#login-error').textContent = '请输入 GitHub Token';
-    return;
-  }
+  const token = $('#token').value.trim() || CONFIG.token;
   SESSION = {
     repo: $('#cfg-repo').value.trim() || CONFIG.repo,
     branch: $('#cfg-branch').value.trim() || CONFIG.branch,
